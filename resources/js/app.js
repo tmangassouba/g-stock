@@ -6,7 +6,7 @@ import { InertiaApp } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';
 import PortalVue from 'portal-vue';
 import Buefy from 'buefy';
-import 'buefy/dist/buefy.css';
+// import 'buefy/dist/buefy.css';
 
 Vue.use(InertiaApp);
 Vue.use(InertiaForm);
