@@ -783,7 +783,7 @@ th:not([align]) {
 }
 
 html {
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -823,7 +823,7 @@ pre {
 
 body {
   color: #4a4a4a;
-  font-size: 1em;
+  font-size: 0.95rem;
   font-weight: 400;
   line-height: 1.5;
 }
@@ -6276,7 +6276,7 @@ button.dropdown-item.is-active {
 }
 
 .navbar {
-  background-color: white;
+  background-color: #f7f7f7;
   min-height: 3.25rem;
   position: relative;
   z-index: 30;
@@ -7219,7 +7219,7 @@ a.navbar-item.is-active,
   }
 
   .navbar-menu {
-    background-color: white;
+    background-color: #f7f7f7;
     box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
     padding: 0.5rem 0;
   }
@@ -12948,8 +12948,8 @@ a.has-text-danger-dark:focus {
 }
 
 .footer {
-  background-color: white;
-  padding: 0.495rem 1.5rem;
+  background-color: #f7f7f7;
+  padding: 0.75rem 1.5rem;
 }
 
 .is-noscroll {
@@ -16680,7 +16680,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 
 .b-steps .steps.has-label-right .step-items .step-item .step-link > .step-details,
 .b-steps .steps.has-label-left .step-items .step-item .step-link > .step-details {
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   padding: 0.2em;
 }
 
@@ -17100,7 +17100,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .b-steps.is-vertical > .steps:not(.has-label-right):not(.has-label-left) .step-items .step-item .step-link > .step-details {
-  background-color: #f8f8f8;
+  background-color: #ffffff;
 }
 
 .b-steps.is-vertical > .step-content {
@@ -19491,14 +19491,14 @@ aside.aside .menu-label {
 }
 
 section.section.is-title-bar {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(24, 28, 33, 0.06);
+  padding: 10px 1rem;
+  border-bottom: 1px solid #e4e4e4;
 }
 
 section.section.is-title-bar ul li {
   display: inline-block;
   padding: 0 0.75rem 0 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #7a7a7a;
 }
 
@@ -19520,7 +19520,7 @@ section.section.is-title-bar ul li:last-child:after {
 
 section.hero.is-hero-bar {
   background-color: white;
-  border-bottom: 1px solid rgba(24, 28, 33, 0.06);
+  border-bottom: 1px solid #e4e4e4;
 }
 
 section.hero.is-hero-bar .hero-body {
@@ -19555,7 +19555,7 @@ section.hero.is-hero-bar .hero-body .button.is-hero-button:hover {
 
 .card {
   border-radius: 6px;
-  border: 1px solid rgba(24, 28, 33, 0.06);
+  border: 1px solid #e4e4e4;
 }
 
 .card.has-table .card-content {
@@ -19572,7 +19572,7 @@ section.hero.is-hero-bar .hero-body .button.is-hero-button:hover {
 }
 
 .card .card-header {
-  border-bottom: 1px solid rgba(24, 28, 33, 0.06);
+  border-bottom: 1px solid #e4e4e4;
 }
 
 .card .card-content hr {
@@ -19634,7 +19634,7 @@ table.table td.is-progress-col {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   margin: 0;
-  border-top: rgba(24, 28, 33, 0.06);
+  border-top: #e4e4e4;
   background: whitesmoke;
 }
 
@@ -19770,7 +19770,7 @@ select:active {
 }
 
 section.section.is-main-section {
-  padding-top: 1.5rem;
+  padding-top: 0.75rem;
 }
 
 .modal-card {

@@ -5,22 +5,29 @@
 $size-base: 1rem;
 $default-padding: $size-base * 1.5;
 
+$body-font-size: $size-base * .95;
+
 /* Default font */
 $family-sans-serif: "Nunito", sans-serif;
+// $family-sans-serif: "Inter","Source Sans Pro",Helvetica,Arial,sans-serif;;
 
 /* Base color */
 $base-color: #2e323a;
-$base-color-light: rgba(24, 28, 33, .06);
+// $base-color-light: rgba(24, 28, 33, .06);
+$base-color-light: #e4e4e4;
+$base-color-light-1: #f7f7f7;
 
 /* General overrides */
 $primary: $turquoise;
-$body-background-color: #f8f8f8;
+// $body-background-color: #f8f8f8;
+$body-background-color: #ffffff;
 $link: $blue;
 $link-visited: $purple;
 $light-border: 1px solid $base-color-light;
 $hr-height: 1px;
 
 /* NavBar: specifics */
+$navbar-background-color: $base-color-light-1;
 $navbar-input-color: $grey-darker;
 $navbar-input-placeholder-color: $grey-lighter;
 $navbar-box-shadow: 0 1px 0 rgba(24, 28, 33, .04);
@@ -89,8 +96,9 @@ $modal-card-foot-background-color: $white-ter;
 $notification-padding: $default-padding * .75 $default-padding;
 
 /* Footer: Bulma override */
-$footer-background-color: $white;
-$footer-padding: $default-padding * .33 $default-padding;
+// $footer-background-color: $white;
+$footer-background-color: $base-color-light-1;
+$footer-padding: $default-padding * .5 $default-padding;
 
 /* Footer: specifics */
 $footer-logo-height: $size-base * 2;

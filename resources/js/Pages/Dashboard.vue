@@ -1,15 +1,19 @@
 <template>
     <app-layout>
-        <title-bar :title-stack="titleStack" />
+        <title-bar :title-stack="titleStack">
+            <div class="buttons is-right is-small">
+                <a
+                    href="https://admin-one.justboil.me/"
+                    target="_blank"
+                    class="button is-primary is-small"
+                    >
+                    <b-icon icon="plus" custom-size="default" />
+                    <span>Ajouter</span>
+                </a>
+            </div>
+        </title-bar>
 
         <section class="section is-main-section">
-            <notification class="is-info">
-                <div>
-                <b-icon icon="buffer" custom-size="default" />
-                <b>Sorted and paginated table.</b>&nbsp;Based on Buefy's table.
-                </div>
-            </notification>
-
             <b-table :data="data" :columns="columns"></b-table>
         </section>
     </app-layout>
@@ -66,7 +70,7 @@
         },
         computed: {
             titleStack () {
-                return ['Admin', 'Dashboard']
+                return ['Tableau de bord']
             }
         },
     }

@@ -2663,6 +2663,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2700,7 +2704,7 @@ __webpack_require__.r(__webpack_exports__);
       return ['General', [{
         to: '/',
         icon: 'desktop-mac',
-        label: 'Dashboard'
+        label: 'Tableau de bord'
       }], 'Examples', [{
         to: '/tables',
         label: 'Tables',
@@ -2719,18 +2723,18 @@ __webpack_require__.r(__webpack_exports__);
         subLabel: 'Submenus Example',
         icon: 'view-list',
         menu: [{
-          href: '#void',
+          to: '#void',
           label: 'Sub-item One'
         }, {
-          href: '#void',
+          to: '#void',
           label: 'Sub-item Two'
         }]
       }], 'About', [{
-        href: 'https://admin-one.justboil.me',
+        to: 'https://admin-one.justboil.me',
         label: 'Premium Demo',
         icon: 'credit-card'
       }, {
-        href: 'https://justboil.me/bulma-admin-template/one',
+        to: 'https://justboil.me/bulma-admin-template/one',
         label: 'About',
         icon: 'help-circle'
       }]];
@@ -2846,7 +2850,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AsideMenuItem',
   components: {
@@ -2867,7 +2870,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     componentIs: function componentIs() {
-      return this.item.to ? 'a' : 'a';
+      return this.item.to ? 'inertia-link' : 'a';
     },
     hasDropdown: function hasDropdown() {
       return !!this.item.menu;
@@ -2884,7 +2887,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     menuClick: function menuClick() {
-      //this.$emit('menu-click', this.item)
+      this.$emit('menu-click', this.item);
+
       if (this.hasDropdown) {
         this.isDropdownActive = !this.isDropdownActive;
       }
@@ -2903,7 +2907,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AsideMenuItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AsideMenuItem */ "./resources/js/Menu/AsideMenuItem.vue");
+/* harmony import */ var _AsideMenuItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AsideMenuItem */ "./resources/js/Menu/AsideMenuItem.vue");
 //
 //
 //
@@ -2919,7 +2923,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AsideMenuList',
   components: {
-    AsideMenuItem: _AsideMenuItem__WEBPACK_IMPORTED_MODULE_1__["default"]
+    AsideMenuItem: _AsideMenuItem__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: {
     isSubmenuList: {
@@ -2934,7 +2938,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    menuClick: function menuClick(item) {//this.$emit('menu-click', item)
+    menuClick: function menuClick(item) {
+      this.$emit('menu-click', item);
     }
   }
 });
@@ -3328,15 +3333,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3826,6 +3822,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -3893,7 +3893,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     titleStack: function titleStack() {
-      return ['Admin', 'Dashboard'];
+      return ['Tableau de bord'];
     }
   }
 });
@@ -43526,7 +43526,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { attrs: { id: "app" } },
     [
       _c("nav-bar"),
       _vm._v(" "),
@@ -43534,7 +43533,9 @@ var render = function() {
       _vm._v(" "),
       _vm._t("default"),
       _vm._v(" "),
-      _c("footer-bar")
+      _c("footer-bar"),
+      _vm._v(" "),
+      _c("portal-target", { attrs: { name: "modal", multiple: "" } })
     ],
     2
   )
@@ -43577,8 +43578,8 @@ var render = function() {
     [
       _c("aside-tools", { attrs: { "is-main-menu": true } }, [
         _c("span", { attrs: { slot: "label" }, slot: "label" }, [
-          _c("b", [_vm._v("Admin")]),
-          _vm._v(" One ")
+          _c("b", [_vm._v("Tii")]),
+          _vm._v("Stock ")
         ])
       ]),
       _vm._v(" "),
@@ -43644,11 +43645,7 @@ var render = function() {
             "has-icon": !!_vm.item.icon,
             "has-dropdown-icon": _vm.hasDropdown
           },
-          attrs: {
-            to: _vm.itemTo,
-            href: _vm.itemHref,
-            "exact-active-class": "is-active"
-          },
+          attrs: { href: _vm.itemTo, "exact-active-class": "is-active" },
           on: { click: _vm.menuClick }
         },
         [
@@ -44020,7 +44017,7 @@ var render = function() {
                         {
                           staticClass: "navbar-item",
                           attrs: {
-                            href: "/profile",
+                            href: "/user/profile",
                             "exact-active-class": "is-active"
                           }
                         },
@@ -44029,7 +44026,7 @@ var render = function() {
                             attrs: { icon: "account", "custom-size": "default" }
                           }),
                           _vm._v(" "),
-                          _c("span", [_vm._v("My Profile")])
+                          _c("span", [_vm._v("Profil")])
                         ],
                         1
                       ),
@@ -44039,13 +44036,10 @@ var render = function() {
                         { staticClass: "navbar-item" },
                         [
                           _c("b-icon", {
-                            attrs: {
-                              icon: "settings",
-                              "custom-size": "default"
-                            }
+                            attrs: { icon: "cog", "custom-size": "default" }
                           }),
                           _vm._v(" "),
-                          _c("span", [_vm._v("Settings")])
+                          _c("span", [_vm._v("paramétrage")])
                         ],
                         1
                       ),
@@ -44067,13 +44061,17 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "a",
-                        { staticClass: "navbar-item" },
+                        {
+                          staticClass: "navbar-item",
+                          attrs: { title: "Déconnexion" },
+                          on: { click: _vm.logout }
+                        },
                         [
                           _c("b-icon", {
                             attrs: { icon: "logout", "custom-size": "default" }
                           }),
                           _vm._v(" "),
-                          _c("span", [_vm._v("Log Out")])
+                          _c("span", [_vm._v("Déconnexion")])
                         ],
                         1
                       )
@@ -44087,7 +44085,7 @@ var render = function() {
                 "a",
                 {
                   staticClass: "navbar-item is-desktop-icon-only",
-                  attrs: { title: "Log out" },
+                  attrs: { title: "Déconnexion" },
                   on: { click: _vm.logout }
                 },
                 [
@@ -44095,7 +44093,7 @@ var render = function() {
                     attrs: { icon: "logout", "custom-size": "default" }
                   }),
                   _vm._v(" "),
-                  _c("span", [_vm._v("Log out")])
+                  _c("span", [_vm._v("Déconnexion")])
                 ],
                 1
               )
@@ -44264,28 +44262,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "level-right" }, [
-        _c("div", { staticClass: "level-item" }, [
-          _c("div", { staticClass: "buttons is-right" }, [
-            _c(
-              "a",
-              {
-                staticClass: "button is-primary",
-                attrs: {
-                  href: "https://admin-one.justboil.me/",
-                  target: "_blank"
-                }
-              },
-              [
-                _c("b-icon", {
-                  attrs: { icon: "credit-card", "custom-size": "default" }
-                }),
-                _vm._v(" "),
-                _c("span", [_vm._v("Premium Demo")])
-              ],
-              1
-            )
-          ])
-        ])
+        _c("div", { staticClass: "level-item" }, [_vm._t("default")], 2)
       ])
     ])
   ])
@@ -45090,29 +45067,33 @@ var render = function() {
   return _c(
     "app-layout",
     [
-      _c("title-bar", { attrs: { "title-stack": _vm.titleStack } }),
+      _c("title-bar", { attrs: { "title-stack": _vm.titleStack } }, [
+        _c("div", { staticClass: "buttons is-right is-small" }, [
+          _c(
+            "a",
+            {
+              staticClass: "button is-primary is-small",
+              attrs: {
+                href: "https://admin-one.justboil.me/",
+                target: "_blank"
+              }
+            },
+            [
+              _c("b-icon", {
+                attrs: { icon: "plus", "custom-size": "default" }
+              }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Ajouter")])
+            ],
+            1
+          )
+        ])
+      ]),
       _vm._v(" "),
       _c(
         "section",
         { staticClass: "section is-main-section" },
-        [
-          _c("notification", { staticClass: "is-info" }, [
-            _c(
-              "div",
-              [
-                _c("b-icon", {
-                  attrs: { icon: "buffer", "custom-size": "default" }
-                }),
-                _vm._v(" "),
-                _c("b", [_vm._v("Sorted and paginated table.")]),
-                _vm._v(" Based on Buefy's table.\n            ")
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("b-table", { attrs: { data: _vm.data, columns: _vm.columns } })
-        ],
+        [_c("b-table", { attrs: { data: _vm.data, columns: _vm.columns } })],
         1
       )
     ],
@@ -62593,7 +62574,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     /* User */
-    userName: null,
+    userName: 'null',
     userEmail: null,
     userAvatar: null,
 

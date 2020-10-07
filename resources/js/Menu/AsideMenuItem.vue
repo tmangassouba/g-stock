@@ -2,8 +2,7 @@
     <li :class="{ 'is-active': isDropdownActive }">
         <component
             :is="componentIs"
-            :to="itemTo"
-            :href="itemHref"
+            :href="itemTo"
             exact-active-class="is-active"
             :class="{ 'has-icon': !!item.icon, 'has-dropdown-icon': hasDropdown }"
             @click="menuClick"
@@ -46,7 +45,7 @@
         },
         computed: {
             componentIs () {
-                return this.item.to ? 'a' : 'a'
+                return this.item.to ? 'inertia-link' : 'a'
             },
             hasDropdown () {
                 return !!this.item.menu
@@ -63,7 +62,7 @@
         },
         methods: {
             menuClick () {
-                //this.$emit('menu-click', this.item)
+                this.$emit('menu-click', this.item)
 
                 if (this.hasDropdown) {
                     this.isDropdownActive = !this.isDropdownActive

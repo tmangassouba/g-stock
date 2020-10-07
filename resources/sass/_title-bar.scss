@@ -1,12 +1,13 @@
 section.section.is-title-bar {
-  padding: $default-padding;
+  // padding: $default-padding;
+  padding: 10px 1rem;
   border-bottom: $light-border;
 
   ul {
     li {
       display: inline-block;
       padding: 0 $default-padding * .5 0 0;
-      font-size: $default-padding;
+      font-size: $default-padding * .8;
       color: $title-bar-color;
 
       &:after {

@@ -1,25 +1,25 @@
 <template>
     <nav v-show="isNavBarVisible" id="navbar-main" class="navbar is-fixed-top">
         <div class="navbar-brand">
-        <a
-            class="navbar-item is-hidden-desktop"
-            @click.prevent="menuToggleMobile"
-        >
-            <b-icon :icon="menuToggleMobileIcon" />
-        </a>
-        <div class="navbar-item has-control no-left-space-touch">
-            <div class="control">
-            <input class="input" placeholder="Search everywhere..." />
+            <a
+                class="navbar-item is-hidden-desktop"
+                @click.prevent="menuToggleMobile"
+            >
+                <b-icon :icon="menuToggleMobileIcon" />
+            </a>
+            <div class="navbar-item has-control no-left-space-touch">
+                <div class="control">
+                    <input class="input" placeholder="Search everywhere..." />
+                </div>
             </div>
         </div>
-        </div>
         <div class="navbar-brand is-right">
-        <a
-            class="navbar-item navbar-item-menu-toggle is-hidden-desktop"
-            @click.prevent="menuNavBarToggle"
-        >
-            <b-icon :icon="menuNavBarToggleIcon" custom-size="default" />
-        </a>
+            <a
+                class="navbar-item navbar-item-menu-toggle is-hidden-desktop"
+                @click.prevent="menuNavBarToggle"
+            >
+                <b-icon :icon="menuNavBarToggleIcon" custom-size="default" />
+            </a>
         </div>
 
         <div class="navbar-menu fadeIn animated faster" :class="{ 'is-active': isMenuNavBarActive }" >
@@ -31,28 +31,28 @@
                     </div>
 
                     <div slot="dropdown" class="navbar-dropdown">
-                        <a href="/profile" class="navbar-item" exact-active-class="is-active" >
+                        <a href="/user/profile" class="navbar-item" exact-active-class="is-active" >
                             <b-icon icon="account" custom-size="default" />
-                            <span>My Profile</span>
+                            <span>Profil</span>
                         </a>
                         <a class="navbar-item">
-                            <b-icon icon="settings" custom-size="default"></b-icon>
-                            <span>Settings</span>
+                            <b-icon icon="cog" custom-size="default"></b-icon>
+                            <span>paramétrage</span>
                         </a>
                         <a class="navbar-item">
                             <b-icon icon="email" custom-size="default"></b-icon>
                             <span>Messages</span>
                         </a>
                         <hr class="navbar-divider" />
-                        <a class="navbar-item">
+                        <a class="navbar-item" title="Déconnexion" @click="logout" >
                             <b-icon icon="logout" custom-size="default"></b-icon>
-                            <span>Log Out</span>
+                            <span>Déconnexion</span>
                         </a>
                     </div>
                 </nav-bar-menu>
-                <a class="navbar-item is-desktop-icon-only" title="Log out" @click="logout" >
+                <a class="navbar-item is-desktop-icon-only" title="Déconnexion" @click="logout" >
                     <b-icon icon="logout" custom-size="default" />
-                    <span>Log out</span>
+                    <span>Déconnexion</span>
                 </a>
             </div>
         </div>
