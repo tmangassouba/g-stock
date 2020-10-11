@@ -608,7 +608,7 @@
   -webkit-appearance: none;
   align-items: center;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 0px;
   box-shadow: none;
   display: inline-flex;
   font-size: 1rem;
@@ -2950,7 +2950,7 @@ fieldset[disabled] .button {
 
 .notification {
   background-color: whitesmoke;
-  border-radius: 4px;
+  border-radius: 0px;
   position: relative;
   padding: 1.25rem 2.5rem 1.25rem 1.5rem;
 }
@@ -3582,7 +3582,7 @@ fieldset[disabled] .button {
 .tag:not(body) {
   align-items: center;
   background-color: whitesmoke;
-  border-radius: 4px;
+  border-radius: 0px;
   color: #4a4a4a;
   display: inline-flex;
   font-size: 0.75rem;
@@ -3912,7 +3912,7 @@ a.tag:hover {
 .input {
   background-color: white;
   border-color: #dbdbdb;
-  border-radius: 4px;
+  border-radius: 0px;
   color: #363636;
 }
 
@@ -4974,7 +4974,7 @@ fieldset[disabled] .select select:hover {
 }
 
 .file.has-name.is-empty .file-cta {
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .file.has-name.is-empty .file-name {
@@ -5017,11 +5017,11 @@ fieldset[disabled] .select select:hover {
 }
 
 .file.is-boxed.has-name .file-cta {
-  border-radius: 4px 4px 0 0;
+  border-radius: 0px 0px 0 0;
 }
 
 .file.is-boxed.has-name .file-name {
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 0px 0px;
   border-width: 0 1px 1px;
 }
 
@@ -5043,11 +5043,11 @@ fieldset[disabled] .select select:hover {
 }
 
 .file.is-right .file-cta {
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 0px 0px 0;
 }
 
 .file.is-right .file-name {
-  border-radius: 4px 0 0 4px;
+  border-radius: 0px 0 0 0px;
   border-width: 1px 0 1px 1px;
   order: -1;
 }
@@ -5092,7 +5092,7 @@ fieldset[disabled] .select select:hover {
 .file-cta,
 .file-name {
   border-color: #dbdbdb;
-  border-radius: 4px;
+  border-radius: 0px;
   font-size: 1em;
   padding-left: 1em;
   padding-right: 1em;
@@ -5686,7 +5686,7 @@ fieldset[disabled] .select select:hover {
 
 .dropdown-content {
   background-color: white;
-  border-radius: 4px;
+  border-radius: 0px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
@@ -5739,7 +5739,7 @@ button.dropdown-item.is-active {
 }
 
 .level code {
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .level img {
@@ -5974,7 +5974,7 @@ button.dropdown-item.is-active {
 
 .message {
   background-color: whitesmoke;
-  border-radius: 4px;
+  border-radius: 0px;
   font-size: 1rem;
 }
 
@@ -6138,7 +6138,7 @@ button.dropdown-item.is-active {
 .message-header {
   align-items: center;
   background-color: #4a4a4a;
-  border-radius: 4px 4px 0 0;
+  border-radius: 0px 0px 0 0;
   color: #fff;
   display: flex;
   font-weight: 700;
@@ -6162,7 +6162,7 @@ button.dropdown-item.is-active {
 
 .message-body {
   border-color: #dbdbdb;
-  border-radius: 4px;
+  border-radius: 0px;
   border-style: solid;
   border-width: 0 0 0 4px;
   color: #4a4a4a;
@@ -7290,7 +7290,7 @@ a.navbar-item.is-active,
 
   .navbar.is-spaced a.navbar-item,
   .navbar.is-spaced .navbar-link {
-    border-radius: 4px;
+    border-radius: 0px;
   }
 
   .navbar.is-transparent a.navbar-item:focus,
@@ -8009,7 +8009,7 @@ label.panel-block:hover {
 
 .tabs.is-boxed a {
   border: 1px solid transparent;
-  border-radius: 4px 4px 0 0;
+  border-radius: 0px 0px 0 0;
 }
 
 .tabs.is-boxed a:hover {
@@ -8047,13 +8047,13 @@ label.panel-block:hover {
 }
 
 .tabs.is-toggle li:first-child a {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 .tabs.is-toggle li:last-child a {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .tabs.is-toggle li.is-active a {
@@ -13476,7 +13476,7 @@ a.has-text-danger-dark:focus {
   width: 1.25em;
   height: 1.25em;
   flex-shrink: 0;
-  border-radius: 4px;
+  border-radius: 0px;
   border: 2px solid #7a7a7a;
   transition: background 150ms ease-out;
   background: transparent;
@@ -13957,12 +13957,12 @@ a.has-text-danger-dark:focus {
 }
 
 .b-clockpicker .card {
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .b-clockpicker .card-header {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 .b-clockpicker .card-content {
@@ -14205,7 +14205,7 @@ a.has-text-danger-dark:focus {
 
 .datepicker .dropdown-content {
   background-color: white;
-  border-radius: 4px;
+  border-radius: 0px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
 }
 
@@ -14236,7 +14236,7 @@ a.has-text-danger-dark:focus {
   text-align: center;
   vertical-align: middle;
   display: table-cell;
-  border-radius: 4px;
+  border-radius: 0px;
   padding: 0.5rem 0.75rem;
 }
 
@@ -14655,15 +14655,15 @@ a.has-text-danger-dark:focus {
 .field.has-addons .control:first-child .control .button,
 .field.has-addons .control:first-child .control .input,
 .field.has-addons .control:first-child .control .select select {
-  border-bottom-left-radius: 4px;
-  border-top-left-radius: 4px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
 }
 
 .field.has-addons .control:last-child .control .button,
 .field.has-addons .control:last-child .control .input,
 .field.has-addons .control:last-child .control .select select {
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 .field.has-addons .control .control .button,
@@ -14731,8 +14731,8 @@ a.has-text-danger-dark:focus {
 .field.is-floating-in-label.has-addons > .label + .control .button,
 .field.is-floating-in-label.has-addons > .label + .control .input,
 .field.is-floating-in-label.has-addons > .label + .control .select select {
-  border-bottom-left-radius: 4px;
-  border-top-left-radius: 4px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
 }
 
 .field.is-floating-label .label {
@@ -15123,7 +15123,7 @@ a.has-text-danger-dark:focus {
           animation-duration: 150ms;
   margin: 0.5em 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  border-radius: 4px;
+  border-radius: 0px;
   pointer-events: auto;
   background: #363636;
   color: #fff;
@@ -15820,7 +15820,7 @@ a.has-text-danger-dark:focus {
 }
 
 .b-skeleton > .b-skeleton-item.is-rounded {
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .b-skeleton > .b-skeleton-item::after {
@@ -16041,7 +16041,7 @@ a.has-text-danger-dark:focus {
   position: relative;
   cursor: pointer;
   background: #dbdbdb;
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .b-slider .b-slider-fill {
@@ -16049,7 +16049,7 @@ a.has-text-danger-dark:focus {
   height: 100%;
   box-shadow: 0px 0px 0px #7a7a7a;
   background: #dbdbdb;
-  border-radius: 4px;
+  border-radius: 0px;
   border: 0px solid #7a7a7a;
   top: 50%;
   transform: translateY(-50%);
@@ -16069,7 +16069,7 @@ a.has-text-danger-dark:focus {
 .b-slider .b-slider-thumb-wrapper .b-slider-thumb {
   box-shadow: none;
   border: 1px solid #b5b5b5;
-  border-radius: 4px;
+  border-radius: 0px;
   background: white;
 }
 
@@ -16241,7 +16241,7 @@ a.has-text-danger-dark:focus {
   transform: translate(-50%, -50%);
   top: 50%;
   background: #b5b5b5;
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .b-slider .b-slider-tick.is-tick-hidden {
@@ -16282,7 +16282,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .b-steps .steps .step-items .step-item .step-marker {
   align-items: center;
   display: flex;
-  border-radius: 4px;
+  border-radius: 0px;
   font-weight: 700;
   justify-content: center;
   background: #b5b5b5;
@@ -17171,7 +17171,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   height: 1.575em;
   padding: 0.2em;
   background: #b5b5b5;
-  border-radius: 4px;
+  border-radius: 0px;
   transition: background 150ms ease-out, box-shadow 150ms ease-out;
 }
 
@@ -17268,7 +17268,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .switch input[type=checkbox] + .check:before {
   content: "";
   display: block;
-  border-radius: 4px;
+  border-radius: 0px;
   width: 1.175em;
   height: 1.175em;
   background: whitesmoke;
@@ -17280,7 +17280,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 
 .switch input[type=checkbox] + .check.is-elastic:before {
   transform: scaleX(1.5);
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 .switch input[type=checkbox]:checked + .check {
@@ -17894,7 +17894,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .b-table .table {
   width: 100%;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 0px;
   border-collapse: separate;
 }
 
@@ -18261,7 +18261,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .b-tabs.is-vertical > .tabs.is-boxed li a {
   border-bottom-color: transparent !important;
   border-right-color: #dbdbdb !important;
-  border-radius: 4px 0 0 4px;
+  border-radius: 0px 0 0 0px;
 }
 
 .b-tabs.is-vertical > .tabs.is-boxed li.is-active a {
@@ -18274,11 +18274,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .b-tabs.is-vertical > .tabs.is-toggle li:first-child a {
-  border-radius: 4px 4px 0 0;
+  border-radius: 0px 0px 0 0;
 }
 
 .b-tabs.is-vertical > .tabs.is-toggle li:last-child a {
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 0px 0px;
 }
 
 .b-tabs.is-vertical > .tabs.is-fullwidth li a {
@@ -18306,7 +18306,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   border-bottom-color: transparent !important;
   border-right-color: transparent !important;
   border-left-color: #dbdbdb !important;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 0px 0px 0;
 }
 
 .b-tabs.is-vertical.is-right > .tabs.is-boxed li.is-active a {

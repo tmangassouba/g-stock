@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', function () {
         return Inertia\Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::name('articles.')->prefix('articles')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+    });
 });

@@ -22,15 +22,11 @@
 <script>
     import AppLayout from './../Layouts/AppLayout'
     import TitleBar from '../Menu/TitleBar'
-    import Notification from '../Menu/Notification'
-    import CardComponent from '../Menu/CardComponent'
 
     export default {
         components: {
             AppLayout,
             TitleBar,
-            Notification,
-            CardComponent,
         },
         data() {
             return {

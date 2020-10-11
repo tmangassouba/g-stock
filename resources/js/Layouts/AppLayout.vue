@@ -3,7 +3,7 @@
         <nav-bar />
         <aside-menu :menu="menu" />
         <slot></slot>
-        <footer-bar />
+        <!-- <footer-bar /> -->
 
         <!-- Modal Portal -->
         <portal-target name="modal" multiple>
@@ -61,24 +61,19 @@
                             label: 'Tableau de bord'
                         }
                     ],
-                    'Examples',
+                    'Articles',
                     [
                         {
-                            to: '/tables',
-                            label: 'Tables',
-                            icon: 'table',
-                            updateMark: true
+                            to: '/articles',
+                            label: 'Articles',
+                            icon: 'cart-outline'
                         },
                         {
-                            to: '/forms',
-                            label: 'Forms',
-                            icon: 'square-edit-outline'
-                        },
-                        {
-                            to: '/profile',
-                            label: 'Profile',
-                            icon: 'account-circle'
-                        },
+                            to: '/groupes-articles',
+                            label: 'Groupes d\'articles',
+                            icon: 'cart-plus'
+                            /*updateMark: true*/
+                        }/*,
                         {
                             label: 'Submenus',
                             subLabel: 'Submenus Example',
@@ -93,19 +88,32 @@
                                 label: 'Sub-item Two'
                             }
                             ]
-                        }
+                        }*/
                     ],
-                    'About',
+                    'Stock',
                     [
                         {
-                            to: 'https://admin-one.justboil.me',
-                            label: 'Premium Demo',
-                            icon: 'credit-card'
+                            to: 'magazin',
+                            label: 'Magazin',
+                            icon: 'store-outline'
                         },
                         {
-                            to: 'https://justboil.me/bulma-admin-template/one',
-                            label: 'About',
-                            icon: 'help-circle'
+                            to: 'operations',
+                            label: 'Opérations',
+                            icon: 'credit-card'
+                        }
+                    ],
+                    'Facturation',
+                    [
+                        {
+                            to: 'factures',
+                            label: 'Factures',
+                            icon: 'file-document-outline'
+                        },
+                        {
+                            to: 'clients',
+                            label: 'Clients',
+                            icon: 'account-circle-outline'
                         }
                     ]
                 ]

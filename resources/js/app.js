@@ -10,12 +10,27 @@ import Buefy from 'buefy';
 // import Vuex from 'vuex'
 import 'es6-promise/auto'
 import store from './store'
+import handleMessage from "./handleMessage.js";
 
 Vue.use(InertiaApp);
 Vue.use(InertiaForm);
 Vue.use(PortalVue);
 Vue.use(Buefy);
 // Vue.use(Vuex)
+
+Vue.prototype.$route = (...args) => route(...args).url()
+Vue.prototype.$handleMessage = function (message, type) {
+    let mess = handleMessage(message)
+    if (mess) {
+        this.$buefy.notification.open({
+            duration: 10000,
+            message: mess,
+            type: `is-${type}`,
+            hasIcon: true,
+            position: 'is-bottom-right',
+        })
+    }
+}
 
 const app = document.getElementById('app');
 
