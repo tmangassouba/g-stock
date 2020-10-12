@@ -18,7 +18,7 @@ Vue.use(PortalVue);
 Vue.use(Buefy);
 // Vue.use(Vuex)
 
-Vue.prototype.$route = (...args) => route(...args).url()
+// Vue.prototype.$route = (...args) => route(...args).url()
 Vue.prototype.$handleMessage = function (message, type) {
     let mess = handleMessage(message)
     if (mess) {

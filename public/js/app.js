@@ -3746,12 +3746,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['products', 'sortField', 'sortOrder', 'errors'],
+  props: ['products', 'sortField', 'sortOrder', 'message', 'errors'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -3767,7 +3778,9 @@ __webpack_require__.r(__webpack_exports__);
       currentPage: null,
       _sortField: null,
       _sortOrder: null,
-      defaultSortOrder: 'asc'
+      defaultSortOrder: 'asc',
+      isFullPage: true,
+      isDeleting: false
     };
   },
   methods: {
@@ -3789,6 +3802,43 @@ __webpack_require__.r(__webpack_exports__);
       this._sortField = field;
       this._sortOrder = order;
       this.loadAsyncData();
+    },
+    deleteProducts: function deleteProducts() {
+      var _this = this;
+
+      if (this.checkedRows.length) {
+        this.$buefy.dialog.confirm({
+          title: 'Supprimer articles',
+          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
+          confirmText: 'Supprimer produit(s)',
+          type: 'is-danger',
+          hasIcon: true,
+          size: 'is-small',
+          onConfirm: function onConfirm() {
+            // this.$buefy.toast.open('Account deleted!')
+            _this.isDeleting = true;
+            var checkedForm = {
+              checkedRows: _this.checkedRows
+            };
+
+            _this.$inertia.post('/articles/delete-products', checkedForm).then(function () {
+              if (_this.$page.flash.message != null) {
+                _this.resetForm();
+
+                _this.$buefy.notification.open({
+                  message: 'Article(s) supprimé(s) avec succès.',
+                  type: 'is-success'
+                });
+              }
+            })["catch"](function (_ref) {// this.$handleMessage(message, 'danger');
+
+              var message = _ref.message;
+            })["finally"](function () {
+              _this.isDeleting = false;
+            });
+          }
+        });
+      }
     }
   },
   created: function created() {
@@ -4889,7 +4939,6 @@ __webpack_require__.r(__webpack_exports__);
 
       this.savingData = true;
       this.$inertia.post('/articles', this.form).then(function () {
-        // if (this.$page.errors == null) {
         if (_this.$page.flash.message != null) {
           _this.resetForm();
 
@@ -45198,11 +45247,7 @@ var render = function() {
                   {
                     staticClass: "is-danger is-small",
                     attrs: { "icon-left": "delete-outline" },
-                    on: {
-                      click: function($event) {
-                        _vm.isModalActive = false
-                      }
-                    }
+                    on: { click: _vm.deleteProducts }
                   },
                   [_vm._v("Supprimer")]
                 )
@@ -45223,7 +45268,6 @@ var render = function() {
                 data: _vm.products.data,
                 loading: _vm.loading,
                 striped: "",
-                narrowed: "",
                 hoverable: "",
                 checkable: "",
                 "checked-rows": _vm.checkedRows,
@@ -45367,6 +45411,24 @@ var render = function() {
               close: function($event) {
                 _vm.isModalActive = false
               }
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "b-notification",
+        { attrs: { closable: false } },
+        [
+          _c("b-loading", {
+            attrs: { "is-full-page": _vm.isFullPage, "can-cancel": false },
+            model: {
+              value: _vm.isDeleting,
+              callback: function($$v) {
+                _vm.isDeleting = $$v
+              },
+              expression: "isDeleting"
             }
           })
         ],
@@ -63228,10 +63290,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(_inertiajs_inertia_vue__WEBPACK_I
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(laravel_jetstream__WEBPACK_IMPORTED_MODULE_2__["InertiaForm"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(portal_vue__WEBPACK_IMPORTED_MODULE_3___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_4__["default"]); // Vue.use(Vuex)
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$route = function () {
-  return route.apply(void 0, arguments).url();
-};
+// Vue.prototype.$route = (...args) => route(...args).url()
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$handleMessage = function (message, type) {
   var mess = Object(_handleMessage_js__WEBPACK_IMPORTED_MODULE_7__["default"])(message);

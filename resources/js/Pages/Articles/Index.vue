@@ -3,16 +3,23 @@
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right">
                 <b-button class="is-info is-small" icon-left="plus" @click="isModalActive = true">Nouveau</b-button>
-                <b-button class="is-danger is-small" icon-left="delete-outline" @click="isModalActive = false" v-if="checkedRows.length">Supprimer</b-button>
+                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteProducts" v-if="checkedRows.length">Supprimer</b-button>
             </div>
         </title-bar>
 
         <section class="section is-main-section">
+            <!-- <b-notification
+                v-if="message"
+                type="is-success"
+                has-icon
+                aria-close-label="Close notification">
+                {{ message }}
+            </b-notification> -->
+
             <b-table 
                 :data="products.data"
                 :loading="loading"
                 striped
-                narrowed
                 hoverable
 
                 checkable
@@ -66,6 +73,10 @@
         >
             <article-form @close="isModalActive = false"></article-form>
         </b-modal>
+
+        <b-notification :closable="false">
+            <b-loading :is-full-page="isFullPage" v-model="isDeleting" :can-cancel="false"></b-loading>
+        </b-notification>
     </app-layout>
 </template>
 
@@ -76,7 +87,7 @@
     import { Inertia } from '@inertiajs/inertia'
 
     export default {
-        props: ['products', 'sortField', 'sortOrder', 'errors'],
+        props: ['products', 'sortField', 'sortOrder', 'message', 'errors'],
         components: {
             AppLayout,
             TitleBar,
@@ -93,6 +104,9 @@
                 _sortField: null,
                 _sortOrder: null,
                 defaultSortOrder: 'asc',
+
+                isFullPage: true,
+                isDeleting: false,
             }
         },
         
@@ -116,6 +130,40 @@
                 this._sortOrder = order
                 this.loadAsyncData()
             },
+            deleteProducts() {
+                if (this.checkedRows.length) {
+                    this.$buefy.dialog.confirm({
+                        title: 'Supprimer articles',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer produit(s)',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        size: 'is-small',
+                        onConfirm: () => {
+                            // this.$buefy.toast.open('Account deleted!')
+                            this.isDeleting = true
+                            var checkedForm = {
+                                checkedRows: this.checkedRows
+                            }
+                            this.$inertia.post('/articles/delete-products', checkedForm)
+                            .then(() => {
+                                if (this.$page.flash.message != null ) {
+                                    this.resetForm()
+                                    this.$buefy.notification.open({
+                                        message: 'Article(s) supprimé(s) avec succès.',
+                                        type: 'is-success'
+                                    })
+                                }
+                            })
+                            .catch(({message}) => {
+                                // this.$handleMessage(message, 'danger');
+                            }).finally(() => {
+                                this.isDeleting = false
+                            })
+                        }
+                    })
+                }
+            }
         },
         created() {
             if (this.products) {

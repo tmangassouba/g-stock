@@ -15,20 +15,15 @@ class ProductController extends Controller
         // $products = Product::all();
         $sortField = $request->sortField ? $request->sortField : 'designation';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
-        $recherche = null;
 
         $req = Product::orderBy($sortField, $sortOrder);
-        // if ($request->recherche) {
-        //     $recherche = $request->recherche;
-        //     $req = $req->where('designation', 'like', '%'.$recherche.'%');
-        // }
         $products = $req->paginate(20);
 
         return Inertia::render('Articles/Index', [
             'products' => $products,
             'sortField' => $sortField,
             'sortOrder' => $sortOrder,
-        ]);
+        ])->withViewData(['pageTitle' => 'Articles']);
     }
 
     public function store(ArticleRequest $request)
@@ -60,4 +55,20 @@ class ProductController extends Controller
     //         return redirect()->back();
     //     }
     // }
+
+    public function deleteProducts(Request $request)
+    {
+        // $products = [];
+        foreach ($request->checkedRows as $product) {
+            // $products[] = $product['id'];
+            $product = Product::find($product['id']);
+            if ($product && $product->delete()) {
+                // if ($product->image) {
+                //     \File::delete('imgs/products/'.$product->image);
+                // }
+            }
+        }
+        // Product::destroy($products);
+        return redirect()->back()->with('message', 'Produits suprimés avec succès.');
+    }
 }

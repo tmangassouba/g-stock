@@ -125,7 +125,6 @@
                 this.savingData = true
                 this.$inertia.post('/articles', this.form)
                 .then(() => {
-                    // if (this.$page.errors == null) {
                     if (this.$page.flash.message != null ) {
                         this.resetForm()
                         this.$buefy.notification.open({
