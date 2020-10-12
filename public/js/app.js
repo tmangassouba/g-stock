@@ -3743,6 +3743,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4835,15 +4838,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ArticleForm',
+  props: {
+    article: {
+      type: Object,
+      required: false // default: {}
+
+    }
+  },
   components: {
     CardComponent: _Card__WEBPACK_IMPORTED_MODULE_0__["CardComponent"]
   },
   data: function data() {
     return {
       form: {
+        id: null,
         designation: null,
         code: null,
         ref_fabricant: null,
@@ -4858,18 +4878,26 @@ __webpack_require__.r(__webpack_exports__);
       unites: []
     };
   },
+  computed: {
+    editMode: function editMode() {
+      return this.article && this.article.id;
+    }
+  },
   methods: {
     submit: function submit() {
       var _this = this;
 
       this.savingData = true;
       this.$inertia.post('/articles', this.form).then(function () {
-        _this.resetForm();
+        // if (this.$page.errors == null) {
+        if (_this.$page.flash.message != null) {
+          _this.resetForm();
 
-        _this.$buefy.notification.open({
-          message: 'Produit ajouté avec succès.',
-          type: 'is-success'
-        });
+          _this.$buefy.notification.open({
+            message: 'Produit ajouté avec succès.',
+            type: 'is-success'
+          });
+        }
       })["catch"](function (_ref) {// this.$handleMessage(message, 'danger');
 
         var message = _ref.message;
@@ -45162,7 +45190,23 @@ var render = function() {
                 }
               },
               [_vm._v("Nouveau")]
-            )
+            ),
+            _vm._v(" "),
+            _vm.checkedRows.length
+              ? _c(
+                  "b-button",
+                  {
+                    staticClass: "is-danger is-small",
+                    attrs: { "icon-left": "delete-outline" },
+                    on: {
+                      click: function($event) {
+                        _vm.isModalActive = false
+                      }
+                    }
+                  },
+                  [_vm._v("Supprimer")]
+                )
+              : _vm._e()
           ],
           1
         )
@@ -45188,6 +45232,8 @@ var render = function() {
                 "backend-pagination": "",
                 total: _vm.total,
                 "per-page": _vm.perPage,
+                "current-page": _vm.currentPage,
+                "pagination-size": "is-small",
                 "aria-next-label": "Suivant",
                 "aria-previous-label": "Précédent",
                 "aria-page-label": "Page",
@@ -46717,7 +46763,7 @@ var render = function() {
   return _c(
     "card-component",
     {
-      attrs: { title: "Ajouter article" },
+      attrs: { title: _vm.editMode ? "Modifier article" : "Ajouter article" },
       on: {
         close: function($event) {
           return _vm.$emit("close")
@@ -46751,7 +46797,12 @@ var render = function() {
             },
             [
               _c("b-input", {
-                attrs: { name: "designation", size: "is-small", expanded: "" },
+                attrs: {
+                  name: "designation",
+                  size: "is-small",
+                  required: "",
+                  expanded: ""
+                },
                 model: {
                   value: _vm.form.designation,
                   callback: function($$v) {
@@ -46811,7 +46862,12 @@ var render = function() {
             },
             [
               _c("b-input", {
-                attrs: { name: "stock_min", size: "is-small", expanded: "" },
+                attrs: {
+                  name: "stock_min",
+                  size: "is-small",
+                  required: "",
+                  expanded: ""
+                },
                 model: {
                   value: _vm.form.stock_min,
                   callback: function($$v) {
@@ -46866,16 +46922,33 @@ var render = function() {
               }
             },
             [
-              _c("b-input", {
-                attrs: { name: "unite_id", size: "is-small", expanded: "" },
-                model: {
-                  value: _vm.form.unite_id,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "unite_id", $$v)
+              _c(
+                "b-select",
+                {
+                  attrs: {
+                    name: "unite_id",
+                    size: "is-small",
+                    expanded: "",
+                    placeholder: "Unité",
+                    required: ""
                   },
-                  expression: "form.unite_id"
-                }
-              })
+                  model: {
+                    value: _vm.form.unite_id,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form, "unite_id", $$v)
+                    },
+                    expression: "form.unite_id"
+                  }
+                },
+                _vm._l(_vm.unites, function(unite) {
+                  return _c(
+                    "option",
+                    { key: unite.id, domProps: { value: unite.id } },
+                    [_vm._v(_vm._s(unite.name))]
+                  )
+                }),
+                0
+              )
             ],
             1
           ),
@@ -46894,33 +46967,52 @@ var render = function() {
               }
             },
             [
-              _c(
-                "b-select",
-                {
-                  attrs: {
-                    name: "quantite",
-                    size: "is-small",
-                    expanded: "",
-                    placeholder: "Quantité par unité",
-                    required: ""
-                  },
-                  model: {
-                    value: _vm.form.quantite,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form, "quantite", $$v)
-                    },
-                    expression: "form.quantite"
-                  }
+              _c("b-input", {
+                attrs: {
+                  name: "quantite",
+                  size: "is-small",
+                  required: "",
+                  expanded: ""
                 },
-                _vm._l(_vm.unites, function(unite) {
-                  return _c(
-                    "option",
-                    { key: unite.id, domProps: { value: unite.id } },
-                    [_vm._v(_vm._s(unite.name))]
-                  )
-                }),
-                0
-              )
+                model: {
+                  value: _vm.form.quantite,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "quantite", $$v)
+                  },
+                  expression: "form.quantite"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-field",
+            {
+              staticClass: "field-label is-small",
+              attrs: {
+                horizontal: "",
+                label: "Prix de vente",
+                type: _vm.$page.errors.prix ? "is-danger" : "",
+                message: _vm.$page.errors.prix ? _vm.$page.errors.prix[0] : ""
+              }
+            },
+            [
+              _c("b-input", {
+                attrs: {
+                  name: "prix",
+                  size: "is-small",
+                  required: "",
+                  expanded: ""
+                },
+                model: {
+                  value: _vm.form.prix,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "prix", $$v)
+                  },
+                  expression: "form.prix"
+                }
+              })
             ],
             1
           ),
@@ -46972,7 +47064,7 @@ var render = function() {
                     loading: _vm.savingData
                   }
                 },
-                [_vm._v("Ajouter")]
+                [_vm._v(_vm._s(_vm.editMode ? "Modifier" : "Ajouter"))]
               ),
               _vm._v(" "),
               _c(

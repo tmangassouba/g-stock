@@ -3,6 +3,7 @@
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right">
                 <b-button class="is-info is-small" icon-left="plus" @click="isModalActive = true">Nouveau</b-button>
+                <b-button class="is-danger is-small" icon-left="delete-outline" @click="isModalActive = false" v-if="checkedRows.length">Supprimer</b-button>
             </div>
         </title-bar>
 
@@ -22,7 +23,9 @@
                 backend-pagination
                 :total="total"
                 :per-page="perPage"
+                :current-page="currentPage"
                 @page-change="onPageChange"
+                pagination-size="is-small"
                 aria-next-label="Suivant"
                 aria-previous-label="Précédent"
                 aria-page-label="Page"

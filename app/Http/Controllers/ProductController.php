@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,11 +15,14 @@ class ProductController extends Controller
         // $products = Product::all();
         $sortField = $request->sortField ? $request->sortField : 'designation';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
+        $recherche = null;
+
         $req = Product::orderBy($sortField, $sortOrder);
-        if ($recherche = $request->recherche) {
-            $req = $req->where('designation', 'like', '%'.$recherche.'%');
-        }
-        $products = $req->paginate(2);
+        // if ($request->recherche) {
+        //     $recherche = $request->recherche;
+        //     $req = $req->where('designation', 'like', '%'.$recherche.'%');
+        // }
+        $products = $req->paginate(20);
 
         return Inertia::render('Articles/Index', [
             'products' => $products,
@@ -34,12 +38,12 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Produit créé avec succès.');
     }
 
-    // public function view(Product $product)
-    // {
-    //     return Inertia::render('Articles/Index', [
-    //         'product' => $product,
-    //     ]);
-    // }
+    public function view(Product $product)
+    {
+        return Inertia::render('Articles/ProductView', [
+            'product' => new ProductResource($product),
+        ]);
+    }
 
     // public function update(ArticleRequest $request)
     // {

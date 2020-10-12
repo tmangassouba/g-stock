@@ -28,5 +28,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::name('articles.')->prefix('articles')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::get('/{product}', [ProductController::class, 'view'])->name('view');
     });
 });

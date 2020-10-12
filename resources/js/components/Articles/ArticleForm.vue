@@ -1,13 +1,13 @@
 <template>
-    <card-component title="Ajouter article"  @close="$emit('close')">
+    <card-component :title=" editMode ? 'Modifier article' : 'Ajouter article' "  @close="$emit('close')">
         <form @submit.prevent="submit">
             <b-field
                 horizontal 
                 label="Nom"
                 :type="$page.errors.designation ? 'is-danger' : ''"
-                :message=" $page.errors.designation ? $page.errors.designation[0] : ''"
+                :message="$page.errors.designation ? $page.errors.designation[0] : ''"
                 class="field-label is-small">
-                <b-input name="designation" v-model="form.designation" size="is-small" expanded ></b-input>
+                <b-input name="designation" v-model="form.designation" size="is-small" required expanded ></b-input>
             </b-field>
 
             <b-field 
@@ -15,7 +15,7 @@
                 label="Référence fabricant" 
                 class="field-label is-small"
                 :type="$page.errors.ref_fabricant ? 'is-danger' : ''"
-                :message=" $page.errors.ref_fabricant ? $page.errors.ref_fabricant[0] : ''">
+                :message="$page.errors.ref_fabricant ? $page.errors.ref_fabricant[0] : ''">
                 <b-input name="ref_fabricant" v-model="form.ref_fabricant" size="is-small" expanded></b-input>
             </b-field>
 
@@ -24,8 +24,8 @@
                 label="Stock Minimum" 
                 class="field-label is-small"
                 :type="$page.errors.stock_min ? 'is-danger' : ''"
-                :message=" $page.errors.stock_min ? $page.errors.stock_min[0] : ''">
-                <b-input name="stock_min" v-model="form.stock_min" size="is-small" expanded></b-input>
+                :message="$page.errors.stock_min ? $page.errors.stock_min[0] : ''">
+                <b-input name="stock_min" v-model="form.stock_min" size="is-small" required expanded></b-input>
             </b-field>
 
             <b-field 
@@ -33,7 +33,7 @@
                 label="Stock Maximum" 
                 class="field-label is-small"
                 :type="$page.errors.stock_max ? 'is-danger' : ''"
-                :message=" $page.errors.stock_max ? $page.errors.stock_max[0] : ''">
+                :message="$page.errors.stock_max ? $page.errors.stock_max[0] : ''">
                 <b-input name="stock_max" v-model="form.stock_max" size="is-small" expanded></b-input>
             </b-field>
 
@@ -42,8 +42,11 @@
                 label="Unité" 
                 class="field-label is-small"
                 :type="$page.errors.unite_id ? 'is-danger' : ''"
-                :message=" $page.errors.unite_id ? $page.errors.unite_id[0] : ''">
-                <b-input name="unite_id" v-model="form.unite_id" size="is-small" expanded></b-input>
+                :message="$page.errors.unite_id ? $page.errors.unite_id[0] : ''">
+                <b-select name="unite_id" v-model="form.unite_id" size="is-small" expanded placeholder="Unité" required>
+                    <option :value="unite.id" v-for="unite in unites" :key="unite.id">{{ unite.name }}</option>
+                </b-select>
+                <!-- <b-input name="unite_id" v-model="form.unite_id" size="is-small" expanded></b-input> -->
             </b-field>
 
             <b-field 
@@ -51,11 +54,17 @@
                 label="Quantité par unité" 
                 class="field-label is-small"
                 :type="$page.errors.quantite ? 'is-danger' : ''"
-                :message=" $page.errors.quantite ? $page.errors.quantite[0] : ''">
-                <b-select name="quantite" v-model="form.quantite" size="is-small" expanded placeholder="Quantité par unité" required>
-                    <option :value="unite.id" v-for="unite in unites" :key="unite.id">{{ unite.name }}</option>
-                </b-select>
-                <!-- <b-input name="quantite" v-model="form.quantite" size="is-small" expanded></b-input> -->
+                :message="$page.errors.quantite ? $page.errors.quantite[0] : ''">
+                <b-input name="quantite" v-model="form.quantite" size="is-small" required expanded></b-input>
+            </b-field>
+
+            <b-field 
+                horizontal 
+                label="Prix de vente" 
+                class="field-label is-small"
+                :type="$page.errors.prix ? 'is-danger' : ''"
+                :message="$page.errors.prix ? $page.errors.prix[0] : ''">
+                <b-input name="prix" v-model="form.prix" size="is-small" required expanded></b-input>
             </b-field>
 
             <b-field 
@@ -63,12 +72,12 @@
                 label="Description" 
                 class="field-label is-small"
                 :type="$page.errors.description ? 'is-danger' : ''"
-                :message=" $page.errors.description ? $page.errors.description[0] : ''">
+                :message="$page.errors.description ? $page.errors.description[0] : ''">
                 <b-input type="textarea" name="description" v-model="form.description" size="is-small" expanded></b-input>
             </b-field>
 
             <div style="text-align:right">
-                <b-button size="is-small" type="is-info" native-type="submit" :loading="savingData">Ajouter</b-button>
+                <b-button size="is-small" type="is-info" native-type="submit" :loading="savingData">{{ editMode ? 'Modifier' : 'Ajouter'}}</b-button>
                 <b-button size="is-small" @click="$emit('close')">Annuler</b-button>
             </div>
         </form>
@@ -80,10 +89,18 @@
 
     export default {
         name: 'ArticleForm',
+        props:{
+            article: {
+                type: Object,
+                required: false,
+                // default: {}
+            }
+        },
         components: { CardComponent },
         data() {
             return {
                 form: {
+                    id: null,
                     designation: null,
                     code: null,
                     ref_fabricant: null,
@@ -98,16 +115,24 @@
                 unites: []
             }
         },
+        computed: {
+            editMode: function() {
+                return this.article && this.article.id
+            }
+        },
         methods: {
             submit() {
                 this.savingData = true
                 this.$inertia.post('/articles', this.form)
                 .then(() => {
-                    this.resetForm()
-                    this.$buefy.notification.open({
-                        message: 'Produit ajouté avec succès.',
-                        type: 'is-success'
-                    })
+                    // if (this.$page.errors == null) {
+                    if (this.$page.flash.message != null ) {
+                        this.resetForm()
+                        this.$buefy.notification.open({
+                            message: 'Produit ajouté avec succès.',
+                            type: 'is-success'
+                        })
+                    }
                 })
                 .catch(({message}) => {
                     // this.$handleMessage(message, 'danger');

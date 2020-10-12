@@ -16,10 +16,15 @@ class Product extends Model
         'description',
         'stock_min',
         'stock_max',
-        // 'unite_id',
+        'unite_id',
         'prix',
         'quantite'
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'code';
+    }
 
     public function unite()
     {
