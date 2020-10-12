@@ -1,0 +1,13 @@
+.vue-ensemble .columns {
+    margin-bottom: 0 !important;
+}
+
+.vue-ensemble .value {
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+.vue-ensemble .le-label {
+    color: #777 !important;
+    font-weight: 300;
+}

@@ -20,7 +20,7 @@ class ProductController extends Controller
         $products = $req->paginate(20);
 
         return Inertia::render('Articles/Index', [
-            'products' => $products,
+            'products' => ProductResource::collection($products),
             'sortField' => $sortField,
             'sortOrder' => $sortOrder,
         ])->withViewData(['pageTitle' => 'Articles']);
@@ -35,9 +35,10 @@ class ProductController extends Controller
 
     public function view(Product $product)
     {
+        $code = $product ? $product->designation : '';
         return Inertia::render('Articles/ProductView', [
             'product' => new ProductResource($product),
-        ]);
+        ])->withViewData(['pageTitle' => $code]);
     }
 
     // public function update(ArticleRequest $request)

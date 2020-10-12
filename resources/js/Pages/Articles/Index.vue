@@ -44,13 +44,13 @@
             >
                 <!-- :default-sort-direction="defaultSortOrder" -->
                 <b-table-column field="code" label="Ref." width='150' sortable v-slot="props">
-                    <inertia-link :href="'/article/' + props.row.code">{{ props.row.code }}</inertia-link>
+                    <inertia-link :href="'/articles/' + props.row.code">{{ props.row.code }}</inertia-link>
                 </b-table-column>
                 <b-table-column field="designation" label="Désignation" sortable v-slot="props">
-                    <inertia-link :href="'/article/' + props.row.code">{{ props.row.designation }}</inertia-link>
+                    <inertia-link :href="'/articles/' + props.row.code">{{ props.row.designation }}</inertia-link>
                 </b-table-column>
-                <b-table-column field="id" label="Stock disponible" numeric v-slot="props">
-                    {{ props.row.id }}
+                <b-table-column field="stock" label="Stock disponible" numeric v-slot="props">
+                    {{ props.row.stock }}
                 </b-table-column>
 
                 <template slot="empty">
