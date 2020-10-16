@@ -45,7 +45,7 @@ class CreateUserNotification extends Notification
         
         return (new MailMessage)
             ->subject('Creation compte tiiStock')
-            ->greeting('Bonjour')
+            ->greeting('Bonjour '.$notifiable->first_name)
             ->line('Votre compte sur tiiStock a été créé avec succès.')
             ->line('Login : '.$notifiable->email )
             ->line('Mot de passe : '.$this->password )

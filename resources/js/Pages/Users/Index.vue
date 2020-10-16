@@ -3,7 +3,7 @@
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right" v-if="admin">
                 <b-button class="is-info is-small" icon-left="plus" @click="isModalActive = true">Nouveau</b-button>
-                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteusers" v-if="checkedRows.length">Supprimer</b-button>
+                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteUsers" v-if="checkedRows.length">Supprimer</b-button>
             </div>
         </title-bar>
 
@@ -43,7 +43,9 @@
                 :default-sort="[_sortField, _sortOrder]"
                 @sort="onSort"
             >
-                <!-- :default-sort-direction="defaultSortOrder" -->
+                <b-table-column label="#" width="40" numeric v-slot="props">
+                    {{ props.index + 1 }}
+                </b-table-column>
                 <b-table-column field="first_name" label="Prénom." sortable v-slot="props">
                     {{ props.row.first_name }}
                 </b-table-column>
@@ -54,10 +56,12 @@
                     {{ props.row.email }}
                 </b-table-column>
                 <b-table-column field="phone" label="Téléphone" sortable v-slot="props">
-                    {{ props.row.phone }}
+                    {{ props.row.phone ? props.row.phone : '-' }}
                 </b-table-column>
                 <b-table-column field="roles" label="Rôles" v-slot="props">
-                    <b-tag type="is-link is-light" v-for=" role in props.row.roles" :key="role.id">{{ role.name }}</b-tag>
+                    <b-taglist>
+                        <b-tag type="is-link is-light" v-for=" role in props.row.roles" :key="role.id">{{ role.name }}</b-tag>
+                    </b-taglist>
                 </b-table-column>
                 <b-table-column field="actif" label="État" sortable v-slot="props">
                     <b-tag type="is-success is-light" v-if="props.row.actif">Actif</b-tag>

@@ -75,6 +75,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function roles_id()
+    {
+        $id = [];
+        foreach ($this->roles as $role) {
+            $id[] = $role->id;
+        }
+        return $id;
+    }
+
     public function hasRole($roleName)
     {
         foreach ($this->roles as $role) {

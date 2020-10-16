@@ -37,7 +37,8 @@
                 <b-input name="phone" v-model="form.phone" size="is-small" expanded></b-input>
             </b-field>
 
-            <b-field 
+            <b-field
+                v-if="editMode"
                 horizontal 
                 label="Actif" 
                 class="field-label is-small"
@@ -73,7 +74,7 @@
             <div style="text-align:right">
                 <b-button size="is-small" type="is-info" native-type="submit" :loading="savingData">{{ editMode ? 'Modifier' : 'Ajouter'}}</b-button>
                 <b-button size="is-small" @click="$emit('close')">Annuler</b-button>
-            </div> {{ form }}
+            </div>
         </form>
     </card-component>
 </template>

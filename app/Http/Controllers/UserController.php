@@ -22,7 +22,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         // $products = Product::all();
-        $sortField = $request->sortField ? $request->sortField : 'name';
+        $sortField = $request->sortField ? $request->sortField : 'last_name';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
 
         $req = User::orderBy($sortField, $sortOrder);

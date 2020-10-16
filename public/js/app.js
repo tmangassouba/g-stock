@@ -5041,6 +5041,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -5378,6 +5382,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card/index.js");
+//
 //
 //
 //
@@ -47625,7 +47630,7 @@ var render = function() {
                       {
                         staticClass: "is-danger is-small",
                         attrs: { "icon-left": "delete-outline" },
-                        on: { click: _vm.deleteusers }
+                        on: { click: _vm.deleteUsers }
                       },
                       [_vm._v("Supprimer")]
                     )
@@ -47679,6 +47684,24 @@ var render = function() {
               }
             },
             [
+              _c("b-table-column", {
+                attrs: { label: "#", width: "40", numeric: "" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(props.index + 1) +
+                            "\n            "
+                        )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
               _c("b-table-column", {
                 attrs: { field: "first_name", label: "Prénom.", sortable: "" },
                 scopedSlots: _vm._u([
@@ -47742,7 +47765,7 @@ var render = function() {
                       return [
                         _vm._v(
                           "\n                " +
-                            _vm._s(props.row.phone) +
+                            _vm._s(props.row.phone ? props.row.phone : "-") +
                             "\n            "
                         )
                       ]
@@ -47757,13 +47780,22 @@ var render = function() {
                   {
                     key: "default",
                     fn: function(props) {
-                      return _vm._l(props.row.roles, function(role) {
-                        return _c(
-                          "b-tag",
-                          { key: role.id, attrs: { type: "is-link is-light" } },
-                          [_vm._v(_vm._s(role.name))]
+                      return [
+                        _c(
+                          "b-taglist",
+                          _vm._l(props.row.roles, function(role) {
+                            return _c(
+                              "b-tag",
+                              {
+                                key: role.id,
+                                attrs: { type: "is-link is-light" }
+                              },
+                              [_vm._v(_vm._s(role.name))]
+                            )
+                          }),
+                          1
                         )
-                      })
+                      ]
                     }
                   }
                 ])
@@ -48457,37 +48489,41 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Actif",
-                type: _vm.$page.errors.actif ? "is-danger" : "",
-                message: _vm.$page.errors.actif ? _vm.$page.errors.actif[0] : ""
-              }
-            },
-            [
-              _c("b-switch", {
-                attrs: {
-                  name: "actif",
-                  "true-value": 1,
-                  "false-value": 0,
-                  type: "is-success",
-                  size: "is-small-"
+          _vm.editMode
+            ? _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Actif",
+                    type: _vm.$page.errors.actif ? "is-danger" : "",
+                    message: _vm.$page.errors.actif
+                      ? _vm.$page.errors.actif[0]
+                      : ""
+                  }
                 },
-                model: {
-                  value: _vm.form.actif,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "actif", $$v)
-                  },
-                  expression: "form.actif"
-                }
-              })
-            ],
-            1
-          ),
+                [
+                  _c("b-switch", {
+                    attrs: {
+                      name: "actif",
+                      "true-value": 1,
+                      "false-value": 0,
+                      type: "is-success",
+                      size: "is-small-"
+                    },
+                    model: {
+                      value: _vm.form.actif,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "actif", $$v)
+                      },
+                      expression: "form.actif"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "b-field",
@@ -48556,8 +48592,7 @@ var render = function() {
               )
             ],
             1
-          ),
-          _vm._v(" " + _vm._s(_vm.form) + "\n    ")
+          )
         ],
         1
       )
