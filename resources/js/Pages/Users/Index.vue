@@ -3,7 +3,7 @@
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right" v-if="admin">
                 <b-button class="is-info is-small" icon-left="plus" @click="isModalActive = true">Nouveau</b-button>
-                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteProducts" v-if="checkedRows.length">Supprimer</b-button>
+                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteusers" v-if="checkedRows.length">Supprimer</b-button>
             </div>
         </title-bar>
 
@@ -17,12 +17,13 @@
             </b-notification> -->
 
             <b-table 
-                :data="products.data"
+                :data="users.data"
                 :loading="loading"
                 striped
                 hoverable
 
                 checkable
+                :is-row-checkable="(row) => row.id !== authUserId"
                 :checked-rows.sync="checkedRows"
 
                 paginated
@@ -43,14 +44,27 @@
                 @sort="onSort"
             >
                 <!-- :default-sort-direction="defaultSortOrder" -->
-                <b-table-column field="code" label="Ref." width='150' sortable v-slot="props">
-                    <inertia-link :href="'/articles/' + props.row.code">{{ props.row.code }}</inertia-link>
+                <b-table-column field="first_name" label="Prénom." sortable v-slot="props">
+                    {{ props.row.first_name }}
                 </b-table-column>
-                <b-table-column field="designation" label="Désignation" sortable v-slot="props">
-                    <inertia-link :href="'/articles/' + props.row.code">{{ props.row.designation }}</inertia-link>
+                <b-table-column field="last_name" label="Nom" sortable v-slot="props">
+                    {{ props.row.last_name }}
                 </b-table-column>
-                <b-table-column field="stock" label="Stock disponible" numeric v-slot="props">
-                    {{ props.row.stock }}
+                <b-table-column field="email" label="Email" sortable v-slot="props">
+                    {{ props.row.email }}
+                </b-table-column>
+                <b-table-column field="phone" label="Téléphone" sortable v-slot="props">
+                    {{ props.row.phone }}
+                </b-table-column>
+                <b-table-column field="roles" label="Rôles" v-slot="props">
+                    <b-tag type="is-link is-light" v-for=" role in props.row.roles" :key="role.id">{{ role.name }}</b-tag>
+                </b-table-column>
+                <b-table-column field="actif" label="État" sortable v-slot="props">
+                    <b-tag type="is-success is-light" v-if="props.row.actif">Actif</b-tag>
+                    <b-tag type="is-danger is-light" v-else>Inactif</b-tag>
+                </b-table-column>
+                <b-table-column field="created_at" label="Ajouté le" sortable v-slot="props">
+                    {{ props.row.created_at }}
                 </b-table-column>
 
                 <template slot="empty">
@@ -71,7 +85,7 @@
             :can-cancel="['escape', 'x']"
             :width="640"
         >
-            <article-form @close="isModalActive = false"></article-form>
+            <user-form @close="isModalActive = false"></user-form>
         </b-modal>
 
         <b-notification :closable="false">
@@ -83,15 +97,15 @@
 <script>
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
-    import { ArticleForm } from "../../components/Articles"
+    import { UserForm } from "../../components/Users"
     import { Inertia } from '@inertiajs/inertia'
 
     export default {
-        props: ['products', 'sortField', 'sortOrder', 'message', 'errors', 'admin'],
+        props: ['users', 'authUserId', 'sortField', 'sortOrder', 'message', 'errors', 'admin'],
         components: {
             AppLayout,
             TitleBar,
-            ArticleForm
+            UserForm
         },
         data() {
             return {
@@ -112,7 +126,7 @@
         
         methods: {
             loadAsyncData() {
-                Inertia.visit('/articles', {
+                Inertia.visit('/users', {
                     method: 'get',
                     data: {
                         page: this.currentPage,
@@ -130,11 +144,11 @@
                 this._sortOrder = order
                 this.loadAsyncData()
             },
-            deleteProducts() {
+            deleteUsers() {
                 if (this.checkedRows.length) {
                     this.$buefy.dialog.confirm({
-                        title: 'Supprimer articles',
-                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
+                        title: 'Supprimer utilisateur',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(t)(s) utilisateur(s) ?<br/> Cette action ne peut pas être annulée.',
                         confirmText: 'Supprimer produit(s)',
                         type: 'is-danger',
                         hasIcon: true,
@@ -145,7 +159,7 @@
                             var checkedForm = {
                                 checkedRows: this.checkedRows
                             }
-                            this.$inertia.post('/articles/delete-products', checkedForm)
+                            this.$inertia.post('/users/delete-users', checkedForm)
                             .then(() => {
                                 if (this.$page.flash.message != null ) {
                                     this.resetForm()
@@ -166,12 +180,12 @@
             }
         },
         created() {
-            if (this.products) {
-                this.currentPage = this.products.current_page
+            if (this.users) {
+                this.currentPage = this.users.current_page
                 this._sortField = this.sortField
                 this._sortOrder = this.sortOrder
-                this.perPage = this.products.per_page
-                this.total = this.products.total
+                this.perPage = this.users.per_page
+                this.total = this.users.total
             }
         },
 
@@ -183,7 +197,7 @@
             //     return this.sortOrder
             // },
             titleStack () {
-                return ['Articles']
+                return ['Utilisateurs']
             }
         },
 

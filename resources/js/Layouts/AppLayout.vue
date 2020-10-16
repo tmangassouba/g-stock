@@ -32,19 +32,19 @@
         },
 
         methods: {
-            switchToTeam(team) {
-                this.$inertia.put('/current-team', {
-                    'team_id': team.id
-                }, {
-                    preserveState: false
-                })
-            },
+            // switchToTeam(team) {
+            //     this.$inertia.put('/current-team', {
+            //         'team_id': team.id
+            //     }, {
+            //         preserveState: false
+            //     })
+            // },
 
-            logout() {
-                axios.post('/logout').then(response => {
-                    window.location = '/';
-                })
-            },
+            // logout() {
+            //     axios.post('/logout').then(response => {
+            //         window.location = '/';
+            //     })
+            // },
         },
 
         computed: {
@@ -67,12 +67,6 @@
                             to: '/articles',
                             label: 'Articles',
                             icon: 'cart-outline'
-                        },
-                        {
-                            to: '/groupes-articles',
-                            label: 'Groupes d\'articles',
-                            icon: 'cart-plus'
-                            /*updateMark: true*/
                         }/*,
                         {
                             label: 'Submenus',
@@ -114,6 +108,14 @@
                             to: 'clients',
                             label: 'Clients',
                             icon: 'account-circle-outline'
+                        }
+                    ],
+                    'Administration',
+                    [
+                        {
+                            to: 'users',
+                            label: 'Utilisateurs',
+                            icon: 'account-multiple-outline'
                         }
                     ]
                 ]

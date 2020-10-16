@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::name('articles.')->prefix('articles')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
-        Route::post('/', [ProductController::class, 'store'])->name('store');
-        Route::post('/delete-products', [ProductController::class, 'deleteProducts'])->name('delete.products');
+        Route::post('/', [ProductController::class, 'store'])->name('store')->middleware('can:admin');
+        Route::post('/delete-products', [ProductController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
         Route::get('/{product}', [ProductController::class, 'view'])->name('view');
+    });
+
+    Route::name('users.')->prefix('users')->group(function () {
+        Route::get('/', [UsersController::class, 'index'])->name('index')->middleware('can:admin');
+        Route::post('/', [UsersController::class, 'store'])->name('store')->middleware('can:admin');
+        Route::post('/delete-users', [UsersController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
     });
 });

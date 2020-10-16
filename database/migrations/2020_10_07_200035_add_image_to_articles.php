@@ -17,7 +17,7 @@ class AddImageToArticles extends Migration
             $table->string('image')->nullable();
             $table->unsignedBigInteger('unite_id')->nullable();
 
-            $table->foreign('unite_id')->references('id')->on('unites')->onDelete('cascade');
+            $table->foreign('unite_id')->references('id')->on('unites')->onDelete('set null');
         });
     }
 

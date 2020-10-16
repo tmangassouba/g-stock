@@ -20,6 +20,10 @@
 .vue-ensemble .le-label {
     color: #777 !important;
     font-weight: 300;
+}
+
+.field-label {
+    text-align: left !important;
 }@charset "UTF-8";
 
 /* Theme style (colors & sizes) */

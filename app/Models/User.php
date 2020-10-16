@@ -19,13 +19,24 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
     /**
+     * ROLES
+     */
+    public const ROLE_ADMIN = "ADMIN";
+    public const ROLE_GERANT = "GERANT";
+    public const ROLE_OPERATEUR = "OPERATEUR";
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
+        'actif',
         'email',
+        'phone',
         'password',
     ];
 
@@ -58,4 +69,19 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($roleName)
+    {
+        foreach ($this->roles as $role) {
+            if ($role->name == $roleName) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

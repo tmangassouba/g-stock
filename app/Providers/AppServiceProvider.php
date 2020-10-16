@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Product;
+use App\Models\User;
 use App\Observers\ProductObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Product::observe(ProductObserver::class);
+        User::observe(UserObserver::class);
 
         Inertia::share([
             'errors' => function () {

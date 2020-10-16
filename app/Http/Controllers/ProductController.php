@@ -6,6 +6,7 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -20,9 +21,10 @@ class ProductController extends Controller
         $products = $req->paginate(20);
 
         return Inertia::render('Articles/Index', [
-            'products' => ProductResource::collection($products),
+            'products'  => ProductResource::collection($products),
             'sortField' => $sortField,
             'sortOrder' => $sortOrder,
+            'admin'     => Auth::user()->can('admin')
         ])->withViewData(['pageTitle' => 'Articles']);
     }
 
@@ -38,6 +40,7 @@ class ProductController extends Controller
         $code = $product ? $product->designation : '';
         return Inertia::render('Articles/ProductView', [
             'product' => new ProductResource($product),
+            'admin'   => Auth::user()->can('admin')
         ])->withViewData(['pageTitle' => $code]);
     }
 

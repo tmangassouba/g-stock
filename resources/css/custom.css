@@ -11,3 +11,7 @@
     color: #777 !important;
     font-weight: 300;
 }
+
+.field-label {
+    text-align: left !important;
+}
