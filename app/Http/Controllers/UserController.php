@@ -92,19 +92,17 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        $request->validate([
-            'name' => 'required',
-            'email'  =>  'required|unique:users,email,'.$user->id,
-        ]);
-
         $user->update([
-            'name' => $request->name,
-            'email' => $request->email
+            'first_name' => $request['first_name'],
+            'last_name'  => $request['last_name'],
+            'actif'      => $request['actif'],
+            'phone'      => $request['phone'],
         ]);
+        $user->roles()->sync($request['roles']);
 
-        return redirect()->route('users.index')->with('successMessage', 'User was successfully updated!');
+        return redirect()->back()->with('message', 'Utilisateur modifié avec succès.');
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
     <card-component :title=" editMode ? 'Modifier utilisateur' : 'Ajouter utilisateur' "  @close="$emit('close')">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="editMode ? editData() : addData()" v-if="form">
             <b-field
                 horizontal 
                 label="Prénom"
@@ -20,12 +20,12 @@
             </b-field>
 
             <b-field
-                horizontal 
+                horizontal
                 label="Email" 
                 class="field-label is-small"
                 :type="$page.errors.email ? 'is-danger' : ''"
                 :message="$page.errors.email ? $page.errors.email[0] : ''">
-                <b-input type="email" name="email" v-model="form.email" size="is-small" required expanded></b-input>
+                <b-input type="email" name="email" v-model="form.email" size="is-small" required expanded :disabled="editMode"></b-input>
             </b-field>
 
             <b-field 
@@ -71,10 +71,12 @@
                 </b-checkbox-button>
             </b-field>
 
-            <div style="text-align:right">
-                <b-button size="is-small" type="is-info" native-type="submit" :loading="savingData">{{ editMode ? 'Modifier' : 'Ajouter'}}</b-button>
-                <b-button size="is-small" @click="$emit('close')">Annuler</b-button>
-            </div>
+            <b-field horizontal class="field-label is-small">
+                <div style="text-align:right">
+                    <b-button size="is-small" type="is-info" native-type="submit" :loading="savingData">{{ editMode ? 'Modifier' : 'Ajouter'}}</b-button>
+                    <b-button size="is-small" @click="$emit('close')">Annuler</b-button>
+                </div>
+            </b-field>
         </form>
     </card-component>
 </template>
@@ -94,7 +96,29 @@
         components: { CardComponent },
         data() {
             return {
-                form: {
+                savingData: false,
+                roles: [],
+                submited: 0
+            }
+        },
+        computed: {
+            editMode: function() {
+                return this.user && this.user.id
+            },
+            form: function() {
+                if (this.user && this.user.id) {
+                    return {
+                        id: this.user.id,
+                        first_name: this.user.first_name,
+                        last_name: this.user.last_name,
+                        email: this.user.email,
+                        actif: this.user.actif,
+                        phone: this.user.phone,
+                        roles: this.user.roles_id,
+                        submited: this.submited
+                    }
+                }
+                return {
                     id: null,
                     first_name: null,
                     last_name: null,
@@ -102,23 +126,18 @@
                     actif: null,
                     phone: null,
                     roles: [],
-                },
-                savingData: false,
-                roles: []
-            }
-        },
-        computed: {
-            editMode: function() {
-                return this.user && this.user.id
+                    submited: this.submited
+                }
             }
         },
         methods: {
-            submit() {
+            addData() {
                 this.savingData = true
                 this.$inertia.post('/users', this.form)
                 .then(() => {
                     if (this.$page.flash.message != null ) {
-                        this.resetForm()
+                        // this.resetForm()
+                        this.$emit('resetData')
                         this.$buefy.notification.open({
                             message: 'Utilisateur ajouté avec succès.',
                             type: 'is-success'
@@ -131,16 +150,22 @@
                     this.savingData = false
                 })
             },
-            resetForm() {
-                this.form = {
-                    id: null,
-                    first_name: null,
-                    last_name: null,
-                    email: null,
-                    actif: null,
-                    phone: null,
-                    roles: [],
-                }
+            editData() {
+                this.savingData = true
+                this.$inertia.put('/users/' + this.form.id, this.form)
+                .then(() => {
+                    if (this.$page.flash.message != null ) {
+                        this.$buefy.notification.open({
+                            message: 'Utilisateur modifié avec succès.',
+                            type: 'is-success'
+                        })
+                    }
+                })
+                .catch(({message}) => {
+                    // this.$handleMessage(message, 'danger');
+                }).finally(() => {
+                    this.savingData = false
+                })
             }
         },
         created() {

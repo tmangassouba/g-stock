@@ -36,6 +36,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::name('users.')->prefix('users')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index')->middleware('can:admin');
         Route::post('/', [UsersController::class, 'store'])->name('store')->middleware('can:admin');
+        Route::put('/{user}', [UsersController::class, 'update'])->name('update')->middleware('can:admin');
         Route::post('/delete-users', [UsersController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
     });
 });

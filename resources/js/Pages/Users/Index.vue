@@ -2,7 +2,7 @@
     <app-layout>
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right" v-if="admin">
-                <b-button class="is-info is-small" icon-left="plus" @click="isModalActive = true">Nouveau</b-button>
+                <b-button class="is-info is-small" icon-left="plus" @click="addUser">Nouveau</b-button>
                 <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteUsers" v-if="checkedRows.length">Supprimer</b-button>
             </div>
         </title-bar>
@@ -70,6 +70,9 @@
                 <b-table-column field="created_at" label="Ajouté le" sortable v-slot="props">
                     {{ props.row.created_at }}
                 </b-table-column>
+                <b-table-column width="40" numeric v-slot="props">
+                    <b-button @click="editUser(props.row)" size="is-small" icon-left="pencil-outline" type="is-info is-light"></b-button>
+                </b-table-column>
 
                 <template slot="empty">
                     <section class="section">
@@ -89,10 +92,10 @@
             :can-cancel="['escape', 'x']"
             :width="640"
         >
-            <user-form @close="isModalActive = false"></user-form>
+            <user-form @close="isModalActive = false" @resetData="resetData" :user="selectedUser"></user-form>
         </b-modal>
 
-        <b-notification :closable="false">
+        <b-notification :closable="false" class="loading-notification">
             <b-loading :is-full-page="isFullPage" v-model="isDeleting" :can-cancel="false"></b-loading>
         </b-notification>
     </app-layout>
@@ -113,6 +116,7 @@
         },
         data() {
             return {
+                selectedUser: {},
                 isModalActive: false,
                 loading: false,
                 checkedRows: [],
@@ -138,6 +142,17 @@
                         sortOrder: this._sortOrder,
                     }
                 })
+            },
+            addUser() {
+                this.selectedUser = {}
+                this.isModalActive = true
+            },
+            editUser(user) {
+                this.selectedUser = user
+                this.isModalActive = true
+            },
+            resetData() {
+                this.selectedUser = {}
             },
             onPageChange(page) {
                 this.currentPage = page
@@ -194,21 +209,9 @@
         },
 
         computed: {
-            // _sortField: function () {
-            //     return this.sortField
-            // },
-            // _sortOrder: function () {
-            //     return this.sortOrder
-            // },
             titleStack () {
                 return ['Utilisateurs']
             }
         },
-
-        // watch: {
-        //     checkedData: function () {
-        //         this.deleteUsersForm.checkedData = this.checkedData
-        //     }
-        // },
     }
 </script>

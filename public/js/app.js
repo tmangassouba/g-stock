@@ -5045,6 +5045,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -5058,6 +5061,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      selectedUser: {},
       isModalActive: false,
       loading: false,
       checkedRows: [],
@@ -5081,6 +5085,17 @@ __webpack_require__.r(__webpack_exports__);
           sortOrder: this._sortOrder
         }
       });
+    },
+    addUser: function addUser() {
+      this.selectedUser = {};
+      this.isModalActive = true;
+    },
+    editUser: function editUser(user) {
+      this.selectedUser = user;
+      this.isModalActive = true;
+    },
+    resetData: function resetData() {
+      this.selectedUser = {};
     },
     onPageChange: function onPageChange(page) {
       this.currentPage = page;
@@ -5139,21 +5154,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    // _sortField: function () {
-    //     return this.sortField
-    // },
-    // _sortOrder: function () {
-    //     return this.sortOrder
-    // },
     titleStack: function titleStack() {
       return ['Utilisateurs'];
     }
-  } // watch: {
-  //     checkedData: function () {
-  //         this.deleteUsersForm.checkedData = this.checkedData
-  //     }
-  // },
-
+  }
 });
 
 /***/ }),
@@ -5168,6 +5172,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card/index.js");
+//
+//
 //
 //
 //
@@ -5463,6 +5469,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'UserForm',
@@ -5478,32 +5486,50 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      form: {
+      savingData: false,
+      roles: [],
+      submited: 0
+    };
+  },
+  computed: {
+    editMode: function editMode() {
+      return this.user && this.user.id;
+    },
+    form: function form() {
+      if (this.user && this.user.id) {
+        return {
+          id: this.user.id,
+          first_name: this.user.first_name,
+          last_name: this.user.last_name,
+          email: this.user.email,
+          actif: this.user.actif,
+          phone: this.user.phone,
+          roles: this.user.roles_id,
+          submited: this.submited
+        };
+      }
+
+      return {
         id: null,
         first_name: null,
         last_name: null,
         email: null,
         actif: null,
         phone: null,
-        roles: []
-      },
-      savingData: false,
-      roles: []
-    };
-  },
-  computed: {
-    editMode: function editMode() {
-      return this.user && this.user.id;
+        roles: [],
+        submited: this.submited
+      };
     }
   },
   methods: {
-    submit: function submit() {
+    addData: function addData() {
       var _this = this;
 
       this.savingData = true;
       this.$inertia.post('/users', this.form).then(function () {
         if (_this.$page.flash.message != null) {
-          _this.resetForm();
+          // this.resetForm()
+          _this.$emit('resetData');
 
           _this.$buefy.notification.open({
             message: 'Utilisateur ajouté avec succès.',
@@ -5517,24 +5543,31 @@ __webpack_require__.r(__webpack_exports__);
         _this.savingData = false;
       });
     },
-    resetForm: function resetForm() {
-      this.form = {
-        id: null,
-        first_name: null,
-        last_name: null,
-        email: null,
-        actif: null,
-        phone: null,
-        roles: []
-      };
+    editData: function editData() {
+      var _this2 = this;
+
+      this.savingData = true;
+      this.$inertia.put('/users/' + this.form.id, this.form).then(function () {
+        if (_this2.$page.flash.message != null) {
+          _this2.$buefy.notification.open({
+            message: 'Utilisateur modifié avec succès.',
+            type: 'is-success'
+          });
+        }
+      })["catch"](function (_ref2) {// this.$handleMessage(message, 'danger');
+
+        var message = _ref2.message;
+      })["finally"](function () {
+        _this2.savingData = false;
+      });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
-    axios.get('api/roles').then(function (_ref2) {
-      var data = _ref2.data;
-      _this2.roles = data;
+    axios.get('api/roles').then(function (_ref3) {
+      var data = _ref3.data;
+      _this3.roles = data;
     });
   }
 });
@@ -47615,11 +47648,7 @@ var render = function() {
                   {
                     staticClass: "is-info is-small",
                     attrs: { "icon-left": "plus" },
-                    on: {
-                      click: function($event) {
-                        _vm.isModalActive = true
-                      }
-                    }
+                    on: { click: _vm.addUser }
                   },
                   [_vm._v("Nouveau")]
                 ),
@@ -47847,6 +47876,31 @@ var render = function() {
                 ])
               }),
               _vm._v(" "),
+              _c("b-table-column", {
+                attrs: { width: "40", numeric: "" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [
+                        _c("b-button", {
+                          attrs: {
+                            size: "is-small",
+                            "icon-left": "pencil-outline",
+                            type: "is-info is-light"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.editUser(props.row)
+                            }
+                          }
+                        })
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
               _c("template", { slot: "empty" }, [
                 _c("section", { staticClass: "section" }, [
                   _c(
@@ -47894,10 +47948,12 @@ var render = function() {
         },
         [
           _c("user-form", {
+            attrs: { user: _vm.selectedUser },
             on: {
               close: function($event) {
                 _vm.isModalActive = false
-              }
+              },
+              resetData: _vm.resetData
             }
           })
         ],
@@ -47906,7 +47962,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-notification",
-        { attrs: { closable: false } },
+        { staticClass: "loading-notification", attrs: { closable: false } },
         [
           _c("b-loading", {
             attrs: { "is-full-page": _vm.isFullPage, "can-cancel": false },
@@ -48238,36 +48294,42 @@ var render = function() {
           ),
           _vm._v(" "),
           _c(
-            "div",
-            { staticStyle: { "text-align": "right" } },
+            "b-field",
+            { staticClass: "field-label is-small", attrs: { horizontal: "" } },
             [
               _c(
-                "b-button",
-                {
-                  attrs: {
-                    size: "is-small",
-                    type: "is-info",
-                    "native-type": "submit",
-                    loading: _vm.savingData
-                  }
-                },
-                [_vm._v(_vm._s(_vm.editMode ? "Modifier" : "Ajouter"))]
-              ),
-              _vm._v(" "),
-              _c(
-                "b-button",
-                {
-                  attrs: { size: "is-small" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("close")
-                    }
-                  }
-                },
-                [_vm._v("Annuler")]
+                "div",
+                { staticStyle: { "text-align": "right" } },
+                [
+                  _c(
+                    "b-button",
+                    {
+                      attrs: {
+                        size: "is-small",
+                        type: "is-info",
+                        "native-type": "submit",
+                        loading: _vm.savingData
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.editMode ? "Modifier" : "Ajouter"))]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-button",
+                    {
+                      attrs: { size: "is-small" },
+                      on: {
+                        click: function($event) {
+                          return _vm.$emit("close")
+                        }
+                      }
+                    },
+                    [_vm._v("Annuler")]
+                  )
+                ],
+                1
               )
-            ],
-            1
+            ]
           )
         ],
         1
@@ -48354,248 +48416,266 @@ var render = function() {
       }
     },
     [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.submit($event)
-            }
-          }
-        },
-        [
-          _c(
-            "b-field",
+      _vm.form
+        ? _c(
+            "form",
             {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Prénom",
-                type: _vm.$page.errors.first_name ? "is-danger" : "",
-                message: _vm.$page.errors.first_name
-                  ? _vm.$page.errors.first_name[0]
-                  : ""
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  _vm.editMode ? _vm.editData() : _vm.addData()
+                }
               }
             },
             [
-              _c("b-input", {
-                attrs: {
-                  name: "first_name",
-                  size: "is-small",
-                  required: "",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.first_name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "first_name", $$v)
-                  },
-                  expression: "form.first_name"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Nom",
-                type: _vm.$page.errors.last_name ? "is-danger" : "",
-                message: _vm.$page.errors.last_name
-                  ? _vm.$page.errors.last_name[0]
-                  : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  name: "last_name",
-                  size: "is-small",
-                  required: "",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.last_name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "last_name", $$v)
-                  },
-                  expression: "form.last_name"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Email",
-                type: _vm.$page.errors.email ? "is-danger" : "",
-                message: _vm.$page.errors.email ? _vm.$page.errors.email[0] : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  type: "email",
-                  name: "email",
-                  size: "is-small",
-                  required: "",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.email,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "email", $$v)
-                  },
-                  expression: "form.email"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Téléphone",
-                type: _vm.$page.errors.phone ? "is-danger" : "",
-                message: _vm.$page.errors.phone ? _vm.$page.errors.phone[0] : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: { name: "phone", size: "is-small", expanded: "" },
-                model: {
-                  value: _vm.form.phone,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "phone", $$v)
-                  },
-                  expression: "form.phone"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.editMode
-            ? _c(
+              _c(
                 "b-field",
                 {
                   staticClass: "field-label is-small",
                   attrs: {
                     horizontal: "",
-                    label: "Actif",
-                    type: _vm.$page.errors.actif ? "is-danger" : "",
-                    message: _vm.$page.errors.actif
-                      ? _vm.$page.errors.actif[0]
+                    label: "Prénom",
+                    type: _vm.$page.errors.first_name ? "is-danger" : "",
+                    message: _vm.$page.errors.first_name
+                      ? _vm.$page.errors.first_name[0]
                       : ""
                   }
                 },
                 [
-                  _c("b-switch", {
+                  _c("b-input", {
                     attrs: {
-                      name: "actif",
-                      "true-value": 1,
-                      "false-value": 0,
-                      type: "is-success",
-                      size: "is-small-"
+                      name: "first_name",
+                      size: "is-small",
+                      required: "",
+                      expanded: ""
                     },
                     model: {
-                      value: _vm.form.actif,
+                      value: _vm.form.first_name,
                       callback: function($$v) {
-                        _vm.$set(_vm.form, "actif", $$v)
+                        _vm.$set(_vm.form, "first_name", $$v)
                       },
-                      expression: "form.actif"
+                      expression: "form.first_name"
                     }
                   })
                 ],
                 1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Rôles",
-                type: _vm.$page.errors.roles ? "is-danger" : "",
-                message: _vm.$page.errors.roles ? _vm.$page.errors.roles[0] : ""
-              }
-            },
-            _vm._l(_vm.roles, function(role, index) {
-              return _c(
-                "b-checkbox-button",
-                {
-                  key: index,
-                  attrs: {
-                    name: "roles",
-                    "native-value": role.id,
-                    type: "is-success",
-                    size: "is-small"
-                  },
-                  model: {
-                    value: _vm.form.roles,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form, "roles", $$v)
-                    },
-                    expression: "form.roles"
-                  }
-                },
-                [_c("span", [_vm._v(_vm._s(role.name))])]
-              )
-            }),
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticStyle: { "text-align": "right" } },
-            [
-              _c(
-                "b-button",
-                {
-                  attrs: {
-                    size: "is-small",
-                    type: "is-info",
-                    "native-type": "submit",
-                    loading: _vm.savingData
-                  }
-                },
-                [_vm._v(_vm._s(_vm.editMode ? "Modifier" : "Ajouter"))]
               ),
               _vm._v(" "),
               _c(
-                "b-button",
+                "b-field",
                 {
-                  attrs: { size: "is-small" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("close")
-                    }
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Nom",
+                    type: _vm.$page.errors.last_name ? "is-danger" : "",
+                    message: _vm.$page.errors.last_name
+                      ? _vm.$page.errors.last_name[0]
+                      : ""
                   }
                 },
-                [_vm._v("Annuler")]
+                [
+                  _c("b-input", {
+                    attrs: {
+                      name: "last_name",
+                      size: "is-small",
+                      required: "",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.last_name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "last_name", $$v)
+                      },
+                      expression: "form.last_name"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Email",
+                    type: _vm.$page.errors.email ? "is-danger" : "",
+                    message: _vm.$page.errors.email
+                      ? _vm.$page.errors.email[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("b-input", {
+                    attrs: {
+                      type: "email",
+                      name: "email",
+                      size: "is-small",
+                      required: "",
+                      expanded: "",
+                      disabled: _vm.editMode
+                    },
+                    model: {
+                      value: _vm.form.email,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "email", $$v)
+                      },
+                      expression: "form.email"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Téléphone",
+                    type: _vm.$page.errors.phone ? "is-danger" : "",
+                    message: _vm.$page.errors.phone
+                      ? _vm.$page.errors.phone[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("b-input", {
+                    attrs: { name: "phone", size: "is-small", expanded: "" },
+                    model: {
+                      value: _vm.form.phone,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "phone", $$v)
+                      },
+                      expression: "form.phone"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.editMode
+                ? _c(
+                    "b-field",
+                    {
+                      staticClass: "field-label is-small",
+                      attrs: {
+                        horizontal: "",
+                        label: "Actif",
+                        type: _vm.$page.errors.actif ? "is-danger" : "",
+                        message: _vm.$page.errors.actif
+                          ? _vm.$page.errors.actif[0]
+                          : ""
+                      }
+                    },
+                    [
+                      _c("b-switch", {
+                        attrs: {
+                          name: "actif",
+                          "true-value": 1,
+                          "false-value": 0,
+                          type: "is-success",
+                          size: "is-small-"
+                        },
+                        model: {
+                          value: _vm.form.actif,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "actif", $$v)
+                          },
+                          expression: "form.actif"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Rôles",
+                    type: _vm.$page.errors.roles ? "is-danger" : "",
+                    message: _vm.$page.errors.roles
+                      ? _vm.$page.errors.roles[0]
+                      : ""
+                  }
+                },
+                _vm._l(_vm.roles, function(role, index) {
+                  return _c(
+                    "b-checkbox-button",
+                    {
+                      key: index,
+                      attrs: {
+                        name: "roles",
+                        "native-value": role.id,
+                        type: "is-success",
+                        size: "is-small"
+                      },
+                      model: {
+                        value: _vm.form.roles,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "roles", $$v)
+                        },
+                        expression: "form.roles"
+                      }
+                    },
+                    [_c("span", [_vm._v(_vm._s(role.name))])]
+                  )
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: { horizontal: "" }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticStyle: { "text-align": "right" } },
+                    [
+                      _c(
+                        "b-button",
+                        {
+                          attrs: {
+                            size: "is-small",
+                            type: "is-info",
+                            "native-type": "submit",
+                            loading: _vm.savingData
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.editMode ? "Modifier" : "Ajouter"))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-button",
+                        {
+                          attrs: { size: "is-small" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$emit("close")
+                            }
+                          }
+                        },
+                        [_vm._v("Annuler")]
+                      )
+                    ],
+                    1
+                  )
+                ]
               )
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ]
   )
 }

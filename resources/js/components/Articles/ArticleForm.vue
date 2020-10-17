@@ -76,10 +76,12 @@
                 <b-input type="textarea" name="description" v-model="form.description" size="is-small" expanded></b-input>
             </b-field>
 
-            <div style="text-align:right">
-                <b-button size="is-small" type="is-info" native-type="submit" :loading="savingData">{{ editMode ? 'Modifier' : 'Ajouter'}}</b-button>
-                <b-button size="is-small" @click="$emit('close')">Annuler</b-button>
-            </div>
+            <b-field horizontal class="field-label is-small">
+                <div style="text-align:right">
+                    <b-button size="is-small" type="is-info" native-type="submit" :loading="savingData">{{ editMode ? 'Modifier' : 'Ajouter'}}</b-button>
+                    <b-button size="is-small" @click="$emit('close')">Annuler</b-button>
+                </div>
+            </b-field>
         </form>
     </card-component>
 </template>
