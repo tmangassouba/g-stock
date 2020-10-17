@@ -4,47 +4,100 @@
             <span slot="label"> <b>Tii</b>Stock </span>
         </aside-tools>
         <div class="menu is-menu-main">
-            <template v-for="(menuGroup, index) in menu">
-                <p v-if="typeof menuGroup === 'string'" :key="index" class="menu-label">
-                    {{ menuGroup }}
-                </p>
-                <aside-menu-list
-                    v-else
-                    :key="index"
-                    :menu="menuGroup"
-                    @menu-click="menuClick"
-                    />
-            </template>
+            <!-- GENERAL -->
+            <p class="menu-label">GENERAL</p>
+            <ul class="menu-list">
+                <li :class="{ 'is-active': isDropdownActive }">
+                    <inertia-link href="/" exact-active-class="is-active" class="has-icon">
+                        <b-icon icon="desktop-mac" custom-size="default" />
+                        <span class="menu-item-label">Tableau de bord</span>
+                    </inertia-link>
+                </li>
+            </ul>
+
+            <!-- Articles -->
+            <p class="menu-label">Articles</p>
+            <ul class="menu-list">
+                <li :class="{ 'is-active': isDropdownActive }">
+                    <inertia-link href="/articles" exact-active-class="is-active" class="has-icon">
+                        <b-icon icon="cart-outline" custom-size="default" />
+                        <span class="menu-item-label">Articles</span>
+                    </inertia-link>
+                </li>
+            </ul>
+
+            <!-- Stock -->
+            <p class="menu-label">Stock</p>
+            <ul class="menu-list">
+                <li :class="{ 'is-active': isDropdownActive }">
+                    <inertia-link href="/magazin" exact-active-class="is-active" class="has-icon">
+                        <b-icon icon="store-outline" custom-size="default" />
+                        <span class="menu-item-label">Magazin</span>
+                    </inertia-link>
+                </li>
+                <li :class="{ 'is-active': isDropdownActive }">
+                    <inertia-link href="/operations" exact-active-class="is-active" class="has-icon">
+                        <b-icon icon="credit-card" custom-size="default" />
+                        <span class="menu-item-label">Opérations</span>
+                    </inertia-link>
+                </li>
+            </ul>
+
+            <!-- Facturation -->
+            <p class="menu-label">Facturation</p>
+            <ul class="menu-list">
+                <li :class="{ 'is-active': isDropdownActive }">
+                    <inertia-link href="/factures" exact-active-class="is-active" class="has-icon">
+                        <b-icon icon="file-document-outline" custom-size="default" />
+                        <span class="menu-item-label">Factures</span>
+                    </inertia-link>
+                </li>
+                <li :class="{ 'is-active': isDropdownActive }">
+                    <inertia-link href="/clients" exact-active-class="is-active" class="has-icon">
+                        <b-icon icon="account-circle-outline" custom-size="default" />
+                        <span class="menu-item-label">Clients</span>
+                    </inertia-link>
+                </li>
+            </ul>
+
+            <!-- Administration -->
+            <p class="menu-label">Administration</p>
+            <ul class="menu-list">
+                <li :class="{ 'is-active': isDropdownActive }">
+                    <inertia-link href="/users" exact-active-class="is-active" class="has-icon">
+                        <b-icon icon="account-multiple-outline" custom-size="default" />
+                        <span class="menu-item-label">Utilisateurs</span>
+                    </inertia-link>
+                </li>
+            </ul>
         </div>
     </aside>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
     import AsideTools from './AsideTools'
-    import AsideMenuList from './AsideMenuList'
 
     export default {
         name: 'AsideMenu',
-        components: { AsideTools, AsideMenuList },
-        props: {
-            menu: {
-                type: Array,
-                default: () => []
-            } 
-        },
+        components: { AsideTools },
         data() {
             return {
                 // isAsideVisible: true
+                isSubmenuList: true,
+                isDropdownActive: false
             }
         },
         computed: {
-            ...mapState(['isAsideVisible'])
+            ...mapGetters({isAsideVisible: 'menu/isAsideVisible'}),
         },
         methods: {
             menuClick (item) {
                 //
             }
+            // menuClick (item) {
+            //     this.$emit('menu-click', item)
+            // }
         }
     }
 </script>

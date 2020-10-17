@@ -27,7 +27,7 @@
                 <nav-bar-menu class="has-divider has-user-avatar">
                     <user-avatar />
                     <div class="is-user-name">
-                        <span>{{ userName }}</span>
+                        <span>{{ authUser ? authUser.first_name : 'User' }}</span>
                     </div>
 
                     <div slot="dropdown" class="navbar-dropdown">
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
     import NavBarMenu from './NavBarMenu'
     import UserAvatar from './UserAvatar'
 
@@ -85,7 +85,11 @@
             menuToggleMobileIcon () {
                 return this.isAsideMobileExpanded ? 'backburger' : 'forwardburger'
             },
-            ...mapState(['isNavBarVisible', 'isAsideMobileExpanded', 'userName'])
+            ...mapGetters({
+                isNavBarVisible: 'menu/isNavBarVisible', 
+                isAsideMobileExpanded: 'menu/isAsideMobileExpanded', 
+                authUser: 'user/authUser'
+            })
         },
         mounted () {
             // this.$route.afterEach(() => {
@@ -94,7 +98,7 @@
         },
         methods: {
             menuToggleMobile () {
-                this.$store.commit('asideMobileStateToggle')
+                this.$store.commit('menu/asideMobileStateToggle')
             },
             menuNavBarToggle () {
                 this.isMenuNavBarActive = !this.isMenuNavBarActive

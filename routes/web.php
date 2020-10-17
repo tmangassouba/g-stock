@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UsersController;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,9 @@ use App\Http\Controllers\UsersController;
 // Route::get('{path}', 'HomeController@index')->where('path', '([a-zA-Z0-9_\-\./]+)?');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/user', function (Request $request) {
+        return new UserResource($request->user());
+    });
     Route::get('/', function () {
         return Inertia\Inertia::render('Dashboard');
     })->name('dashboard');

@@ -1,7 +1,8 @@
 <template>
     <div>
         <nav-bar />
-        <aside-menu :menu="menu" />
+        <!-- <aside-menu :menu="menu" /> -->
+        <aside-menu />
         <slot></slot>
         <!-- <footer-bar /> -->
 
@@ -13,6 +14,7 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
     import NavBar from '../Menu/NavBar'
     import AsideMenu from '../Menu/AsideMenu'
     import FooterBar from '../Menu/FooterBar'
@@ -26,12 +28,14 @@
 
         data() {
             return {
-                showingNavigationDropdown: false,
                 //menu: []
             }
         },
 
         methods: {
+            ...mapActions({
+                getUser: 'user/getUser'
+            })
             // switchToTeam(team) {
             //     this.$inertia.put('/current-team', {
             //         'team_id': team.id
@@ -50,76 +54,15 @@
         computed: {
             path() {
                 return window.location.pathname
-            },
-            menu () {
-                return [
-                    'General',
-                    [
-                        {
-                            to: '/',
-                            icon: 'desktop-mac',
-                            label: 'Tableau de bord'
-                        }
-                    ],
-                    'Articles',
-                    [
-                        {
-                            to: '/articles',
-                            label: 'Articles',
-                            icon: 'cart-outline'
-                        }/*,
-                        {
-                            label: 'Submenus',
-                            subLabel: 'Submenus Example',
-                            icon: 'view-list',
-                            menu: [
-                            {
-                                to: '#void',
-                                label: 'Sub-item One'
-                            },
-                            {
-                                to: '#void',
-                                label: 'Sub-item Two'
-                            }
-                            ]
-                        }*/
-                    ],
-                    'Stock',
-                    [
-                        {
-                            to: 'magazin',
-                            label: 'Magazin',
-                            icon: 'store-outline'
-                        },
-                        {
-                            to: 'operations',
-                            label: 'Opérations',
-                            icon: 'credit-card'
-                        }
-                    ],
-                    'Facturation',
-                    [
-                        {
-                            to: 'factures',
-                            label: 'Factures',
-                            icon: 'file-document-outline'
-                        },
-                        {
-                            to: 'clients',
-                            label: 'Clients',
-                            icon: 'account-circle-outline'
-                        }
-                    ],
-                    'Administration',
-                    [
-                        {
-                            to: 'users',
-                            label: 'Utilisateurs',
-                            icon: 'account-multiple-outline'
-                        }
-                    ]
-                ]
             }
         },
+
+        created() {
+            this.getUser()
+        },
+
+        // mounted() {
+        //     this.getUser()
+        // },
     }
 </script>
