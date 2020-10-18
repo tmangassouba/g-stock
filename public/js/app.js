@@ -2827,7 +2827,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    isAsideVisible: 'menu/isAsideVisible'
+    isAsideVisible: 'menu/isAsideVisible',
+    hasRole: 'user/hasRole'
   })),
   methods: {
     menuClick: function menuClick(item) {//
@@ -3202,20 +3203,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({
     newUserAvatar: function newUserAvatar() {
-      if (this.avatar) {
-        return this.avatar;
-      }
-
-      if (this.userAvatar) {
-        return this.userAvatar;
-      }
-
-      var name = 'somename';
-
-      if (this.userName) {
-        name = this.userName.replace(/[^a-z0-9]+/i, '');
-      }
-
       return "https://avatars.dicebear.com/v2/human/".concat(name, ".svg?options[mood][]=happy");
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['userAvatar', 'userName']))
@@ -3657,6 +3644,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      selectArticle: {},
       isModalActive: false,
       loading: false,
       checkedRows: [],
@@ -3766,11 +3754,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
-/* harmony import */ var _components_Articles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/Articles */ "./resources/js/components/Articles/index.js");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+/* harmony import */ var _components_Articles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Articles */ "./resources/js/components/Articles/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3854,6 +3849,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -3861,9 +3869,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['product'],
   components: {
-    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
-    TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ArticleForm: _components_Articles__WEBPACK_IMPORTED_MODULE_2__["ArticleForm"]
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__["default"],
+    TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ArticleForm: _components_Articles__WEBPACK_IMPORTED_MODULE_3__["ArticleForm"]
   },
   data: function data() {
     return {
@@ -3872,15 +3880,21 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    editProduct: function editProduct() {
+      this.isModalActive = true;
+    },
     deleteProducts: function deleteProducts() {//
     }
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    isAsideVisible: 'menu/isAsideVisible',
+    hasRole: 'user/hasRole'
+  })), {}, {
     titleStack: function titleStack() {
       var title = this._product && this._product.designation ? this._product.designation : '-';
       return [title];
     }
-  },
+  }),
   created: function created() {
     if (this.product && this.product.data) {
       this._product = this.product.data;
@@ -5061,7 +5075,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card/index.js");
 //
 //
 //
@@ -5150,6 +5166,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ArticleForm',
@@ -5161,11 +5183,35 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    CardComponent: _Card__WEBPACK_IMPORTED_MODULE_0__["CardComponent"]
+    CardComponent: _Card__WEBPACK_IMPORTED_MODULE_1__["CardComponent"]
   },
   data: function data() {
     return {
-      form: {
+      savingData: false,
+      unites: []
+    };
+  },
+  computed: {
+    editMode: function editMode() {
+      return this.article && this.article.id;
+    },
+    form: function form() {
+      if (this.article && this.article.id) {
+        return {
+          id: this.article.id,
+          designation: this.article.designation,
+          code: this.article.code,
+          ref_fabricant: this.article.ref_fabricant,
+          description: this.article.description,
+          stock_min: this.article.stock_min,
+          stock_max: this.article.stock_max,
+          unite_id: this.article.unite_id,
+          prix: this.article.prix,
+          quantite: this.article.quantite
+        };
+      }
+
+      return {
         id: null,
         designation: null,
         code: null,
@@ -5176,24 +5222,17 @@ __webpack_require__.r(__webpack_exports__);
         unite_id: null,
         prix: null,
         quantite: null
-      },
-      savingData: false,
-      unites: []
-    };
-  },
-  computed: {
-    editMode: function editMode() {
-      return this.article && this.article.id;
+      };
     }
   },
   methods: {
-    submit: function submit() {
+    addData: function addData() {
       var _this = this;
 
       this.savingData = true;
       this.$inertia.post('/articles', this.form).then(function () {
         if (_this.$page.flash.message != null) {
-          _this.resetForm();
+          _this.$emit('resetData');
 
           _this.$buefy.notification.open({
             message: 'Produit ajouté avec succès.',
@@ -5207,26 +5246,35 @@ __webpack_require__.r(__webpack_exports__);
         _this.savingData = false;
       });
     },
-    resetForm: function resetForm() {
-      this.form = {
-        designation: null,
-        code: null,
-        ref_fabricant: null,
-        description: null,
-        stock_min: null,
-        stock_max: null,
-        unite_id: null,
-        prix: null,
-        quantite: null
-      };
+    editData: function editData() {
+      var _this2 = this;
+
+      this.savingData = true;
+      this.$inertia.put('/articles/' + this.form.code, this.form).then(function () {
+        if (_this2.$page.flash.message != null) {
+          _this2.$emit('updatData');
+
+          _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__["Inertia"].visit(window.location.pathname);
+
+          _this2.$buefy.notification.open({
+            message: 'Produit modifié avec succès.',
+            type: 'is-success'
+          });
+        }
+      })["catch"](function (_ref2) {// this.$handleMessage(message, 'danger');
+
+        var message = _ref2.message;
+      })["finally"](function () {
+        _this2.savingData = false;
+      });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
-    axios.get('api/unites').then(function (_ref2) {
-      var data = _ref2.data;
-      _this2.unites = data;
+    axios.get('/api/unites').then(function (_ref3) {
+      var data = _ref3.data;
+      _this3.unites = data;
     });
   }
 });
@@ -45297,37 +45345,44 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "menu-label" }, [_vm._v("Administration")]),
+        _vm.hasRole("ADMIN")
+          ? _c("p", { staticClass: "menu-label" }, [_vm._v("Administration")])
+          : _vm._e(),
         _vm._v(" "),
-        _c("ul", { staticClass: "menu-list" }, [
-          _c(
-            "li",
-            { class: { "is-active": _vm.isDropdownActive } },
-            [
+        _vm.hasRole("ADMIN")
+          ? _c("ul", { staticClass: "menu-list" }, [
               _c(
-                "inertia-link",
-                {
-                  staticClass: "has-icon",
-                  attrs: { href: "/users", "exact-active-class": "is-active" }
-                },
+                "li",
+                { class: { "is-active": _vm.isDropdownActive } },
                 [
-                  _c("b-icon", {
-                    attrs: {
-                      icon: "account-multiple-outline",
-                      "custom-size": "default"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "menu-item-label" }, [
-                    _vm._v("Utilisateurs")
-                  ])
+                  _c(
+                    "inertia-link",
+                    {
+                      staticClass: "has-icon",
+                      attrs: {
+                        href: "/users",
+                        "exact-active-class": "is-active"
+                      }
+                    },
+                    [
+                      _c("b-icon", {
+                        attrs: {
+                          icon: "account-multiple-outline",
+                          "custom-size": "default"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "menu-item-label" }, [
+                        _vm._v("Utilisateurs")
+                      ])
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
-            1
-          )
-        ])
+            ])
+          : _vm._e()
       ])
     ],
     1
@@ -46704,7 +46759,11 @@ var render = function() {
         },
         [
           _c("article-form", {
+            attrs: { article: _vm.selectArticle },
             on: {
+              resetData: function($event) {
+                _vm.selectArticle = {}
+              },
               close: function($event) {
                 _vm.isModalActive = false
               }
@@ -46762,220 +46821,285 @@ var render = function() {
     [
       _vm._product && _vm._product.id
         ? _c("title-bar", { attrs: { "title-stack": _vm.titleStack } }, [
-            _c(
-              "div",
-              { staticClass: "buttons is-right" },
-              [
-                _c(
-                  "b-button",
-                  {
-                    staticClass: "is-info is-small",
-                    attrs: { "icon-left": "pencil" },
-                    on: {
-                      click: function($event) {
-                        _vm.isModalActive = true
-                      }
-                    }
-                  },
-                  [_vm._v("Modifier")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "b-button",
-                  {
-                    staticClass: "is-danger is-small",
-                    attrs: { "icon-left": "delete-outline" },
-                    on: { click: _vm.deleteProducts }
-                  },
-                  [_vm._v("Supprimer")]
+            _vm.hasRole("ADMIN")
+              ? _c(
+                  "div",
+                  { staticClass: "buttons is-right" },
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        staticClass: "is-info is-small",
+                        attrs: { "icon-left": "pencil" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editProduct()
+                          }
+                        }
+                      },
+                      [_vm._v("Modifier")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-button",
+                      {
+                        staticClass: "is-danger is-small",
+                        attrs: { "icon-left": "delete-outline" },
+                        on: { click: _vm.deleteProducts }
+                      },
+                      [_vm._v("Supprimer")]
+                    )
+                  ],
+                  1
                 )
-              ],
-              1
-            )
+              : _vm._e()
           ])
         : _vm._e(),
       _vm._v(" "),
       _c("section", { staticClass: "section is-main-section" }, [
         _vm._product && _vm._product.id
-          ? _c("div", [
-              _c("h6", { staticClass: "title is-6" }, [
-                _vm._v("Vue d'ensemble")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "columns" }, [
-                _c("div", { staticClass: "column is-8 vue-ensemble" }, [
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-3 le-label" }, [
-                      _vm._v("Référence")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column value" }, [
-                      _vm._v(_vm._s(_vm._product.code))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-3 le-label" }, [
-                      _vm._v("Référence fabriant")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column value" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm._product.ref_fabricant
-                            ? _vm._product.ref_fabricant
-                            : "-"
-                        )
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-3 le-label" }, [
-                      _vm._v("Unité")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column value" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm._product.unite ? _vm._product.unite.name : "-"
-                        )
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-3 le-label" }, [
-                      _vm._v("Quantité")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column value" }, [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(
-                            _vm._product.quantite
-                              ? _vm._product.quantite +
-                                  " pcs par " +
-                                  (_vm._product.unite
-                                    ? _vm._product.unite.name
-                                    : "-")
-                              : "-"
-                          ) +
-                          "\n                        "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-3 le-label" }, [
-                      _vm._v("Stock minimal")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column value" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm._product.stock_min ? _vm._product.stock_min : "-"
-                        )
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-3 le-label" }, [
-                      _vm._v("Stock maximal")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column value" }, [
-                      _vm._v(
-                        _vm._s(
-                          _vm._product.stock_max ? _vm._product.stock_max : "-"
-                        )
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-3 le-label" }, [
-                      _vm._v("Prix de vente")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "column value" }, [
-                      _vm._v(
-                        _vm._s(_vm._product.prix ? _vm._product.prix : "-") +
-                          " CFA"
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("h6", { staticClass: "title is-6" }, [
-                    _vm._v("Emplacements des stocks")
-                  ]),
-                  _vm._v("\n                    //\n\n                    "),
-                  _c("h6", { staticClass: "title is-6" }, [
-                    _vm._v("Opérations")
-                  ]),
-                  _vm._v("\n                    //\n\n                    "),
-                  _c("h6", { staticClass: "title is-6" }, [
-                    _vm._v("Documents")
-                  ]),
-                  _vm._v("\n                    //\n                ")
+          ? _c(
+              "div",
+              [
+                _c("h6", { staticClass: "title is-6" }, [
+                  _vm._v("Vue d'ensemble")
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "column" }, [
-                  _c("div", { staticClass: "columns" }, [
-                    _c(
-                      "div",
-                      { staticClass: "column" },
-                      [
-                        _c("b-image", {
-                          attrs: {
-                            src: "https://picsum.photos/600/400",
-                            alt: "A random image",
-                            ratio: "6by4"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column" }, [
-                      _c("strong", [_vm._v("Description : ")]),
-                      _vm._v(
-                        " " +
-                          _vm._s(
-                            _vm._product.description
-                              ? _vm._product.description
-                              : "-"
-                          ) +
-                          "\n                        "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "section",
-                    {
-                      staticClass: "section is-main-section",
-                      staticStyle: { "background-color": "#f3f3f3" }
-                    },
-                    [
-                      _c("strong", [_vm._v("Stock")]),
+                _c("div", { staticClass: "columns" }, [
+                  _c("div", { staticClass: "column is-8 vue-ensemble" }, [
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column is-3 le-label" }, [
+                        _vm._v("Référence")
+                      ]),
                       _vm._v(" "),
-                      _c("br"),
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm._product) +
-                          "\n                    "
+                      _c("div", { staticClass: "column value" }, [
+                        _vm._v(_vm._s(_vm._product.code))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column is-3 le-label" }, [
+                        _vm._v("Référence fabriant")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column value" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._product.ref_fabricant
+                              ? _vm._product.ref_fabricant
+                              : "-"
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column is-3 le-label" }, [
+                        _vm._v("Unité")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column value" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._product.unite ? _vm._product.unite.name : "-"
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column is-3 le-label" }, [
+                        _vm._v("Quantité")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column value" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(
+                              _vm._product.quantite
+                                ? _vm._product.quantite +
+                                    " pcs par " +
+                                    (_vm._product.unite
+                                      ? _vm._product.unite.name
+                                      : "-")
+                                : "-"
+                            ) +
+                            "\n                        "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column is-3 le-label" }, [
+                        _vm._v("Stock minimal")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column value" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._product.stock_min
+                              ? _vm._product.stock_min
+                              : "-"
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column is-3 le-label" }, [
+                        _vm._v("Stock maximal")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column value" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm._product.stock_max
+                              ? _vm._product.stock_max
+                              : "-"
+                          )
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column is-3 le-label" }, [
+                        _vm._v("Prix de vente")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "column value" }, [
+                        _vm._v(
+                          _vm._s(_vm._product.prix ? _vm._product.prix : "-") +
+                            " CFA"
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v("Emplacements des stocks")
+                    ]),
+                    _vm._v("\n                    //\n\n                    "),
+                    _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v("Opérations")
+                    ]),
+                    _vm._v("\n                    //\n\n                    "),
+                    _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v("Documents")
+                    ]),
+                    _vm._v("\n                    //\n                ")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "column" }, [
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c("b-image", {
+                            attrs: {
+                              src: "https://picsum.photos/600/400",
+                              alt: "A random image",
+                              ratio: "6by4"
+                            }
+                          })
+                        ],
+                        1
                       )
-                    ]
-                  )
-                ])
-              ])
-            ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c("div", { staticClass: "column" }, [
+                        _c("strong", [_vm._v("Description : ")]),
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              _vm._product.description
+                                ? _vm._product.description
+                                : "-"
+                            ) +
+                            " "
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("strong", [_vm._v("Crée le : ")]),
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              _vm._product.created_at
+                                ? _vm._product.created_at
+                                : "-"
+                            ) +
+                            " "
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("strong", [_vm._v("Dernière modification : ")]),
+                        _vm._v(
+                          " " +
+                            _vm._s(
+                              _vm._product.updated_at
+                                ? _vm._product.updated_at
+                                : "-"
+                            ) +
+                            " "
+                        ),
+                        _c("br")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "section",
+                      {
+                        staticClass: "section is-main-section",
+                        staticStyle: { "background-color": "#f3f3f3" }
+                      },
+                      [
+                        _c("strong", [_vm._v("Stock")]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm._product) +
+                            "\n                    "
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-modal",
+                  {
+                    attrs: {
+                      "trap-focus": "",
+                      "destroy-on-hide": false,
+                      "can-cancel": ["escape", "x"],
+                      width: 640
+                    },
+                    model: {
+                      value: _vm.isModalActive,
+                      callback: function($$v) {
+                        _vm.isModalActive = $$v
+                      },
+                      expression: "isModalActive"
+                    }
+                  },
+                  [
+                    _c("article-form", {
+                      attrs: { article: _vm._product },
+                      on: {
+                        close: function($event) {
+                          _vm.isModalActive = false
+                        }
+                      }
+                    })
+                  ],
+                  1
+                )
+              ],
+              1
+            )
           : _c("div", [_vm._v("Page introuvable !")])
       ])
     ],
@@ -48746,326 +48870,360 @@ var render = function() {
       }
     },
     [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.submit($event)
-            }
-          }
-        },
-        [
-          _c(
-            "b-field",
+      _vm.form
+        ? _c(
+            "form",
             {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Nom",
-                type: _vm.$page.errors.designation ? "is-danger" : "",
-                message: _vm.$page.errors.designation
-                  ? _vm.$page.errors.designation[0]
-                  : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  name: "designation",
-                  size: "is-small",
-                  required: "",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.designation,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "designation", $$v)
-                  },
-                  expression: "form.designation"
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  _vm.editMode ? _vm.editData() : _vm.addData()
                 }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Référence fabricant",
-                type: _vm.$page.errors.ref_fabricant ? "is-danger" : "",
-                message: _vm.$page.errors.ref_fabricant
-                  ? _vm.$page.errors.ref_fabricant[0]
-                  : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  name: "ref_fabricant",
-                  size: "is-small",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.ref_fabricant,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "ref_fabricant", $$v)
-                  },
-                  expression: "form.ref_fabricant"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Stock Minimum",
-                type: _vm.$page.errors.stock_min ? "is-danger" : "",
-                message: _vm.$page.errors.stock_min
-                  ? _vm.$page.errors.stock_min[0]
-                  : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  name: "stock_min",
-                  size: "is-small",
-                  required: "",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.stock_min,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "stock_min", $$v)
-                  },
-                  expression: "form.stock_min"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Stock Maximum",
-                type: _vm.$page.errors.stock_max ? "is-danger" : "",
-                message: _vm.$page.errors.stock_max
-                  ? _vm.$page.errors.stock_max[0]
-                  : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: { name: "stock_max", size: "is-small", expanded: "" },
-                model: {
-                  value: _vm.form.stock_max,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "stock_max", $$v)
-                  },
-                  expression: "form.stock_max"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Unité",
-                type: _vm.$page.errors.unite_id ? "is-danger" : "",
-                message: _vm.$page.errors.unite_id
-                  ? _vm.$page.errors.unite_id[0]
-                  : ""
               }
             },
             [
               _c(
-                "b-select",
+                "b-field",
                 {
+                  staticClass: "field-label is-small",
                   attrs: {
-                    name: "unite_id",
-                    size: "is-small",
-                    expanded: "",
-                    placeholder: "Unité",
-                    required: ""
-                  },
-                  model: {
-                    value: _vm.form.unite_id,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form, "unite_id", $$v)
-                    },
-                    expression: "form.unite_id"
+                    horizontal: "",
+                    label: "Nom",
+                    type: _vm.$page.errors.designation ? "is-danger" : "",
+                    message: _vm.$page.errors.designation
+                      ? _vm.$page.errors.designation[0]
+                      : ""
                   }
                 },
-                _vm._l(_vm.unites, function(unite) {
-                  return _c(
-                    "option",
-                    { key: unite.id, domProps: { value: unite.id } },
-                    [_vm._v(_vm._s(unite.name))]
-                  )
-                }),
-                0
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Quantité par unité",
-                type: _vm.$page.errors.quantite ? "is-danger" : "",
-                message: _vm.$page.errors.quantite
-                  ? _vm.$page.errors.quantite[0]
-                  : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  name: "quantite",
-                  size: "is-small",
-                  required: "",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.quantite,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "quantite", $$v)
-                  },
-                  expression: "form.quantite"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Prix de vente",
-                type: _vm.$page.errors.prix ? "is-danger" : "",
-                message: _vm.$page.errors.prix ? _vm.$page.errors.prix[0] : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  name: "prix",
-                  size: "is-small",
-                  required: "",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.prix,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "prix", $$v)
-                  },
-                  expression: "form.prix"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            {
-              staticClass: "field-label is-small",
-              attrs: {
-                horizontal: "",
-                label: "Description",
-                type: _vm.$page.errors.description ? "is-danger" : "",
-                message: _vm.$page.errors.description
-                  ? _vm.$page.errors.description[0]
-                  : ""
-              }
-            },
-            [
-              _c("b-input", {
-                attrs: {
-                  type: "textarea",
-                  name: "description",
-                  size: "is-small",
-                  expanded: ""
-                },
-                model: {
-                  value: _vm.form.description,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "description", $$v)
-                  },
-                  expression: "form.description"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            { staticClass: "field-label is-small", attrs: { horizontal: "" } },
-            [
+                [
+                  _c("b-input", {
+                    attrs: {
+                      name: "designation",
+                      size: "is-small",
+                      required: "",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.designation,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "designation", $$v)
+                      },
+                      expression: "form.designation"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
               _c(
-                "div",
-                { staticStyle: { "text-align": "right" } },
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Référence fabricant",
+                    type: _vm.$page.errors.ref_fabricant ? "is-danger" : "",
+                    message: _vm.$page.errors.ref_fabricant
+                      ? _vm.$page.errors.ref_fabricant[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("b-input", {
+                    attrs: {
+                      name: "ref_fabricant",
+                      size: "is-small",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.ref_fabricant,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "ref_fabricant", $$v)
+                      },
+                      expression: "form.ref_fabricant"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Stock Minimum",
+                    type: _vm.$page.errors.stock_min ? "is-danger" : "",
+                    message: _vm.$page.errors.stock_min
+                      ? _vm.$page.errors.stock_min[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("b-input", {
+                    attrs: {
+                      name: "stock_min",
+                      size: "is-small",
+                      required: "",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.stock_min,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "stock_min", $$v)
+                      },
+                      expression: "form.stock_min"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Stock Maximum",
+                    type: _vm.$page.errors.stock_max ? "is-danger" : "",
+                    message: _vm.$page.errors.stock_max
+                      ? _vm.$page.errors.stock_max[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("b-input", {
+                    attrs: {
+                      name: "stock_max",
+                      size: "is-small",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.stock_max,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "stock_max", $$v)
+                      },
+                      expression: "form.stock_max"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Unité",
+                    type: _vm.$page.errors.unite_id ? "is-danger" : "",
+                    message: _vm.$page.errors.unite_id
+                      ? _vm.$page.errors.unite_id[0]
+                      : ""
+                  }
+                },
                 [
                   _c(
-                    "b-button",
+                    "b-select",
                     {
                       attrs: {
+                        name: "unite_id",
                         size: "is-small",
-                        type: "is-info",
-                        "native-type": "submit",
-                        loading: _vm.savingData
+                        expanded: "",
+                        placeholder: "Unité",
+                        required: ""
+                      },
+                      model: {
+                        value: _vm.form.unite_id,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "unite_id", $$v)
+                        },
+                        expression: "form.unite_id"
                       }
                     },
-                    [_vm._v(_vm._s(_vm.editMode ? "Modifier" : "Ajouter"))]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "b-button",
-                    {
-                      attrs: { size: "is-small" },
-                      on: {
-                        click: function($event) {
-                          return _vm.$emit("close")
-                        }
-                      }
-                    },
-                    [_vm._v("Annuler")]
+                    _vm._l(_vm.unites, function(unite) {
+                      return _c(
+                        "option",
+                        { key: unite.id, domProps: { value: unite.id } },
+                        [_vm._v(_vm._s(unite.name))]
+                      )
+                    }),
+                    0
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    type: _vm.$page.errors.quantite ? "is-danger" : "",
+                    message: _vm.$page.errors.quantite
+                      ? _vm.$page.errors.quantite[0]
+                      : ""
+                  }
+                },
+                [
+                  _c(
+                    "template",
+                    { slot: "label" },
+                    [
+                      _vm._v("\n                Quantité\n                "),
+                      _c(
+                        "b-tooltip",
+                        {
+                          attrs: { type: "is-dark", label: "Ex: 1pcs/Carton" }
+                        },
+                        [
+                          _c("b-icon", {
+                            attrs: {
+                              size: "is-small",
+                              icon: "help-circle-outline"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("b-input", {
+                    attrs: {
+                      name: "quantite",
+                      size: "is-small",
+                      required: "",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.quantite,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "quantite", $$v)
+                      },
+                      expression: "form.quantite"
+                    }
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Prix de vente",
+                    type: _vm.$page.errors.prix ? "is-danger" : "",
+                    message: _vm.$page.errors.prix
+                      ? _vm.$page.errors.prix[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("b-input", {
+                    attrs: {
+                      name: "prix",
+                      size: "is-small",
+                      required: "",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.prix,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "prix", $$v)
+                      },
+                      expression: "form.prix"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Description",
+                    type: _vm.$page.errors.description ? "is-danger" : "",
+                    message: _vm.$page.errors.description
+                      ? _vm.$page.errors.description[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("b-input", {
+                    attrs: {
+                      type: "textarea",
+                      name: "description",
+                      size: "is-small",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.description,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "description", $$v)
+                      },
+                      expression: "form.description"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: { horizontal: "" }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticStyle: { "text-align": "right" } },
+                    [
+                      _c(
+                        "b-button",
+                        {
+                          attrs: {
+                            size: "is-small",
+                            type: "is-info",
+                            "native-type": "submit",
+                            loading: _vm.savingData
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.editMode ? "Modifier" : "Ajouter"))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-button",
+                        {
+                          attrs: { size: "is-small" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$emit("close")
+                            }
+                          }
+                        },
+                        [_vm._v("Annuler")]
+                      )
+                    ],
+                    1
+                  )
+                ]
               )
-            ]
+            ],
+            1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ]
   )
 }
@@ -66117,20 +66275,17 @@ var getters = {
   authUser: function authUser(state) {
     return state.user;
   },
-  myShop: function myShop(state) {
-    return state.user ? state.user.shop : null;
-  },
-  hasPermission: function hasPermission(state) {
-    return function (perm) {
+  hasRole: function hasRole(state) {
+    return function (role) {
       if (state.user) {
-        var _iterator = _createForOfIteratorHelper(state.user.permissions),
+        var _iterator = _createForOfIteratorHelper(state.user.roles),
             _step;
 
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var permission = _step.value;
+            var _role = _step.value;
 
-            if (permission == perm) {
+            if (_role.name == role) {
               return true;
             }
           }

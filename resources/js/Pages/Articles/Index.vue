@@ -71,7 +71,7 @@
             :can-cancel="['escape', 'x']"
             :width="640"
         >
-            <article-form @close="isModalActive = false"></article-form>
+            <article-form :article="selectArticle" @resetData="selectArticle = {}" @close="isModalActive = false"></article-form>
         </b-modal>
 
         <b-notification :closable="false">
@@ -95,6 +95,7 @@
         },
         data() {
             return {
+                selectArticle: {},
                 isModalActive: false,
                 loading: false,
                 checkedRows: [],

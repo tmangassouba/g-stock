@@ -44,13 +44,21 @@ class ProductController extends Controller
         ])->withViewData(['pageTitle' => $code]);
     }
 
-    // public function update(ArticleRequest $request)
-    // {
-    //     if ($request->has('id')) {
-    //         Contact::find($request->input('id'))->update($request->all());
-    //         return redirect()->back();
-    //     }
-    // }
+    public function update(ArticleRequest $request, Product $product)
+    {
+        $product->update([
+            'designation'   => $request['designation'],
+            'ref_fabricant' => $request['ref_fabricant'],
+            'description'   => $request['description'],
+            'stock_min'     => $request['stock_min'],
+            'stock_max'     => $request['stock_max'],
+            'unite_id'      => $request['unite_id'],
+            'prix'          => $request['prix'],
+            'quantite'      => $request['quantite'],
+        ]);
+
+        return redirect()->back()->with('message', 'Produit modifié avec succès.');
+    }
 
     // public function destroy(Request $request)
     // {

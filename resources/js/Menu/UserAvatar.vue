@@ -23,21 +23,7 @@
         },
         computed: {
             newUserAvatar () {
-            if (this.avatar) {
-                return this.avatar
-            }
-
-            if (this.userAvatar) {
-                return this.userAvatar
-            }
-
-            let name = 'somename'
-
-            if (this.userName) {
-                name = this.userName.replace(/[^a-z0-9]+/i, '')
-            }
-
-            return `https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy`
+                return `https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy`
             },
             ...mapState(['userAvatar', 'userName'])
         }

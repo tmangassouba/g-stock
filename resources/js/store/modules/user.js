@@ -29,13 +29,10 @@ const getters = {
     authUser: (state) => {
         return state.user
     },
-    myShop: (state) => {
-        return state.user ? state.user.shop : null
-    },
-    hasPermission: (state) => (perm) => {
+    hasRole: (state) => (role) => {
         if (state.user) {
-            for (const permission of state.user.permissions) {
-                if (permission == perm) {
+            for (const _role of state.user.roles) {
+                if (_role.name == role) {
                     return true
                 }
             }

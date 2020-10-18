@@ -1,8 +1,8 @@
 <template>
     <app-layout>
         <title-bar :title-stack="titleStack" v-if="_product && _product.id">
-            <div class="buttons is-right">
-                <b-button class="is-info is-small" icon-left="pencil" @click="isModalActive = true">Modifier</b-button>
+            <div class="buttons is-right" v-if="hasRole('ADMIN')">
+                <b-button class="is-info is-small" icon-left="pencil" @click="editProduct()">Modifier</b-button>
                 <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteProducts">Supprimer</b-button>
             </div>
         </title-bar>
@@ -64,7 +64,9 @@
 
                         <div class="columns">
                             <div class="column">
-                                <strong>Description : </strong> {{ _product.description ? _product.description : '-' }}
+                                <strong>Description : </strong> {{ _product.description ? _product.description : '-' }} <br>
+                                <strong>Crée le : </strong> {{ _product.created_at ? _product.created_at : '-' }} <br>
+                                <strong>Dernière modification : </strong> {{ _product.updated_at ? _product.updated_at : '-' }} <br>
                             </div>
                         </div>
 
@@ -74,6 +76,16 @@
                         </section>
                     </div>
                 </div>
+
+                <b-modal 
+                    v-model="isModalActive"
+                    trap-focus
+                    :destroy-on-hide="false"
+                    :can-cancel="['escape', 'x']"
+                    :width="640"
+                >
+                    <article-form :article="_product" @close="isModalActive = false"></article-form>
+                </b-modal>
             </div>
 
             <div v-else>Page introuvable !</div>
@@ -82,6 +94,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
     import { ArticleForm } from "../../components/Articles"
@@ -104,12 +117,19 @@
         },
 
         methods: {
+            editProduct() {
+                this.isModalActive = true
+            },
             deleteProducts() {
                 //
             }
         },
 
         computed: {
+            ...mapGetters({
+                isAsideVisible: 'menu/isAsideVisible',
+                hasRole: 'user/hasRole'
+            }),
             titleStack () {
                 let title = (this._product && this._product.designation) ? this._product.designation : '-'
                 return [ title ]

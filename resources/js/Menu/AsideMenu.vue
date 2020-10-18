@@ -61,8 +61,8 @@
             </ul>
 
             <!-- Administration -->
-            <p class="menu-label">Administration</p>
-            <ul class="menu-list">
+            <p class="menu-label" v-if="hasRole('ADMIN')">Administration</p>
+            <ul class="menu-list" v-if="hasRole('ADMIN')">
                 <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/users" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="account-multiple-outline" custom-size="default" />
@@ -89,7 +89,10 @@
             }
         },
         computed: {
-            ...mapGetters({isAsideVisible: 'menu/isAsideVisible'}),
+            ...mapGetters({
+                isAsideVisible: 'menu/isAsideVisible',
+                hasRole: 'user/hasRole'
+            }),
         },
         methods: {
             menuClick (item) {

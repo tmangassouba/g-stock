@@ -1,6 +1,6 @@
 <template>
     <card-component :title=" editMode ? 'Modifier article' : 'Ajouter article' "  @close="$emit('close')">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="editMode ? editData() : addData()" v-if="form">
             <b-field
                 horizontal 
                 label="Nom"
@@ -50,11 +50,16 @@
             </b-field>
 
             <b-field 
-                horizontal 
-                label="Quantité par unité" 
+                horizontal
                 class="field-label is-small"
                 :type="$page.errors.quantite ? 'is-danger' : ''"
                 :message="$page.errors.quantite ? $page.errors.quantite[0] : ''">
+                <template slot="label">
+                    Quantité
+                    <b-tooltip type="is-dark" label="Ex: 1pcs/Carton">
+                        <b-icon size="is-small" icon="help-circle-outline"></b-icon>
+                    </b-tooltip>
+                </template>
                 <b-input name="quantite" v-model="form.quantite" size="is-small" required expanded></b-input>
             </b-field>
 
@@ -87,6 +92,7 @@
 </template>
 
 <script>
+    import { Inertia } from '@inertiajs/inertia'
     import { CardComponent } from "../Card";
 
     export default {
@@ -101,18 +107,6 @@
         components: { CardComponent },
         data() {
             return {
-                form: {
-                    id: null,
-                    designation: null,
-                    code: null,
-                    ref_fabricant: null,
-                    description: null,
-                    stock_min: null,
-                    stock_max: null,
-                    unite_id: null,
-                    prix: null,
-                    quantite: null
-                },
                 savingData: false,
                 unites: []
             }
@@ -120,29 +114,24 @@
         computed: {
             editMode: function() {
                 return this.article && this.article.id
-            }
-        },
-        methods: {
-            submit() {
-                this.savingData = true
-                this.$inertia.post('/articles', this.form)
-                .then(() => {
-                    if (this.$page.flash.message != null ) {
-                        this.resetForm()
-                        this.$buefy.notification.open({
-                            message: 'Produit ajouté avec succès.',
-                            type: 'is-success'
-                        })
-                    }
-                })
-                .catch(({message}) => {
-                    // this.$handleMessage(message, 'danger');
-                }).finally(() => {
-                    this.savingData = false
-                })
             },
-            resetForm() {
-                this.form = {
+            form: function() {
+                if (this.article && this.article.id) {
+                    return {
+                        id: this.article.id,
+                        designation: this.article.designation,
+                        code: this.article.code,
+                        ref_fabricant: this.article.ref_fabricant,
+                        description: this.article.description,
+                        stock_min: this.article.stock_min,
+                        stock_max: this.article.stock_max,
+                        unite_id: this.article.unite_id,
+                        prix: this.article.prix,
+                        quantite: this.article.quantite
+                    }
+                }
+                return {
+                    id: null,
                     designation: null,
                     code: null,
                     ref_fabricant: null,
@@ -155,8 +144,47 @@
                 }
             }
         },
+        methods: {
+            addData() {
+                this.savingData = true
+                this.$inertia.post('/articles', this.form)
+                .then(() => {
+                    if (this.$page.flash.message != null ) {
+                        this.$emit('resetData')
+                        this.$buefy.notification.open({
+                            message: 'Produit ajouté avec succès.',
+                            type: 'is-success'
+                        })
+                    }
+                })
+                .catch(({message}) => {
+                    // this.$handleMessage(message, 'danger');
+                }).finally(() => {
+                    this.savingData = false
+                })
+            },
+            editData() {
+                this.savingData = true
+                this.$inertia.put('/articles/' + this.form.code, this.form)
+                .then(() => {
+                    if (this.$page.flash.message != null ) {
+                        this.$emit('updatData')
+                        Inertia.visit(window.location.pathname)
+                        this.$buefy.notification.open({
+                            message: 'Produit modifié avec succès.',
+                            type: 'is-success'
+                        })
+                    }
+                })
+                .catch(({message}) => {
+                    // this.$handleMessage(message, 'danger');
+                }).finally(() => {
+                    this.savingData = false
+                })
+            }
+        },
         created() {
-            axios.get('api/unites')
+            axios.get('/api/unites')
             .then(({data}) => {
                 this.unites = data
             });
