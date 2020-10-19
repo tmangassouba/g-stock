@@ -71,28 +71,27 @@
                                 </b-modal>
                             </div>
                             <div class="column is-3" v-if="hasRole('ADMIN')">
-                                <!-- <form @submit.prevent="editMode ? editData() : addData()" v-if="form"> -->
-                                    <b-field>
-                                        <b-upload v-model="file" drag-drop expanded :loading="changingImage" @input="changeImage">
-                                            <!-- <section class="section"> -->
-                                                <div class="content has-text-centered">
-                                                    <p>
-                                                        <b-icon icon="camera-outline"></b-icon>
-                                                    </p>
-                                                    <!-- <p>Drop your files here or click to upload</p> -->
-                                                </div>
-                                            <!-- </section> -->
-                                        </b-upload>
-                                    </b-field>
-                                    <b-button
-                                        type="is-danger is-light"
-                                        icon-right="delete"
-                                        size="is-small"
-                                        expanded
-                                        outlined
-                                        v-if="_product.image">
-                                    </b-button>
-                                <!-- </form> -->
+                                <b-field
+                                    :message="$page.errors.photo ? $page.errors.photo[0] : ''"
+                                    :type="{ 'is-danger' : $page.errors.photo }">
+                                    <b-upload v-model="file" drag-drop expanded :loading="changingImage" @input="changeImage">
+                                        <div class="content has-text-centered">
+                                            <p>
+                                                <b-icon icon="camera-outline"></b-icon>
+                                            </p>
+                                        </div>
+                                    </b-upload>
+                                </b-field>
+                                <b-button
+                                    v-if="_product.image"
+                                    type="is-danger is-light"
+                                    icon-right="delete"
+                                    size="is-small"
+                                    expanded
+                                    outlined
+                                    :loading="deletingImage"
+                                    @click="deleteImage">
+                                </b-button>
                             </div>
                         </div>
 
@@ -153,6 +152,7 @@
                 isImageModalActive: false,
                 isDeleting: false,
                 changingImage: false,
+                deletingImage: false,
                 _product: {},
                 file: null
             }
@@ -176,7 +176,7 @@
                         this.$inertia.delete('/articles/delete/' + this._product.code)
                         .then(() => {
                             if (this.$page.flash.message != null ) {
-                                this.resetForm()
+                                // this.resetForm()
                                 this.$buefy.notification.open({
                                     message: 'Article supprimé avec succès.',
                                     type: 'is-success'
@@ -198,7 +198,22 @@
                 this.changingImage = true
                 Inertia.post('/articles/' + this._product.code + '/change-image', data)
                 .then(() => {
-                    this.$inertia.visit('/articles/' + this._product.code)
+                    if (this.$page.flash.message != null ) {
+                        this.$inertia.visit('/articles/' + this._product.code)
+                    }
+                }).finally(() => {
+                    this.changingImage = false
+                })
+            },
+            deleteImage() {
+                this.deletingImage = true
+                this.$inertia.delete('/articles/' + this._product.code + '/delete-image')
+                .then(() => {
+                    if (this.$page.flash.message != null ) {
+                        this.$inertia.visit('/articles/' + this._product.code)
+                    }
+                }).finally(() => {
+                    this.deletingImage = false
                 })
             }
         },

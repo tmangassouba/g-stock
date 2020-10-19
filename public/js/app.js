@@ -3892,7 +3892,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -3911,6 +3910,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isImageModalActive: false,
       isDeleting: false,
       changingImage: false,
+      deletingImage: false,
       _product: {},
       file: null
     };
@@ -3935,8 +3935,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           _this.$inertia["delete"]('/articles/delete/' + _this._product.code).then(function () {
             if (_this.$page.flash.message != null) {
-              _this.resetForm();
-
+              // this.resetForm()
               _this.$buefy.notification.open({
                 message: 'Article supprimé avec succès.',
                 type: 'is-success'
@@ -3959,7 +3958,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       data.append('photo', file || '');
       this.changingImage = true;
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].post('/articles/' + this._product.code + '/change-image', data).then(function () {
-        _this2.$inertia.visit('/articles/' + _this2._product.code);
+        if (_this2.$page.flash.message != null) {
+          _this2.$inertia.visit('/articles/' + _this2._product.code);
+        }
+      })["finally"](function () {
+        _this2.changingImage = false;
+      });
+    },
+    deleteImage: function deleteImage() {
+      var _this3 = this;
+
+      this.deletingImage = true;
+      this.$inertia["delete"]('/articles/' + this._product.code + '/delete-image').then(function () {
+        if (_this3.$page.flash.message != null) {
+          _this3.$inertia.visit('/articles/' + _this3._product.code);
+        }
+      })["finally"](function () {
+        _this3.deletingImage = false;
       });
     }
   },
@@ -47141,6 +47156,16 @@ var render = function() {
                               [
                                 _c(
                                   "b-field",
+                                  {
+                                    attrs: {
+                                      message: _vm.$page.errors.photo
+                                        ? _vm.$page.errors.photo[0]
+                                        : "",
+                                      type: {
+                                        "is-danger": _vm.$page.errors.photo
+                                      }
+                                    }
+                                  },
                                   [
                                     _c(
                                       "b-upload",
@@ -47193,8 +47218,10 @@ var render = function() {
                                         "icon-right": "delete",
                                         size: "is-small",
                                         expanded: "",
-                                        outlined: ""
-                                      }
+                                        outlined: "",
+                                        loading: _vm.deletingImage
+                                      },
+                                      on: { click: _vm.deleteImage }
                                     })
                                   : _vm._e()
                               ],

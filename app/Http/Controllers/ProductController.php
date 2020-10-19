@@ -108,4 +108,15 @@ class ProductController extends Controller
 
         return redirect()->back()->with('message', 'Modifié avec succès.');
     }
+
+    public function deleteImage(Product $product)
+    {
+        if ($product->image) {
+            Storage::delete('public/products/'.$product->image);
+        }
+        $product->image = '';
+        $product->save();
+
+        return redirect()->back()->with('message', 'Modifié avec succès.');
+    }
 }
