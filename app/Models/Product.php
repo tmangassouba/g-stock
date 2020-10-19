@@ -18,6 +18,7 @@ class Product extends Model
         'stock_max',
         'unite_id',
         'prix',
+        'image',
         'quantite'
     ];
 

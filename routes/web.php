@@ -38,6 +38,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/delete-products', [ProductController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
         Route::delete('/delete/{product}', [ProductController::class, 'destroy'])->name('delete.product')->middleware('can:admin');
         Route::get('/{product}', [ProductController::class, 'view'])->name('view');
+        Route::post('/{product}/change-image', [ProductController::class, 'changeImage'])->name('changeImage');
     });
 
     Route::name('users.')->prefix('users')->group(function () {

@@ -3175,12 +3175,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -3201,11 +3195,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // userName: ''
     };
   },
-  computed: _objectSpread({
-    newUserAvatar: function newUserAvatar() {
-      return "https://avatars.dicebear.com/v2/human/".concat(name, ".svg?options[mood][]=happy");
-    }
-  }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['userAvatar', 'userName']))
+  computed: {// newUserAvatar () {
+    //     return `https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy`
+    // },
+    // ...mapState(['userAvatar', 'userName'])
+  }
 });
 
 /***/ }),
@@ -3861,6 +3855,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3876,6 +3908,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       isModalActive: false,
+      isImageModalActive: false,
+      isDeleting: false,
+      changingImage: false,
       _product: {},
       file: null
     };
@@ -3914,6 +3949,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this.isDeleting = false;
           });
         }
+      });
+    },
+    changeImage: function changeImage(file) {
+      var _this2 = this;
+
+      // console.log(file)
+      var data = new FormData();
+      data.append('photo', file || '');
+      this.changingImage = true;
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].post('/articles/' + this._product.code + '/change-image', data).then(function () {
+        _this2.$inertia.visit('/articles/' + _this2._product.code);
       });
     }
   },
@@ -45629,7 +45675,11 @@ var render = function() {
                 "nav-bar-menu",
                 { staticClass: "has-divider has-user-avatar" },
                 [
-                  _c("user-avatar"),
+                  _vm.authUser
+                    ? _c("user-avatar", {
+                        attrs: { avatar: _vm.authUser.avatar }
+                      })
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("div", { staticClass: "is-user-name" }, [
                     _c("span", [
@@ -45881,7 +45931,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "is-user-avatar" }, [
-    _c("img", { attrs: { src: _vm.newUserAvatar, alt: _vm.userName } })
+    _c("img", { attrs: { src: _vm.avatar, alt: "" } })
   ])
 }
 var staticRenderFns = []
@@ -46806,7 +46856,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "b-notification",
-        { attrs: { closable: false } },
+        { staticClass: "loading-notification", attrs: { closable: false } },
         [
           _c("b-loading", {
             attrs: { "is-full-page": _vm.isFullPage, "can-cancel": false },
@@ -46887,252 +46937,386 @@ var render = function() {
           ])
         : _vm._e(),
       _vm._v(" "),
-      _c("section", { staticClass: "section is-main-section" }, [
-        _vm._product && _vm._product.id
-          ? _c(
-              "div",
-              [
-                _c("div", { staticClass: "columns" }, [
-                  _c("div", { staticClass: "column is-8 vue-ensemble" }, [
-                    _c("h6", { staticClass: "title is-6" }, [
-                      _vm._v("Vue d'ensemble")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column is-3 le-label" }, [
-                        _vm._v("Référence")
+      _c(
+        "section",
+        { staticClass: "section is-main-section" },
+        [
+          _vm._product && _vm._product.id
+            ? _c(
+                "div",
+                [
+                  _c("div", { staticClass: "columns" }, [
+                    _c("div", { staticClass: "column is-8 vue-ensemble" }, [
+                      _c("h6", { staticClass: "title is-6" }, [
+                        _vm._v("Vue d'ensemble")
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "column value" }, [
-                        _vm._v(_vm._s(_vm._product.code))
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column is-3 le-label" }, [
-                        _vm._v("Référence fabriant")
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-3 le-label" }, [
+                          _vm._v("Référence")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column value" }, [
+                          _vm._v(_vm._s(_vm._product.code))
+                        ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "column value" }, [
-                        _vm._v(
-                          _vm._s(
-                            _vm._product.ref_fabricant
-                              ? _vm._product.ref_fabricant
-                              : "-"
-                          )
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column is-3 le-label" }, [
-                        _vm._v("Unité")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "column value" }, [
-                        _vm._v(
-                          _vm._s(
-                            _vm._product.unite ? _vm._product.unite.name : "-"
-                          )
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column is-3 le-label" }, [
-                        _vm._v("Quantité")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "column value" }, [
-                        _vm._v(
-                          "\n                            " +
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-3 le-label" }, [
+                          _vm._v("Référence fabriant")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column value" }, [
+                          _vm._v(
                             _vm._s(
-                              _vm._product.quantite
-                                ? _vm._product.quantite +
-                                    " pcs par " +
-                                    (_vm._product.unite
-                                      ? _vm._product.unite.name
-                                      : "-")
+                              _vm._product.ref_fabricant
+                                ? _vm._product.ref_fabricant
                                 : "-"
-                            ) +
-                            "\n                        "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column is-3 le-label" }, [
-                        _vm._v("Stock minimal")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "column value" }, [
-                        _vm._v(
-                          _vm._s(
-                            _vm._product.stock_min
-                              ? _vm._product.stock_min
-                              : "-"
+                            )
                           )
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column is-3 le-label" }, [
-                        _vm._v("Stock maximal")
+                        ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "column value" }, [
-                        _vm._v(
-                          _vm._s(
-                            _vm._product.stock_max
-                              ? _vm._product.stock_max
-                              : "-"
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-3 le-label" }, [
+                          _vm._v("Unité")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column value" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm._product.unite ? _vm._product.unite.name : "-"
+                            )
                           )
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column is-3 le-label" }, [
-                        _vm._v("Prix de vente")
+                        ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "column value" }, [
-                        _vm._v(
-                          _vm._s(_vm._product.prix ? _vm._product.prix : "-") +
-                            " CFA"
-                        )
-                      ])
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-3 le-label" }, [
+                          _vm._v("Quantité")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column value" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(
+                                _vm._product.quantite
+                                  ? _vm._product.quantite +
+                                      " pcs par " +
+                                      (_vm._product.unite
+                                        ? _vm._product.unite.name
+                                        : "-")
+                                  : "-"
+                              ) +
+                              "\n                        "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-3 le-label" }, [
+                          _vm._v("Stock minimal")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column value" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm._product.stock_min
+                                ? _vm._product.stock_min
+                                : "-"
+                            )
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-3 le-label" }, [
+                          _vm._v("Stock maximal")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column value" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm._product.stock_max
+                                ? _vm._product.stock_max
+                                : "-"
+                            )
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-3 le-label" }, [
+                          _vm._v("Prix de vente")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "column value" }, [
+                          _vm._v(
+                            _vm._s(
+                              _vm._product.prix ? _vm._product.prix : "-"
+                            ) + " CFA"
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("h6", { staticClass: "title is-6" }, [
+                        _vm._v("Emplacements des stocks")
+                      ]),
+                      _vm._v(
+                        "\n                    //\n\n                    "
+                      ),
+                      _c("h6", { staticClass: "title is-6" }, [
+                        _vm._v("Opérations")
+                      ]),
+                      _vm._v(
+                        "\n                    //\n\n                    "
+                      ),
+                      _c("h6", { staticClass: "title is-6" }, [
+                        _vm._v("Documents")
+                      ]),
+                      _vm._v("\n                    //\n                ")
                     ]),
                     _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("h6", { staticClass: "title is-6" }, [
-                      _vm._v("Emplacements des stocks")
-                    ]),
-                    _vm._v("\n                    //\n\n                    "),
-                    _c("h6", { staticClass: "title is-6" }, [
-                      _vm._v("Opérations")
-                    ]),
-                    _vm._v("\n                    //\n\n                    "),
-                    _c("h6", { staticClass: "title is-6" }, [
-                      _vm._v("Documents")
-                    ]),
-                    _vm._v("\n                    //\n                ")
+                    _c("div", { staticClass: "column" }, [
+                      _c("div", { staticClass: "columns" }, [
+                        _c(
+                          "div",
+                          { staticClass: "column" },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticStyle: {
+                                  cursor: "pointer",
+                                  border: "1px solid #d6d6d6"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.isImageModalActive = true
+                                  }
+                                }
+                              },
+                              [
+                                _c("b-image", {
+                                  attrs: {
+                                    src: _vm._product.image_url,
+                                    alt: _vm._product.designation,
+                                    ratio: "6by4"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-modal",
+                              {
+                                attrs: { width: 600 },
+                                model: {
+                                  value: _vm.isImageModalActive,
+                                  callback: function($$v) {
+                                    _vm.isImageModalActive = $$v
+                                  },
+                                  expression: "isImageModalActive"
+                                }
+                              },
+                              [
+                                _c("p", { staticClass: "image" }, [
+                                  _c("img", {
+                                    attrs: { src: _vm._product.image_url }
+                                  })
+                                ])
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _vm.hasRole("ADMIN")
+                          ? _c(
+                              "div",
+                              { staticClass: "column is-3" },
+                              [
+                                _c(
+                                  "b-field",
+                                  [
+                                    _c(
+                                      "b-upload",
+                                      {
+                                        attrs: {
+                                          "drag-drop": "",
+                                          expanded: "",
+                                          loading: _vm.changingImage
+                                        },
+                                        on: { input: _vm.changeImage },
+                                        model: {
+                                          value: _vm.file,
+                                          callback: function($$v) {
+                                            _vm.file = $$v
+                                          },
+                                          expression: "file"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "content has-text-centered"
+                                          },
+                                          [
+                                            _c(
+                                              "p",
+                                              [
+                                                _c("b-icon", {
+                                                  attrs: {
+                                                    icon: "camera-outline"
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _vm._product.image
+                                  ? _c("b-button", {
+                                      attrs: {
+                                        type: "is-danger is-light",
+                                        "icon-right": "delete",
+                                        size: "is-small",
+                                        expanded: "",
+                                        outlined: ""
+                                      }
+                                    })
+                                  : _vm._e()
+                              ],
+                              1
+                            )
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column" }, [
+                          _c("strong", [_vm._v("Description : ")]),
+                          _vm._v(
+                            " " +
+                              _vm._s(
+                                _vm._product.description
+                                  ? _vm._product.description
+                                  : "-"
+                              ) +
+                              " "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("strong", [_vm._v("Crée le : ")]),
+                          _vm._v(
+                            " " +
+                              _vm._s(
+                                _vm._product.created_at
+                                  ? _vm._product.created_at
+                                  : "-"
+                              ) +
+                              " "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("strong", [_vm._v("Dernière modification : ")]),
+                          _vm._v(
+                            " " +
+                              _vm._s(
+                                _vm._product.updated_at
+                                  ? _vm._product.updated_at
+                                  : "-"
+                              ) +
+                              " "
+                          ),
+                          _c("br")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "section",
+                        {
+                          staticClass: "section is-main-section",
+                          staticStyle: { "background-color": "#f3f3f3" }
+                        },
+                        [
+                          _c("strong", [_vm._v("Stock")]),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm._product) +
+                              "\n                    "
+                          )
+                        ]
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "column" }, [
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c("b-image", {
-                            attrs: {
-                              src: "https://picsum.photos/600/400",
-                              alt: "A random image",
-                              ratio: "6by4"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c("div", { staticClass: "column" }, [
-                        _c("strong", [_vm._v("Description : ")]),
-                        _vm._v(
-                          " " +
-                            _vm._s(
-                              _vm._product.description
-                                ? _vm._product.description
-                                : "-"
-                            ) +
-                            " "
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("strong", [_vm._v("Crée le : ")]),
-                        _vm._v(
-                          " " +
-                            _vm._s(
-                              _vm._product.created_at
-                                ? _vm._product.created_at
-                                : "-"
-                            ) +
-                            " "
-                        ),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("strong", [_vm._v("Dernière modification : ")]),
-                        _vm._v(
-                          " " +
-                            _vm._s(
-                              _vm._product.updated_at
-                                ? _vm._product.updated_at
-                                : "-"
-                            ) +
-                            " "
-                        ),
-                        _c("br")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "section",
-                      {
-                        staticClass: "section is-main-section",
-                        staticStyle: { "background-color": "#f3f3f3" }
+                  _c(
+                    "b-modal",
+                    {
+                      attrs: {
+                        "trap-focus": "",
+                        "destroy-on-hide": false,
+                        "can-cancel": ["escape", "x"],
+                        width: 640
                       },
-                      [
-                        _c("strong", [_vm._v("Stock")]),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm._product) +
-                            "\n                    "
-                        )
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-modal",
-                  {
-                    attrs: {
-                      "trap-focus": "",
-                      "destroy-on-hide": false,
-                      "can-cancel": ["escape", "x"],
-                      width: 640
-                    },
-                    model: {
-                      value: _vm.isModalActive,
-                      callback: function($$v) {
-                        _vm.isModalActive = $$v
-                      },
-                      expression: "isModalActive"
-                    }
-                  },
-                  [
-                    _c("article-form", {
-                      attrs: { article: _vm._product },
-                      on: {
-                        close: function($event) {
-                          _vm.isModalActive = false
-                        }
+                      model: {
+                        value: _vm.isModalActive,
+                        callback: function($$v) {
+                          _vm.isModalActive = $$v
+                        },
+                        expression: "isModalActive"
                       }
-                    })
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          : _c("div", [_vm._v("Page introuvable !")])
-      ])
+                    },
+                    [
+                      _c("article-form", {
+                        attrs: { article: _vm._product },
+                        on: {
+                          close: function($event) {
+                            _vm.isModalActive = false
+                          }
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _c("div", [_vm._v("Page introuvable !")]),
+          _vm._v(" "),
+          _c(
+            "b-notification",
+            { staticClass: "loading-notification", attrs: { closable: false } },
+            [
+              _c("b-loading", {
+                attrs: { "is-full-page": true, "can-cancel": false },
+                model: {
+                  value: _vm.isDeleting,
+                  callback: function($$v) {
+                    _vm.isDeleting = $$v
+                  },
+                  expression: "isDeleting"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )

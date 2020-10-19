@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends JsonResource
 {
@@ -26,6 +27,8 @@ class ProductResource extends JsonResource
             'unite'         => $this->unite,
             'prix'          => $this->prix,
             'quantite'      => $this->quantite,
+            'image'         => $this->image,
+            'image_url'     => $this->image ? Storage::url('products/'.$this->image) : Storage::url('products/default.png'),
             'stock'         => 0,
             'created_at'    => $this->created_at ? $this->created_at->format('d/m/Y H:m') : null,
             'updated_at'    => $this->updated_at ? $this->updated_at->format('d/m/Y H:m') : null,

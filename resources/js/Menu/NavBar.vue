@@ -25,7 +25,7 @@
         <div class="navbar-menu fadeIn animated faster" :class="{ 'is-active': isMenuNavBarActive }" >
             <div class="navbar-end">
                 <nav-bar-menu class="has-divider has-user-avatar">
-                    <user-avatar />
+                    <user-avatar :avatar="authUser.avatar" v-if="authUser" />
                     <div class="is-user-name">
                         <span>{{ authUser ? authUser.first_name : 'User' }}</span>
                     </div>

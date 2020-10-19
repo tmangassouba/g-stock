@@ -7,6 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -65,7 +66,7 @@ class ProductController extends Controller
     {
         if ($product->delete()) {
             if ($product->image) {
-                Storage::delete('imgs/products/'.$product->image);
+                Storage::delete('public/products/'.$product->image);
             }
             return redirect('/articles');
         }
@@ -79,12 +80,32 @@ class ProductController extends Controller
             // $products[] = $product['id'];
             $product = Product::find($product['id']);
             if ($product && $product->delete()) {
-                // if ($product->image) {
-                //     \File::delete('imgs/products/'.$product->image);
-                // }
+                if ($product->image) {
+                    Storage::delete('public/products/'.$product->image);
+                }
             }
         }
         // Product::destroy($products);
         return redirect()->back()->with('message', 'Produits suprimés avec succès.');
+    }
+
+    public function changeImage(Request $request, Product $product)
+    {
+        $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = $product->code.'-'.time().'.'.$request->photo->extension();
+        // $request->photo->move(public_path('products'), $imageName);
+        Storage::putFileAs('public/products', $request->file('photo'), $imageName);
+
+        $oldeName = $product->image;
+        $product->image = $imageName;
+        $product->save();
+        if ($oldeName) {
+            Storage::delete('public/products/'.$oldeName);
+        }
+
+        return redirect()->back()->with('message', 'Modifié avec succès.');
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="is-user-avatar">
-        <img :src="newUserAvatar" :alt="userName" />
+        <img :src="avatar" alt="" />
     </div>
 </template>
 
@@ -22,10 +22,10 @@
             }
         },
         computed: {
-            newUserAvatar () {
-                return `https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy`
-            },
-            ...mapState(['userAvatar', 'userName'])
+            // newUserAvatar () {
+            //     return `https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy`
+            // },
+            // ...mapState(['userAvatar', 'userName'])
         }
     }
 </script>

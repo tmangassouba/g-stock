@@ -74,7 +74,7 @@
             <article-form :article="selectArticle" @resetData="selectArticle = {}" @close="isModalActive = false"></article-form>
         </b-modal>
 
-        <b-notification :closable="false">
+        <b-notification :closable="false" class="loading-notification">
             <b-loading :is-full-page="isFullPage" v-model="isDeleting" :can-cancel="false"></b-loading>
         </b-notification>
     </app-layout>
