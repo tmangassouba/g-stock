@@ -3,16 +3,16 @@
         <title-bar :title-stack="titleStack" v-if="_product && _product.id">
             <div class="buttons is-right" v-if="hasRole('ADMIN')">
                 <b-button class="is-info is-small" icon-left="pencil" @click="editProduct()">Modifier</b-button>
-                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteProducts">Supprimer</b-button>
+                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteProduct">Supprimer</b-button>
             </div>
         </title-bar>
 
         <section class="section is-main-section">
             <div v-if="_product && _product.id">
-                <h6 class="title is-6">Vue d'ensemble</h6>
-
                 <div class="columns">
                     <div class="column is-8 vue-ensemble">
+                        <h6 class="title is-6">Vue d'ensemble</h6>
+
                         <div class="columns">
                             <div class="column is-3 le-label">Référence</div>
                             <div class="column value">{{ _product.code }}</div>
@@ -113,6 +113,7 @@
             return {
                 isModalActive: false,
                 _product: {},
+                file: null
             }
         },
 
@@ -120,8 +121,34 @@
             editProduct() {
                 this.isModalActive = true
             },
-            deleteProducts() {
-                //
+            deleteProduct() {
+                this.$buefy.dialog.confirm({
+                    title: 'Supprimer article',
+                    message: 'Etes-vous sûrs de vouloir <b>supprimer</b> cet article ?<br/> Cette action ne peut pas être annulée.',
+                    confirmText: 'Supprimer article',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    size: 'is-small',
+                    onConfirm: () => {
+                        // this.$buefy.toast.open('Account deleted!')
+                        this.isDeleting = true
+                        this.$inertia.delete('/articles/delete/' + this._product.code)
+                        .then(() => {
+                            if (this.$page.flash.message != null ) {
+                                this.resetForm()
+                                this.$buefy.notification.open({
+                                    message: 'Article supprimé avec succès.',
+                                    type: 'is-success'
+                                })
+                            }
+                        })
+                        .catch(({message}) => {
+                            // this.$handleMessage(message, 'danger');
+                        }).finally(() => {
+                            this.isDeleting = false
+                        })
+                    }
+                })
             }
         },
 

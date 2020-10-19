@@ -3684,8 +3684,8 @@ __webpack_require__.r(__webpack_exports__);
       if (this.checkedRows.length) {
         this.$buefy.dialog.confirm({
           title: 'Supprimer articles',
-          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
-          confirmText: 'Supprimer produit(s)',
+          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(t)(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
+          confirmText: 'Supprimer article(s)',
           type: 'is-danger',
           hasIcon: true,
           size: 'is-small',
@@ -3876,14 +3876,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       isModalActive: false,
-      _product: {}
+      _product: {},
+      file: null
     };
   },
   methods: {
     editProduct: function editProduct() {
       this.isModalActive = true;
     },
-    deleteProducts: function deleteProducts() {//
+    deleteProduct: function deleteProduct() {
+      var _this = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'Supprimer article',
+        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> cet article ?<br/> Cette action ne peut pas être annulée.',
+        confirmText: 'Supprimer article',
+        type: 'is-danger',
+        hasIcon: true,
+        size: 'is-small',
+        onConfirm: function onConfirm() {
+          // this.$buefy.toast.open('Account deleted!')
+          _this.isDeleting = true;
+
+          _this.$inertia["delete"]('/articles/delete/' + _this._product.code).then(function () {
+            if (_this.$page.flash.message != null) {
+              _this.resetForm();
+
+              _this.$buefy.notification.open({
+                message: 'Article supprimé avec succès.',
+                type: 'is-success'
+              });
+            }
+          })["catch"](function (_ref) {// this.$handleMessage(message, 'danger');
+
+            var message = _ref.message;
+          })["finally"](function () {
+            _this.isDeleting = false;
+          });
+        }
+      });
     }
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -46845,7 +46876,7 @@ var render = function() {
                       {
                         staticClass: "is-danger is-small",
                         attrs: { "icon-left": "delete-outline" },
-                        on: { click: _vm.deleteProducts }
+                        on: { click: _vm.deleteProduct }
                       },
                       [_vm._v("Supprimer")]
                     )
@@ -46861,12 +46892,12 @@ var render = function() {
           ? _c(
               "div",
               [
-                _c("h6", { staticClass: "title is-6" }, [
-                  _vm._v("Vue d'ensemble")
-                ]),
-                _vm._v(" "),
                 _c("div", { staticClass: "columns" }, [
                   _c("div", { staticClass: "column is-8 vue-ensemble" }, [
+                    _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v("Vue d'ensemble")
+                    ]),
+                    _vm._v(" "),
                     _c("div", { staticClass: "columns" }, [
                       _c("div", { staticClass: "column is-3 le-label" }, [
                         _vm._v("Référence")

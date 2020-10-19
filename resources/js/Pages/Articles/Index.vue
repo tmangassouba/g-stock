@@ -135,8 +135,8 @@
                 if (this.checkedRows.length) {
                     this.$buefy.dialog.confirm({
                         title: 'Supprimer articles',
-                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
-                        confirmText: 'Supprimer produit(s)',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(t)(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer article(s)',
                         type: 'is-danger',
                         hasIcon: true,
                         size: 'is-small',

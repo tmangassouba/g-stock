@@ -7,6 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -60,13 +61,16 @@ class ProductController extends Controller
         return redirect()->back()->with('message', 'Produit modifié avec succès.');
     }
 
-    // public function destroy(Request $request)
-    // {
-    //     if ($request->has('id')) {
-    //         Contact::find($request->input('id'))->delete();
-    //         return redirect()->back();
-    //     }
-    // }
+    public function destroy(Request $request, Product $product)
+    {
+        if ($product->delete()) {
+            if ($product->image) {
+                Storage::delete('imgs/products/'.$product->image);
+            }
+            return redirect('/articles');
+        }
+        abort(500);
+    }
 
     public function deleteProducts(Request $request)
     {
