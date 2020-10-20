@@ -29,12 +29,12 @@
             <!-- Stock -->
             <p class="menu-label">Stock</p>
             <ul class="menu-list">
-                <li :class="{ 'is-active': isDropdownActive }">
+                <!-- <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/magazin" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="store-outline" custom-size="default" />
                         <span class="menu-item-label">Magazin</span>
                     </inertia-link>
-                </li>
+                </li> -->
                 <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/operations" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="credit-card" custom-size="default" />
@@ -61,7 +61,7 @@
             </ul>
 
             <!-- Administration -->
-            <p class="menu-label" v-if="hasRole('ADMIN')">Administration</p>
+            <!-- <p class="menu-label" v-if="hasRole('ADMIN')">Administration</p>
             <ul class="menu-list" v-if="hasRole('ADMIN')">
                 <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/users" exact-active-class="is-active" class="has-icon">
@@ -69,7 +69,7 @@
                         <span class="menu-item-label">Utilisateurs</span>
                     </inertia-link>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </aside>
 </template>
@@ -91,7 +91,7 @@
         computed: {
             ...mapGetters({
                 isAsideVisible: 'menu/isAsideVisible',
-                hasRole: 'user/hasRole'
+                // hasRole: 'user/hasRole'
             }),
         },
         methods: {

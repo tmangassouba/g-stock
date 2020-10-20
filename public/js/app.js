@@ -2827,8 +2827,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    isAsideVisible: 'menu/isAsideVisible',
-    hasRole: 'user/hasRole'
+    isAsideVisible: 'menu/isAsideVisible' // hasRole: 'user/hasRole'
+
   })),
   methods: {
     menuClick: function menuClick(item) {//
@@ -3008,6 +3008,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3035,7 +3061,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     isNavBarVisible: 'menu/isNavBarVisible',
     isAsideMobileExpanded: 'menu/isAsideMobileExpanded',
-    authUser: 'user/authUser'
+    authUser: 'user/authUser',
+    hasRole: 'user/hasRole'
   })),
   mounted: function mounted() {
     // this.$route.afterEach(() => {
@@ -45328,31 +45355,6 @@ var render = function() {
                 "inertia-link",
                 {
                   staticClass: "has-icon",
-                  attrs: { href: "/magazin", "exact-active-class": "is-active" }
-                },
-                [
-                  _c("b-icon", {
-                    attrs: { icon: "store-outline", "custom-size": "default" }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "menu-item-label" }, [
-                    _vm._v("Magazin")
-                  ])
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { class: { "is-active": _vm.isDropdownActive } },
-            [
-              _c(
-                "inertia-link",
-                {
-                  staticClass: "has-icon",
                   attrs: {
                     href: "/operations",
                     "exact-active-class": "is-active"
@@ -45435,46 +45437,7 @@ var render = function() {
             ],
             1
           )
-        ]),
-        _vm._v(" "),
-        _vm.hasRole("ADMIN")
-          ? _c("p", { staticClass: "menu-label" }, [_vm._v("Administration")])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.hasRole("ADMIN")
-          ? _c("ul", { staticClass: "menu-list" }, [
-              _c(
-                "li",
-                { class: { "is-active": _vm.isDropdownActive } },
-                [
-                  _c(
-                    "inertia-link",
-                    {
-                      staticClass: "has-icon",
-                      attrs: {
-                        href: "/users",
-                        "exact-active-class": "is-active"
-                      }
-                    },
-                    [
-                      _c("b-icon", {
-                        attrs: {
-                          icon: "account-multiple-outline",
-                          "custom-size": "default"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "menu-item-label" }, [
-                        _vm._v("Utilisateurs")
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ])
-          : _vm._e()
+        ])
       ])
     ],
     1
@@ -45686,6 +45649,127 @@ var render = function() {
             "div",
             { staticClass: "navbar-end" },
             [
+              _vm.hasRole("ADMIN")
+                ? _c(
+                    "nav-bar-menu",
+                    { staticClass: "has-divider" },
+                    [
+                      _c("b-icon", {
+                        attrs: { icon: "cog", "custom-size": "default" }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "navbar-dropdown",
+                          attrs: { slot: "dropdown" },
+                          slot: "dropdown"
+                        },
+                        [
+                          _c(
+                            "inertia-link",
+                            {
+                              staticClass: "navbar-item is-active-",
+                              attrs: { href: "/magazins" }
+                            },
+                            [
+                              _c("b-icon", {
+                                attrs: {
+                                  icon: "store-outline",
+                                  "custom-size": "default"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Magazins")])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "inertia-link",
+                            {
+                              staticClass: "navbar-item",
+                              attrs: { href: "/organisation" }
+                            },
+                            [
+                              _c("b-icon", {
+                                attrs: {
+                                  icon: "domain",
+                                  "custom-size": "default"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Profil Organisation")])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "inertia-link",
+                            {
+                              staticClass: "navbar-item",
+                              attrs: { href: "/users" }
+                            },
+                            [
+                              _c("b-icon", {
+                                attrs: {
+                                  icon: "account-multiple-outline",
+                                  "custom-size": "default"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Utilisateurs et Rôles")])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("hr", { staticClass: "navbar-divider" }),
+                          _vm._v(" "),
+                          _c(
+                            "inertia-link",
+                            {
+                              staticClass: "navbar-item",
+                              attrs: { href: "/devises" }
+                            },
+                            [
+                              _c("b-icon", {
+                                attrs: {
+                                  icon: "cash-usd-outline",
+                                  "custom-size": "default"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Devises")])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "inertia-link",
+                            {
+                              staticClass: "navbar-item",
+                              attrs: { href: "/modeles" }
+                            },
+                            [
+                              _c("b-icon", {
+                                attrs: {
+                                  icon: "palette-outline",
+                                  "custom-size": "default"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Modèles")])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c(
                 "nav-bar-menu",
                 { staticClass: "has-divider has-user-avatar" },
@@ -45727,32 +45811,6 @@ var render = function() {
                           }),
                           _vm._v(" "),
                           _c("span", [_vm._v("Profil")])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "navbar-item" },
-                        [
-                          _c("b-icon", {
-                            attrs: { icon: "cog", "custom-size": "default" }
-                          }),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("paramétrage")])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "navbar-item" },
-                        [
-                          _c("b-icon", {
-                            attrs: { icon: "email", "custom-size": "default" }
-                          }),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("Messages")])
                         ],
                         1
                       ),

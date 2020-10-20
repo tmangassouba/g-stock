@@ -24,6 +24,39 @@
 
         <div class="navbar-menu fadeIn animated faster" :class="{ 'is-active': isMenuNavBarActive }" >
             <div class="navbar-end">
+                <nav-bar-menu class="has-divider" v-if="hasRole('ADMIN')">
+                    <b-icon icon="cog" custom-size="default" />
+
+                    <div slot="dropdown" class="navbar-dropdown">
+                        <inertia-link href="/magazins" class="navbar-item is-active-">
+                            <b-icon icon="store-outline" custom-size="default" />
+                            <span>Magazins</span>
+                        </inertia-link>
+
+                        <inertia-link href="/organisation" class="navbar-item">
+                            <b-icon icon="domain" custom-size="default"></b-icon>
+                            <span>Profil Organisation</span>
+                        </inertia-link>
+
+                        <inertia-link href="/users" class="navbar-item">
+                            <b-icon icon="account-multiple-outline" custom-size="default"></b-icon>
+                            <span>Utilisateurs et Rôles</span>
+                        </inertia-link>
+
+                        <hr class="navbar-divider" />
+
+                        <inertia-link href="/devises" class="navbar-item">
+                            <b-icon icon="cash-usd-outline" custom-size="default"></b-icon>
+                            <span>Devises</span>
+                        </inertia-link>
+
+                        <inertia-link href="/modeles" class="navbar-item">
+                            <b-icon icon="palette-outline" custom-size="default"></b-icon>
+                            <span>Modèles</span>
+                        </inertia-link>
+                    </div>
+                </nav-bar-menu>
+
                 <nav-bar-menu class="has-divider has-user-avatar">
                     <user-avatar :avatar="authUser.avatar" v-if="authUser" />
                     <div class="is-user-name">
@@ -35,14 +68,6 @@
                             <b-icon icon="account" custom-size="default" />
                             <span>Profil</span>
                         </a>
-                        <a class="navbar-item">
-                            <b-icon icon="cog" custom-size="default"></b-icon>
-                            <span>paramétrage</span>
-                        </a>
-                        <a class="navbar-item">
-                            <b-icon icon="email" custom-size="default"></b-icon>
-                            <span>Messages</span>
-                        </a>
                         <hr class="navbar-divider" />
                         <a class="navbar-item" title="Déconnexion" @click="logout" >
                             <b-icon icon="logout" custom-size="default"></b-icon>
@@ -50,6 +75,7 @@
                         </a>
                     </div>
                 </nav-bar-menu>
+
                 <a class="navbar-item is-desktop-icon-only" title="Déconnexion" @click="logout" >
                     <b-icon icon="logout" custom-size="default" />
                     <span>Déconnexion</span>
@@ -88,7 +114,8 @@
             ...mapGetters({
                 isNavBarVisible: 'menu/isNavBarVisible', 
                 isAsideMobileExpanded: 'menu/isAsideMobileExpanded', 
-                authUser: 'user/authUser'
+                authUser: 'user/authUser',
+                hasRole: 'user/hasRole'
             })
         },
         mounted () {
