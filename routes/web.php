@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeviseController;
 use App\Http\Controllers\MagazinController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -32,6 +33,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return Inertia\Inertia::render('Dashboard');
     })->name('dashboard');
 
+    // Articles
     Route::name('articles.')->prefix('articles')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::post('/', [ProductController::class, 'store'])->name('store')->middleware('can:admin');
@@ -43,6 +45,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::delete('/{product}/delete-image', [ProductController::class, 'deleteImage'])->name('deleteImage');
     });
 
+    //Utilisateurs
     Route::name('users.')->prefix('users')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index')->middleware('can:admin');
         Route::post('/', [UsersController::class, 'store'])->name('store')->middleware('can:admin');
@@ -50,10 +53,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/delete-users', [UsersController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
     });
 
+    // Magazins
     Route::name('magazins.')->prefix('magazins')->group(function () {
         Route::get('/', [MagazinController::class, 'index'])->name('index')->middleware('can:admin');
         Route::post('/', [MagazinController::class, 'store'])->name('store')->middleware('can:admin');
         Route::put('/{magazin}', [MagazinController::class, 'update'])->name('update')->middleware('can:admin');
         Route::post('/delete-magazins', [MagazinController::class, 'deleteMagazins'])->name('delete.magazins')->middleware('can:admin');
+    });
+
+    // Devises
+    Route::name('devises.')->prefix('devises')->group(function () {
+        Route::get('/', [DeviseController::class, 'index'])->name('index')->middleware('can:admin');
+        Route::post('/', [DeviseController::class, 'store'])->name('store')->middleware('can:admin');
+        Route::put('/{devise}', [DeviseController::class, 'update'])->name('update')->middleware('can:admin');
+        Route::post('/delete-devises', [DeviseController::class, 'deleteDevises'])->name('delete.devises')->middleware('can:admin');
     });
 });
