@@ -149,7 +149,7 @@
                             this.$inertia.post('/articles/delete-products', checkedForm)
                             .then(() => {
                                 if (this.$page.flash.message != null ) {
-                                    this.resetForm()
+                                    // this.resetForm()
                                     this.$buefy.notification.open({
                                         message: 'Article(s) supprimé(s) avec succès.',
                                         type: 'is-success'

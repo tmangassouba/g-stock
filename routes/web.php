@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MagazinController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UsersController;
@@ -47,5 +48,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/', [UsersController::class, 'store'])->name('store')->middleware('can:admin');
         Route::put('/{user}', [UsersController::class, 'update'])->name('update')->middleware('can:admin');
         Route::post('/delete-users', [UsersController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
+    });
+
+    Route::name('magazins.')->prefix('magazins')->group(function () {
+        Route::get('/', [MagazinController::class, 'index'])->name('index')->middleware('can:admin');
+        Route::post('/', [MagazinController::class, 'store'])->name('store')->middleware('can:admin');
+        Route::put('/{magazin}', [MagazinController::class, 'update'])->name('update')->middleware('can:admin');
+        Route::post('/delete-magazins', [MagazinController::class, 'deleteMagazins'])->name('delete.magazins')->middleware('can:admin');
     });
 });
