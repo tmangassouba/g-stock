@@ -74,4 +74,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise')->middleware('can:admin');
     Route::put('/entreprise', [ParametreController::class, 'update'])->name('update')->middleware('can:admin');
     Route::get('/profil-organisation', [ParametreController::class, 'index'])->name('index')->middleware('can:admin');
+    Route::post('/entreprise/change-image', [ParametreController::class, 'changeImage'])->name('changeImage');
+    Route::delete('/entreprise/delete-image', [ParametreController::class, 'deleteImage'])->name('deleteImage');
 });

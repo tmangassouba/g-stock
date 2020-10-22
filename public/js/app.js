@@ -4234,6 +4234,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -4509,6 +4510,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -4635,6 +4638,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -4647,8 +4695,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       isFullPage: true,
       savingData: false,
+      changingImage: false,
+      deletingImage: false,
       devises: [],
-      form: {}
+      form: {},
+      logo: null
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -4674,6 +4725,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["finally"](function () {
         _this.savingData = false;
       });
+    },
+    changeImage: function changeImage(file) {
+      var _this2 = this;
+
+      // console.log(file)
+      var data = new FormData();
+      data.append('photo', file || '');
+      this.changingImage = true;
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__["Inertia"].post('/entreprise/change-image', data).then(function () {
+        if (_this2.$page.flash.message != null) {
+          _this2.$inertia.visit('/profil-organisation');
+        }
+      })["finally"](function () {
+        _this2.changingImage = false;
+      });
+    },
+    deleteImage: function deleteImage() {
+      var _this3 = this;
+
+      this.deletingImage = true;
+      this.$inertia["delete"]('/entreprise/delete-image').then(function () {
+        if (_this3.$page.flash.message != null) {
+          _this3.$inertia.visit('/profil-organisation');
+        }
+      })["finally"](function () {
+        _this3.deletingImage = false;
+      });
     }
   }),
   watch: {
@@ -4694,11 +4772,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this4 = this;
 
     this.getEntreprise();
     axios.get('/api/devises').then(function (data) {
-      _this2.devises = data.data;
+      _this4.devises = data.data;
     });
   }
 });
@@ -48453,8 +48531,13 @@ var render = function() {
                         _vm._v(
                           "\n                " +
                             _vm._s(props.row.name) +
-                            "\n            "
-                        )
+                            "\n                "
+                        ),
+                        props.row.params
+                          ? _c("div", { staticStyle: { color: "green" } }, [
+                              _vm._v("(Devise de base)")
+                            ])
+                          : _vm._e()
                       ]
                     }
                   }
@@ -48922,393 +49005,518 @@ var render = function() {
       _vm._v(" "),
       _c("section", { staticClass: "section is-main-section" }, [
         _c("div", { staticClass: "columns" }, [
-          _c("div", { staticClass: "column" }, [
-            _vm.form
-              ? _c(
-                  "form",
-                  {
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.submit($event)
+          _c(
+            "div",
+            { staticClass: "column" },
+            [
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    label: "Logo",
+                    type: _vm.$page.errors.name ? "is-danger" : "",
+                    message: _vm.$page.errors.name
+                      ? _vm.$page.errors.name[0]
+                      : ""
+                  }
+                },
+                [
+                  _c("div", { staticClass: "columns" }, [
+                    _c(
+                      "div",
+                      { staticClass: "column" },
+                      [
+                        _vm.organisation && _vm.organisation.image
+                          ? _c(
+                              "div",
+                              { staticStyle: { border: "1px solid #d6d6d6" } },
+                              [
+                                _c("b-image", {
+                                  attrs: {
+                                    src: _vm.organisation.image_url,
+                                    alt: _vm.organisation.name
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          : _c(
+                              "b-upload",
+                              {
+                                attrs: {
+                                  "drag-drop": "",
+                                  expanded: "",
+                                  loading: _vm.changingImage
+                                },
+                                on: { input: _vm.changeImage },
+                                model: {
+                                  value: _vm.logo,
+                                  callback: function($$v) {
+                                    _vm.logo = $$v
+                                  },
+                                  expression: "logo"
+                                }
+                              },
+                              [
+                                _c("section", { staticClass: "section" }, [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "content has-text-centered"
+                                    },
+                                    [
+                                      _c(
+                                        "p",
+                                        [
+                                          _c("b-icon", {
+                                            attrs: {
+                                              icon: "camera",
+                                              size: "is-medium"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "column" },
+                      [
+                        _c("div", [
+                          _vm._v(
+                            "Ce logo apparaîtra sur les documents (devis, factures, etc.) qui sont créés."
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.$page.errors.photo
+                          ? _c("div", [
+                              _vm._v(" " + _vm._s(_vm.$page.errors.photo[0]))
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.organisation && _vm.organisation.image
+                          ? _c(
+                              "b-button",
+                              {
+                                staticStyle: { padding: "0" },
+                                attrs: {
+                                  type: "is-text",
+                                  size: "is-small",
+                                  outlined: "",
+                                  loading: _vm.deletingImage
+                                },
+                                on: { click: _vm.deleteImage }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                Supprimer la photo\n                            "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _vm.form
+                ? _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.submit($event)
+                        }
                       }
-                    }
-                  },
-                  [
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Nom",
-                          type: _vm.$page.errors.name ? "is-danger" : "",
-                          message: _vm.$page.errors.name
-                            ? _vm.$page.errors.name[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
+                    },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
                           attrs: {
-                            name: "name",
-                            size: "is-small",
-                            required: "",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.name,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "name", $$v)
-                            },
-                            expression: "form.name"
+                            horizontal: "",
+                            label: "Nom",
+                            type: _vm.$page.errors.name ? "is-danger" : "",
+                            message: _vm.$page.errors.name
+                              ? _vm.$page.errors.name[0]
+                              : ""
                           }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Adresse 1",
-                          type: _vm.$page.errors.adresse_1 ? "is-danger" : "",
-                          message: _vm.$page.errors.adresse_1
-                            ? _vm.$page.errors.adresse_1[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            name: "adresse_1",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.adresse_1,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "adresse_1", $$v)
-                            },
-                            expression: "form.adresse_1"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Adresse 2",
-                          type: _vm.$page.errors.adresse_2 ? "is-danger" : "",
-                          message: _vm.$page.errors.adresse_2
-                            ? _vm.$page.errors.adresse_2[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            name: "adresse_2",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.adresse_2,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "adresse_2", $$v)
-                            },
-                            expression: "form.adresse_2"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Ville",
-                          type: _vm.$page.errors.ville ? "is-danger" : "",
-                          message: _vm.$page.errors.ville
-                            ? _vm.$page.errors.ville[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            name: "ville",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.ville,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "ville", $$v)
-                            },
-                            expression: "form.ville"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Pays",
-                          type: _vm.$page.errors.pays ? "is-danger" : "",
-                          message: _vm.$page.errors.pays
-                            ? _vm.$page.errors.pays[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            name: "pays",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.pays,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "pays", $$v)
-                            },
-                            expression: "form.pays"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Téléphone",
-                          type: _vm.$page.errors.phone ? "is-danger" : "",
-                          message: _vm.$page.errors.phone
-                            ? _vm.$page.errors.phone[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            name: "phone",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.phone,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "phone", $$v)
-                            },
-                            expression: "form.phone"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Faxe",
-                          type: _vm.$page.errors.faxe ? "is-danger" : "",
-                          message: _vm.$page.errors.faxe
-                            ? _vm.$page.errors.faxe[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            name: "faxe",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.faxe,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "faxe", $$v)
-                            },
-                            expression: "form.faxe"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Site",
-                          type: _vm.$page.errors.site ? "is-danger" : "",
-                          message: _vm.$page.errors.site
-                            ? _vm.$page.errors.site[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            type: "url",
-                            name: "site",
-                            placeholder: "http://www.exemple.com",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.site,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "site", $$v)
-                            },
-                            expression: "form.site"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Email",
-                          type: _vm.$page.errors.email ? "is-danger" : "",
-                          message: _vm.$page.errors.email
-                            ? _vm.$page.errors.email[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c("b-input", {
-                          attrs: {
-                            type: "email",
-                            name: "email",
-                            size: "is-small",
-                            expanded: ""
-                          },
-                          model: {
-                            value: _vm.form.email,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "email", $$v)
-                            },
-                            expression: "form.email"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      {
-                        staticClass: "field-label is-small",
-                        attrs: {
-                          horizontal: "",
-                          label: "Devise",
-                          type: _vm.$page.errors.devise_id ? "is-danger" : "",
-                          message: _vm.$page.errors.devise_id
-                            ? _vm.$page.errors.devise_id[0]
-                            : ""
-                        }
-                      },
-                      [
-                        _c(
-                          "b-select",
-                          {
+                        },
+                        [
+                          _c("b-input", {
                             attrs: {
-                              placeholder: "Devise",
-                              name: "devise_id",
+                              name: "name",
+                              size: "is-small",
+                              required: "",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "name", $$v)
+                              },
+                              expression: "form.name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Adresse 1",
+                            type: _vm.$page.errors.adresse_1 ? "is-danger" : "",
+                            message: _vm.$page.errors.adresse_1
+                              ? _vm.$page.errors.adresse_1[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              name: "adresse_1",
                               size: "is-small",
                               expanded: ""
                             },
                             model: {
-                              value: _vm.form.devise_id,
+                              value: _vm.form.adresse_1,
                               callback: function($$v) {
-                                _vm.$set(_vm.form, "devise_id", $$v)
+                                _vm.$set(_vm.form, "adresse_1", $$v)
                               },
-                              expression: "form.devise_id"
+                              expression: "form.adresse_1"
                             }
-                          },
-                          _vm._l(_vm.devises, function(devise) {
-                            return _c(
-                              "option",
-                              {
-                                key: devise.id,
-                                domProps: { value: devise.id }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(devise.name) +
-                                    " (" +
-                                    _vm._s(devise.symbole) +
-                                    ")\n                            "
-                                )
-                              ]
-                            )
-                          }),
-                          0
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-field",
-                      [
-                        _c(
-                          "b-button",
-                          {
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Adresse 2",
+                            type: _vm.$page.errors.adresse_2 ? "is-danger" : "",
+                            message: _vm.$page.errors.adresse_2
+                              ? _vm.$page.errors.adresse_2[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
                             attrs: {
+                              name: "adresse_2",
                               size: "is-small",
-                              type: "is-info",
-                              "native-type": "submit",
-                              loading: _vm.savingData
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.adresse_2,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "adresse_2", $$v)
+                              },
+                              expression: "form.adresse_2"
                             }
-                          },
-                          [_vm._v("Modifier")]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e()
-          ]),
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Ville",
+                            type: _vm.$page.errors.ville ? "is-danger" : "",
+                            message: _vm.$page.errors.ville
+                              ? _vm.$page.errors.ville[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              name: "ville",
+                              size: "is-small",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.ville,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "ville", $$v)
+                              },
+                              expression: "form.ville"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Pays",
+                            type: _vm.$page.errors.pays ? "is-danger" : "",
+                            message: _vm.$page.errors.pays
+                              ? _vm.$page.errors.pays[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              name: "pays",
+                              size: "is-small",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.pays,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "pays", $$v)
+                              },
+                              expression: "form.pays"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Téléphone",
+                            type: _vm.$page.errors.phone ? "is-danger" : "",
+                            message: _vm.$page.errors.phone
+                              ? _vm.$page.errors.phone[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              name: "phone",
+                              size: "is-small",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.phone,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "phone", $$v)
+                              },
+                              expression: "form.phone"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Faxe",
+                            type: _vm.$page.errors.faxe ? "is-danger" : "",
+                            message: _vm.$page.errors.faxe
+                              ? _vm.$page.errors.faxe[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              name: "faxe",
+                              size: "is-small",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.faxe,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "faxe", $$v)
+                              },
+                              expression: "form.faxe"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Site",
+                            type: _vm.$page.errors.site ? "is-danger" : "",
+                            message: _vm.$page.errors.site
+                              ? _vm.$page.errors.site[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              type: "url",
+                              name: "site",
+                              placeholder: "http://www.exemple.com",
+                              size: "is-small",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.site,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "site", $$v)
+                              },
+                              expression: "form.site"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Email",
+                            type: _vm.$page.errors.email ? "is-danger" : "",
+                            message: _vm.$page.errors.email
+                              ? _vm.$page.errors.email[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              type: "email",
+                              name: "email",
+                              size: "is-small",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.email,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "email", $$v)
+                              },
+                              expression: "form.email"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        {
+                          staticClass: "field-label is-small",
+                          attrs: {
+                            horizontal: "",
+                            label: "Devise",
+                            type: _vm.$page.errors.devise_id ? "is-danger" : "",
+                            message: _vm.$page.errors.devise_id
+                              ? _vm.$page.errors.devise_id[0]
+                              : ""
+                          }
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: {
+                                placeholder: "Devise",
+                                name: "devise_id",
+                                size: "is-small",
+                                expanded: ""
+                              },
+                              model: {
+                                value: _vm.form.devise_id,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "devise_id", $$v)
+                                },
+                                expression: "form.devise_id"
+                              }
+                            },
+                            _vm._l(_vm.devises, function(devise) {
+                              return _c(
+                                "option",
+                                {
+                                  key: devise.id,
+                                  domProps: { value: devise.id }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(devise.name) +
+                                      " (" +
+                                      _vm._s(devise.symbole) +
+                                      ")\n                            "
+                                  )
+                                ]
+                              )
+                            }),
+                            0
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "b-field",
+                        [
+                          _c(
+                            "b-button",
+                            {
+                              attrs: {
+                                size: "is-small",
+                                type: "is-info",
+                                "native-type": "submit",
+                                loading: _vm.savingData
+                              }
+                            },
+                            [_vm._v("Modifier")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "column is-4" }, [
-            _vm._v("\n                " + _vm._s(_vm.form) + "\n            ")
-          ])
+          _c("div", { staticClass: "column is-3" })
         ])
       ])
     ],

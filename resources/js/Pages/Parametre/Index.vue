@@ -5,6 +5,52 @@
         <section class="section is-main-section">
             <div class="columns">
                 <div class="column">
+                    <b-field
+                        horizontal 
+                        label="Logo"
+                        :type="$page.errors.name ? 'is-danger' : ''"
+                        :message="$page.errors.name ? $page.errors.name[0] : ''"
+                        class="field-label is-small">
+                        <div class="columns">
+                            <div class="column">
+                                <div v-if="organisation && organisation.image" style="border: 1px solid #d6d6d6;">
+                                    <b-image
+                                        :src="organisation.image_url"
+                                        :alt="organisation.name"
+                                        >
+                                    </b-image>
+                                </div>
+                                <b-upload v-model="logo" drag-drop expanded :loading="changingImage" @input="changeImage" v-else>
+                                    <section class="section">
+                                        <div class="content has-text-centered">
+                                            <p>
+                                                <b-icon
+                                                    icon="camera"
+                                                    size="is-medium">
+                                                </b-icon>
+                                            </p>
+                                        </div>
+                                    </section>
+                                </b-upload>
+                            </div>
+
+                            <div class="column">
+                                <div>Ce logo apparaîtra sur les documents (devis, factures, etc.) qui sont créés.</div>
+                                <div v-if="$page.errors.photo"> {{ $page.errors.photo[0] }}</div>
+                                <b-button
+                                    v-if="organisation && organisation.image"
+                                    type="is-text"
+                                    size="is-small"
+                                    outlined
+                                    :loading="deletingImage"
+                                    @click="deleteImage"
+                                    style="padding:0">
+                                    Supprimer la photo
+                                </b-button>
+                            </div>
+                        </div>
+                    </b-field>
+
                     <form @submit.prevent="submit" v-if="form">
                         <b-field
                             horizontal 
@@ -110,9 +156,7 @@
                         </b-field>
                     </form>
                 </div>
-                <div class="column is-4">
-                    {{ form }}
-                </div>
+                <div class="column is-3"></div>
             </div>
         </section>
     </app-layout>
@@ -122,6 +166,7 @@
     import { mapActions, mapGetters } from 'vuex'
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
+    import { Inertia } from '@inertiajs/inertia'
 
     export default {
         components: {
@@ -132,8 +177,11 @@
             return {
                 isFullPage: true,
                 savingData: false,
+                changingImage: false,
+                deletingImage: false,
                 devises: [],
-                form: {}
+                form: {},
+                logo: null
             }
         },
         computed: {
@@ -160,6 +208,31 @@
                     // this.$handleMessage(message, 'danger');
                 }).finally(() => {
                     this.savingData = false
+                })
+            },
+            changeImage(file) {
+                // console.log(file)
+                let data = new FormData()
+                data.append('photo', file || '')
+                this.changingImage = true
+                Inertia.post('/entreprise/change-image', data)
+                .then(() => {
+                    if (this.$page.flash.message != null ) {
+                        this.$inertia.visit('/profil-organisation')
+                    }
+                }).finally(() => {
+                    this.changingImage = false
+                })
+            },
+            deleteImage() {
+                this.deletingImage = true
+                this.$inertia.delete('/entreprise/delete-image')
+                .then(() => {
+                    if (this.$page.flash.message != null ) {
+                        this.$inertia.visit('/profil-organisation')
+                    }
+                }).finally(() => {
+                    this.deletingImage = false
                 })
             }
         },

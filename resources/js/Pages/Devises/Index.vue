@@ -19,6 +19,7 @@
                 <!-- :default-sort-direction="defaultSortOrder" -->
                 <b-table-column field="name" label="Nom" v-slot="props">
                     {{ props.row.name }}
+                    <div v-if="props.row.params" style="color:green">(Devise de base)</div>
                 </b-table-column>
                 <b-table-column field="symbole" label="Symbole" v-slot="props">
                     {{ props.row.symbole }}

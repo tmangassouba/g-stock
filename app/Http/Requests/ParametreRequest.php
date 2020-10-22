@@ -35,4 +35,14 @@ class ParametreRequest extends FormRequest
             'email'     => 'nullable|max:255|email',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'required' => 'Veuillez renseigner ce champ.',
+            'max'      => 'Trop de caractères.',
+            'email'    => 'Email incorrect.',
+            'url'      => 'Site incorrect (ex : http://www.exemple.com).',
+        ];
+    }
 }

@@ -19,6 +19,7 @@ class Parametre extends Model
         'faxe',
         'site',
         'email',
+        'image',
         'devise_id'
     ];
 

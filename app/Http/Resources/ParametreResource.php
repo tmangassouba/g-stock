@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ParametreResource extends JsonResource
 {
@@ -25,7 +26,9 @@ class ParametreResource extends JsonResource
             'site'      => $this->site,
             'email'     => $this->email,
             'devise_id' => $this->devise_id,
-            'devise'    => $this->devise_id ? $this->devise->name : '-'
+            'devise'    => $this->devise_id ? $this->devise->name : '-',
+            'image'     => $this->image,
+            'image_url' => $this->image ? Storage::url($this->image) : null,
         ];
     }
 }
