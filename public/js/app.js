@@ -4497,6 +4497,214 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parametre/Index.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parametre/Index.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__["default"],
+    TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      isFullPage: true,
+      savingData: false,
+      devises: [],
+      form: {}
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    organisation: 'parametres/getParametre'
+  })),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    getEntreprise: 'parametres/getEntreprise'
+  })), {}, {
+    submit: function submit() {
+      var _this = this;
+
+      this.savingData = true;
+      this.$inertia.put('/entreprise/', this.form).then(function () {
+        if (_this.$page.flash.message != null) {
+          _this.$buefy.notification.open({
+            message: 'Modifiée avec succès.',
+            type: 'is-success'
+          });
+        }
+      })["catch"](function (_ref) {// this.$handleMessage(message, 'danger');
+
+        var message = _ref.message;
+      })["finally"](function () {
+        _this.savingData = false;
+      });
+    }
+  }),
+  watch: {
+    organisation: function organisation() {
+      this.form = {
+        'id': this.organisation.id,
+        'name': this.organisation.name,
+        'adresse_1': this.organisation.adresse_1,
+        'adresse_2': this.organisation.adresse_2,
+        'ville': this.organisation.ville,
+        'pays': this.organisation.pays,
+        'phone': this.organisation.phone,
+        'faxe': this.organisation.faxe,
+        'site': this.organisation.site,
+        'email': this.organisation.email,
+        'devise_id': this.organisation.devise_id
+      };
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    this.getEntreprise();
+    axios.get('/api/devises').then(function (data) {
+      _this2.devises = data.data;
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Profile/DeleteUserForm.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Profile/DeleteUserForm.vue?vue&type=script&lang=js& ***!
@@ -46297,6 +46505,25 @@ var render = function() {
                           _c(
                             "inertia-link",
                             {
+                              staticClass: "navbar-item",
+                              attrs: { href: "/profil-organisation" }
+                            },
+                            [
+                              _c("b-icon", {
+                                attrs: {
+                                  icon: "domain",
+                                  "custom-size": "default"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Profil Organisation")])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "inertia-link",
+                            {
                               staticClass: "navbar-item is-active-",
                               attrs: { href: "/magazins" }
                             },
@@ -46309,25 +46536,6 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("span", [_vm._v("Magazins")])
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "inertia-link",
-                            {
-                              staticClass: "navbar-item",
-                              attrs: { href: "/organisation" }
-                            },
-                            [
-                              _c("b-icon", {
-                                attrs: {
-                                  icon: "domain",
-                                  "custom-size": "default"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("span", [_vm._v("Profil Organisation")])
                             ],
                             1
                           ),
@@ -48679,6 +48887,430 @@ var render = function() {
         ],
         1
       )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parametre/Index.vue?vue&type=template&id=78f6978e&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Parametre/Index.vue?vue&type=template&id=78f6978e& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "app-layout",
+    [
+      _c("title-bar", {
+        attrs: { "title-stack": ["Profil de l'organisation"] }
+      }),
+      _vm._v(" "),
+      _c("section", { staticClass: "section is-main-section" }, [
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "column" }, [
+            _vm.form
+              ? _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submit($event)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Nom",
+                          type: _vm.$page.errors.name ? "is-danger" : "",
+                          message: _vm.$page.errors.name
+                            ? _vm.$page.errors.name[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            name: "name",
+                            size: "is-small",
+                            required: "",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.name,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "name", $$v)
+                            },
+                            expression: "form.name"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Adresse 1",
+                          type: _vm.$page.errors.adresse_1 ? "is-danger" : "",
+                          message: _vm.$page.errors.adresse_1
+                            ? _vm.$page.errors.adresse_1[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            name: "adresse_1",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.adresse_1,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "adresse_1", $$v)
+                            },
+                            expression: "form.adresse_1"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Adresse 2",
+                          type: _vm.$page.errors.adresse_2 ? "is-danger" : "",
+                          message: _vm.$page.errors.adresse_2
+                            ? _vm.$page.errors.adresse_2[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            name: "adresse_2",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.adresse_2,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "adresse_2", $$v)
+                            },
+                            expression: "form.adresse_2"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Ville",
+                          type: _vm.$page.errors.ville ? "is-danger" : "",
+                          message: _vm.$page.errors.ville
+                            ? _vm.$page.errors.ville[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            name: "ville",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.ville,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "ville", $$v)
+                            },
+                            expression: "form.ville"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Pays",
+                          type: _vm.$page.errors.pays ? "is-danger" : "",
+                          message: _vm.$page.errors.pays
+                            ? _vm.$page.errors.pays[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            name: "pays",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.pays,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "pays", $$v)
+                            },
+                            expression: "form.pays"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Téléphone",
+                          type: _vm.$page.errors.phone ? "is-danger" : "",
+                          message: _vm.$page.errors.phone
+                            ? _vm.$page.errors.phone[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            name: "phone",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.phone,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "phone", $$v)
+                            },
+                            expression: "form.phone"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Faxe",
+                          type: _vm.$page.errors.faxe ? "is-danger" : "",
+                          message: _vm.$page.errors.faxe
+                            ? _vm.$page.errors.faxe[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            name: "faxe",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.faxe,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "faxe", $$v)
+                            },
+                            expression: "form.faxe"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Site",
+                          type: _vm.$page.errors.site ? "is-danger" : "",
+                          message: _vm.$page.errors.site
+                            ? _vm.$page.errors.site[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            type: "url",
+                            name: "site",
+                            placeholder: "http://www.exemple.com",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.site,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "site", $$v)
+                            },
+                            expression: "form.site"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Email",
+                          type: _vm.$page.errors.email ? "is-danger" : "",
+                          message: _vm.$page.errors.email
+                            ? _vm.$page.errors.email[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            type: "email",
+                            name: "email",
+                            size: "is-small",
+                            expanded: ""
+                          },
+                          model: {
+                            value: _vm.form.email,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "email", $$v)
+                            },
+                            expression: "form.email"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      {
+                        staticClass: "field-label is-small",
+                        attrs: {
+                          horizontal: "",
+                          label: "Devise",
+                          type: _vm.$page.errors.devise_id ? "is-danger" : "",
+                          message: _vm.$page.errors.devise_id
+                            ? _vm.$page.errors.devise_id[0]
+                            : ""
+                        }
+                      },
+                      [
+                        _c(
+                          "b-select",
+                          {
+                            attrs: {
+                              placeholder: "Devise",
+                              name: "devise_id",
+                              size: "is-small",
+                              expanded: ""
+                            },
+                            model: {
+                              value: _vm.form.devise_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.form, "devise_id", $$v)
+                              },
+                              expression: "form.devise_id"
+                            }
+                          },
+                          _vm._l(_vm.devises, function(devise) {
+                            return _c(
+                              "option",
+                              {
+                                key: devise.id,
+                                domProps: { value: devise.id }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(devise.name) +
+                                    " (" +
+                                    _vm._s(devise.symbole) +
+                                    ")\n                            "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      [
+                        _c(
+                          "b-button",
+                          {
+                            attrs: {
+                              size: "is-small",
+                              type: "is-info",
+                              "native-type": "submit",
+                              loading: _vm.savingData
+                            }
+                          },
+                          [_vm._v("Modifier")]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "column is-4" }, [
+            _vm._v("\n                " + _vm._s(_vm.form) + "\n            ")
+          ])
+        ])
+      ])
     ],
     1
   )
@@ -66596,6 +67228,8 @@ var map = {
 	"./Devises/Index.vue": "./resources/js/Pages/Devises/Index.vue",
 	"./Magazins/Index": "./resources/js/Pages/Magazins/Index.vue",
 	"./Magazins/Index.vue": "./resources/js/Pages/Magazins/Index.vue",
+	"./Parametre/Index": "./resources/js/Pages/Parametre/Index.vue",
+	"./Parametre/Index.vue": "./resources/js/Pages/Parametre/Index.vue",
 	"./Profile/DeleteUserForm": "./resources/js/Pages/Profile/DeleteUserForm.vue",
 	"./Profile/DeleteUserForm.vue": "./resources/js/Pages/Profile/DeleteUserForm.vue",
 	"./Profile/LogoutOtherBrowserSessionsForm": "./resources/js/Pages/Profile/LogoutOtherBrowserSessionsForm.vue",
@@ -67181,6 +67815,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_dec3d924___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_dec3d924___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parametre/Index.vue":
+/*!************************************************!*\
+  !*** ./resources/js/Pages/Parametre/Index.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Index_vue_vue_type_template_id_78f6978e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=78f6978e& */ "./resources/js/Pages/Parametre/Index.vue?vue&type=template&id=78f6978e&");
+/* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Parametre/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Index_vue_vue_type_template_id_78f6978e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Index_vue_vue_type_template_id_78f6978e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Parametre/Index.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parametre/Index.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/Pages/Parametre/Index.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parametre/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Parametre/Index.vue?vue&type=template&id=78f6978e&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/Pages/Parametre/Index.vue?vue&type=template&id=78f6978e& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_78f6978e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=template&id=78f6978e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Parametre/Index.vue?vue&type=template&id=78f6978e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_78f6978e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_78f6978e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -68301,6 +69004,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/user */ "./resources/js/store/modules/user.js");
 /* harmony import */ var _modules_menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/menu */ "./resources/js/store/modules/menu.js");
+/* harmony import */ var _modules_parametres__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/parametres */ "./resources/js/store/modules/parametres.js");
+
 
 
 
@@ -68310,7 +69015,8 @@ var debug = "development" !== 'production';
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   modules: {
     user: _modules_user__WEBPACK_IMPORTED_MODULE_2__["default"],
-    menu: _modules_menu__WEBPACK_IMPORTED_MODULE_3__["default"]
+    menu: _modules_menu__WEBPACK_IMPORTED_MODULE_3__["default"],
+    parametres: _modules_parametres__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   strict: debug // plugins: debug ? [createLogger()] : []
 
@@ -68400,6 +69106,80 @@ var getters = {
   },
   isAsideMobileExpanded: function isAsideMobileExpanded(state) {
     return state.isAsideMobileExpanded;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/parametres.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/modules/parametres.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _notifier__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../notifier */ "./resources/js/notifier.js");
+/* harmony import */ var _handleMessage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../handleMessage */ "./resources/js/handleMessage.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+var state = {
+  parametre: null
+};
+var mutations = {
+  setParametre: function setParametre(state, payload) {
+    state.parametre = payload;
+  }
+};
+var actions = {
+  getEntreprise: function getEntreprise(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              _context.next = 3;
+              return axios.get('/entreprise').then(function (_ref2) {
+                var data = _ref2.data;
+                commit('setParametre', data.data);
+              })["catch"](function (_ref3) {
+                var message = _ref3.message;
+                Object(_notifier__WEBPACK_IMPORTED_MODULE_1__["default"])('Profil organisation : ' + Object(_handleMessage__WEBPACK_IMPORTED_MODULE_2__["default"])(message), 'danger');
+              });
+
+            case 3:
+              return _context.abrupt("return", _context.sent);
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
+};
+var getters = {
+  getParametre: function getParametre(state) {
+    return state.parametre;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

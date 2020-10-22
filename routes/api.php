@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Resources\UserResource;
+use App\Models\Devise;
 use App\Models\Role;
 use App\Models\Unite;
 use Illuminate\Http\Request;
@@ -27,4 +28,8 @@ Route::get('unites', function () {
 
 Route::get('roles', function () {
     return Role::all();
+});
+
+Route::get('devises', function () {
+    return Devise::all();
 });

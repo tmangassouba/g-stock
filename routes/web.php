@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DeviseController;
 use App\Http\Controllers\MagazinController;
+use App\Http\Controllers\ParametreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UsersController;
@@ -60,7 +61,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::put('/{magazin}', [MagazinController::class, 'update'])->name('update')->middleware('can:admin');
         Route::post('/delete-magazins', [MagazinController::class, 'deleteMagazins'])->name('delete.magazins')->middleware('can:admin');
     });
-
+    
     // Devises
     Route::name('devises.')->prefix('devises')->group(function () {
         Route::get('/', [DeviseController::class, 'index'])->name('index')->middleware('can:admin');
@@ -68,4 +69,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::put('/{devise}', [DeviseController::class, 'update'])->name('update')->middleware('can:admin');
         Route::post('/delete-devises', [DeviseController::class, 'deleteDevises'])->name('delete.devises')->middleware('can:admin');
     });
+
+    // Parametre
+    Route::get('/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise')->middleware('can:admin');
+    Route::put('/entreprise', [ParametreController::class, 'update'])->name('update')->middleware('can:admin');
+    Route::get('/profil-organisation', [ParametreController::class, 'index'])->name('index')->middleware('can:admin');
 });

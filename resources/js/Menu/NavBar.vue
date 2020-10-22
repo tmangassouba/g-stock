@@ -28,14 +28,14 @@
                     <b-icon icon="cog" custom-size="default" />
 
                     <div slot="dropdown" class="navbar-dropdown">
+                        <inertia-link href="/profil-organisation" class="navbar-item">
+                            <b-icon icon="domain" custom-size="default"></b-icon>
+                            <span>Profil Organisation</span>
+                        </inertia-link>
+
                         <inertia-link href="/magazins" class="navbar-item is-active-">
                             <b-icon icon="store-outline" custom-size="default" />
                             <span>Magazins</span>
-                        </inertia-link>
-
-                        <inertia-link href="/organisation" class="navbar-item">
-                            <b-icon icon="domain" custom-size="default"></b-icon>
-                            <span>Profil Organisation</span>
                         </inertia-link>
 
                         <inertia-link href="/users" class="navbar-item">

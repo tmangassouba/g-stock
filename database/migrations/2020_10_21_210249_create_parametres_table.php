@@ -15,7 +15,19 @@ class CreateParametresTable extends Migration
     {
         Schema::create('parametres', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name');
+            $table->string('adresse_1')->nullable();
+            $table->string('adresse_2')->nullable();
+            $table->string('ville')->nullable();
+            $table->string('pays')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('faxe')->nullable();
+            $table->string('site')->nullable();
+            $table->string('email')->nullable();
+
+            $table->unsignedBigInteger('devise_id')->nullable();
+            $table->foreign('devise_id')->references('id')->on('devises')->onDelete('set null');
+            // $table->timestamps();
         });
     }
 

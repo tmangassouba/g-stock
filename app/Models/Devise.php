@@ -15,4 +15,9 @@ class Devise extends Model
     ];
 
     public $timestamps = false;
+
+    public function params()
+    {
+        return $this->hasOne('App\Models\Parametre');
+    }
 }
