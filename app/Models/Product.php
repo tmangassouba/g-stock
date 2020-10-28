@@ -31,4 +31,9 @@ class Product extends Model
     {
         return $this->belongsTo('App\Models\Unite');
     }
+    
+    public function operations()
+    {
+        return $this->belongsToMany(Operation::class, 'product_operation')->withPivot('quantite', 'prix');
+    }
 }

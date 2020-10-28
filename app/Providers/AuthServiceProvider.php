@@ -31,11 +31,13 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('gerant', function ($user) {
-            return $user->hasRole(User::ROLE_GERANT);
+            return $user->hasRole(User::ROLE_GERANT) || $user->hasRole(User::ROLE_ADMIN);
         });
 
         Gate::define('operateur', function ($user) {
-            return $user->hasRole(User::ROLE_OPERATEUR);
+            return $user->hasRole(User::ROLE_OPERATEUR) || 
+                $user->hasRole(User::ROLE_GERANT) || 
+                $user->hasRole(User::ROLE_ADMIN);
         });
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DeviseController;
 use App\Http\Controllers\MagazinController;
+use App\Http\Controllers\OperationController;
 use App\Http\Controllers\ParametreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -76,4 +77,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/profil-organisation', [ParametreController::class, 'index'])->name('index')->middleware('can:admin');
     Route::post('/entreprise/change-image', [ParametreController::class, 'changeImage'])->name('changeImage');
     Route::delete('/entreprise/delete-image', [ParametreController::class, 'deleteImage'])->name('deleteImage');
+
+    // Operation
+    Route::name('operations.')->prefix('operations')->group(function () {
+        Route::get('/', [OperationController::class, 'index'])->name('index');
+    });
 });

@@ -44,7 +44,7 @@
             </ul>
 
             <!-- Facturation -->
-            <p class="menu-label">Facturation</p>
+            <!-- <p class="menu-label">Facturation</p>
             <ul class="menu-list">
                 <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/factures" exact-active-class="is-active" class="has-icon">
@@ -58,7 +58,7 @@
                         <span class="menu-item-label">Clients</span>
                     </inertia-link>
                 </li>
-            </ul>
+            </ul> -->
 
             <!-- Administration -->
             <!-- <p class="menu-label" v-if="hasRole('ADMIN')">Administration</p>
