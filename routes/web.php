@@ -79,7 +79,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('/entreprise/delete-image', [ParametreController::class, 'deleteImage'])->name('deleteImage');
 
     // Operation
-    Route::name('operations.')->prefix('operations')->group(function () {
+    Route::name('operations.')->prefix('operations')->middleware('can:gerant')->group(function () {
         Route::get('/', [OperationController::class, 'index'])->name('index');
+        Route::get('/ajouter', [OperationController::class, 'create'])->name('create');
+        Route::post('/', [OperationController::class, 'store'])->name('store');
+        Route::get('/{operation}', [OperationController::class, 'show'])->name('show');
+        Route::get('/{operation}/modifier', [OperationController::class, 'edit'])->name('edit');
+        Route::put('/{operation}/update', [OperationController::class, 'update'])->name('update');
+        Route::delete('/{operation}', [OperationController::class, 'destroy'])->name('destroy');
     });
 });

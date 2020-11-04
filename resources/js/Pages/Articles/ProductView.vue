@@ -41,7 +41,7 @@
                         </div>
                         <div class="columns">
                             <div class="column is-3 le-label">Prix de vente</div>
-                            <div class="column value">{{ _product.prix ? _product.prix : '-' }} CFA</div>
+                            <div class="column value">{{ _product.prix ? _product.prix : '-' }} {{ monaie }}</div>
                         </div>
 
                         <br>
@@ -131,7 +131,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
     import { ArticleForm } from "../../components/Articles"
@@ -159,6 +159,9 @@
         },
 
         methods: {
+            ...mapActions({
+                getEntreprise: 'parametres/getEntreprise'
+            }),
             editProduct() {
                 this.isModalActive = true
             },
@@ -220,9 +223,12 @@
 
         computed: {
             ...mapGetters({
-                isAsideVisible: 'menu/isAsideVisible',
-                hasRole: 'user/hasRole'
+                hasRole: 'user/hasRole',
+                organisation: 'parametres/getParametre',
             }),
+            monaie() {
+                return this.organisation ? this.organisation.devise : '-'
+            },
             titleStack () {
                 let title = (this._product && this._product.designation) ? this._product.designation : '-'
                 return [ title ]
@@ -230,6 +236,7 @@
         },
 
         created() {
+            this.getEntreprise()
             if (this.product && this.product.data) {
                 this._product = this.product.data
             }

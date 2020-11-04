@@ -18,6 +18,16 @@ Vue.use(PortalVue);
 Vue.use(Buefy);
 // Vue.use(Vuex)
 
+/**
+ * VueFilter
+ */
+import Vue2Filters from 'vue2-filters'
+Vue.use(Vue2Filters)
+
+Vue.prototype.$OPERATION_ENTREE = "ENTREE"
+Vue.prototype.$OPERATION_SORTIE = "SORTIE"
+Vue.prototype.$OPERATION_TRANSFERT = "TRANSFERT"
+
 // Vue.prototype.$route = (...args) => route(...args).url()
 Vue.prototype.$handleMessage = function (message, type) {
     let mess = handleMessage(message)

@@ -2,7 +2,7 @@
     <app-layout>
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right" v-if="gerant">
-                <b-button class="is-info is-small" icon-left="plus" @click="isModalActive = true">Nouveau</b-button>
+                <b-button class="is-info is-small" icon-left="plus" tag="a" href="/operations/ajouter">Nouveau</b-button>
                 <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteOperations" v-if="checkedRows.length">Supprimer</b-button>
             </div>
         </title-bar>
@@ -85,7 +85,6 @@
 <script>
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
-    import { ArticleForm } from "../../components/Articles"
     import { Inertia } from '@inertiajs/inertia'
 
     export default {
@@ -93,11 +92,10 @@
         components: {
             AppLayout,
             TitleBar,
-            ArticleForm
         },
         data() {
             return {
-                selectArticle: {},
+                // selectArticle: {},
                 isModalActive: false,
                 loading: false,
                 checkedRows: [],
@@ -179,21 +177,9 @@
         },
 
         computed: {
-            // _sortField: function () {
-            //     return this.sortField
-            // },
-            // _sortOrder: function () {
-            //     return this.sortOrder
-            // },
             titleStack () {
                 return ['Operations']
             }
         },
-
-        // watch: {
-        //     checkedData: function () {
-        //         this.deleteUsersForm.checkedData = this.checkedData
-        //     }
-        // },
     }
 </script>

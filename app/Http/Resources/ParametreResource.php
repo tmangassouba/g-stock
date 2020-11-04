@@ -26,7 +26,7 @@ class ParametreResource extends JsonResource
             'site'      => $this->site,
             'email'     => $this->email,
             'devise_id' => $this->devise_id,
-            'devise'    => $this->devise_id ? $this->devise->name : '-',
+            'devise'    => $this->devise_id ? $this->devise->symbole : '-',
             'image'     => $this->image,
             'image_url' => $this->image ? Storage::url($this->image) : null,
         ];

@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\UserResource;
 use App\Models\Devise;
+use App\Models\Magazin;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\Unite;
 use Illuminate\Http\Request;
@@ -32,4 +35,18 @@ Route::get('roles', function () {
 
 Route::get('devises', function () {
     return Devise::all();
+});
+
+Route::get('magazins', function () {
+    return Magazin::all();
+});
+
+Route::get('produits', function (Request $request) {
+    $req = Product::orderBy('designation');
+    if ($request->recherche) {
+        $req = $req->where('designation', 'like', '%'.$request->recherche.'%')
+                    ->orWhere('code', 'like', '%'.$request->recherche.'%');
+    }
+    $products = $req->paginate(20);
+    return ProductResource::collection($products);
 });
