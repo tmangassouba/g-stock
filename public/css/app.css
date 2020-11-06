@@ -19616,8 +19616,15 @@ section.hero.is-hero-bar .hero-body .button.is-hero-button:hover {
   color: #7a7a7a;
 }
 
+table.table thead {
+  background-color: #f9f9f9;
+}
+
 table.table thead th {
   border-bottom-width: 1px;
+  text-transform: uppercase;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
 }
 
 table.table td.checkbox-cell .b-checkbox.checkbox:not(.button),

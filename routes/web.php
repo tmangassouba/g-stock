@@ -86,6 +86,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{operation}', [OperationController::class, 'show'])->name('show');
         Route::get('/{operation}/modifier', [OperationController::class, 'edit'])->name('edit');
         Route::put('/{operation}/update', [OperationController::class, 'update'])->name('update');
-        Route::delete('/{operation}', [OperationController::class, 'destroy'])->name('destroy');
+        Route::post('/delete', [OperationController::class, 'destroy'])->name('destroy');
     });
 });

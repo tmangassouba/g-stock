@@ -71,7 +71,7 @@ class OperationController extends Controller
             }
         }
 
-        return redirect()->route('operations.edit', ['operation' => $operation]);
+        return redirect()->route('operations.show', ['operation' => $operation]);
     }
 
     /**
@@ -82,7 +82,10 @@ class OperationController extends Controller
      */
     public function show(Operation $operation)
     {
-        //
+        return Inertia::render('Operations/showOperation', [
+            'operation' => new OperationResource($operation),
+            'gerant'     => Auth::user()->can('gerant')
+        ])->withViewData(['pageTitle' => 'Opération']);
     }
 
     /**
@@ -94,7 +97,7 @@ class OperationController extends Controller
     public function edit(Operation $operation)
     {
         return Inertia::render('Operations/AddOperation', [
-            'operation' => $operation,
+            'operation' => new OperationResource($operation),
             'gerant'     => Auth::user()->can('gerant')
         ])->withViewData(['pageTitle' => 'Modifier opération']);
     }
@@ -137,8 +140,16 @@ class OperationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Operation $operation)
+    public function destroy(Request $request)
     {
-        //
+        foreach ($request->checkedRows as $product) {
+            // $products[] = $product['id'];
+            $operation = Operation::find($product['id']);
+            if ($operation) {
+                $operation->delete();
+            }
+        }
+        // Product::destroy($products);
+        return redirect()->route('operations.index')->with('message', 'Suprimées avec succès.');
     }
 }

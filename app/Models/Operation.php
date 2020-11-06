@@ -40,16 +40,16 @@ class Operation extends Model
     
     public function magazinFrom()
     {
-        return $this->belongsTo(Shop::class, 'magazin_from_id');
+        return $this->belongsTo(Magazin::class, 'magazin_from_id');
     }
     
     public function magazinTo()
     {
-        return $this->belongsTo(Shop::class, 'magazin_to_id');
+        return $this->belongsTo(Magazin::class, 'magazin_to_id');
     }
     
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }

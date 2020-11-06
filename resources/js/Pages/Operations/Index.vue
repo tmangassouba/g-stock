@@ -43,27 +43,31 @@
                 @sort="onSort"
             >
                 <!-- :default-sort-direction="defaultSortOrder" -->
-                <b-table-column field="date" label="Date" sortable v-slot="props">
-                    <inertia-link :href="'/operations/' + props.row.reference">{{ props.row.date }}</inertia-link>
-                </b-table-column>
-                <b-table-column field="reference" label="Ref." sortable v-slot="props">
+                <b-table-column field="reference" label="Réf." sortable v-slot="props" numeric>
                     <inertia-link :href="'/operations/' + props.row.reference">{{ props.row.reference }}</inertia-link>
                 </b-table-column>
-                <b-table-column field="magazin_from_id" label="Source" sortable v-slot="props">
-                    {{ props.row.magazinFrom ? props.row.magazinFrom.name : '-' }}
+                <b-table-column field="date" label="Date" sortable v-slot="props">
+                    <inertia-link :href="'/operations/' + props.row.reference">{{ props.row.date_formated }}</inertia-link>
                 </b-table-column>
-                <b-table-column field="magazin_to_id" label="Destination" sortable v-slot="props">
-                    {{ props.row.magazinTo ? props.row.magazinTo.name : '-' }}
+                <b-table-column field="type" label="Type" sortable v-slot="props">
+                    <b-tag :type="tagType(props.row.type) + ' is-light'">
+                        {{ props.row.type }} :
+                        {{ props.row.magazinFrom ? props.row.magazinFrom.name : '' }}
+                        <b-icon icon="arrow-right" size="is-small"></b-icon>
+                        {{ props.row.magazinTo ? props.row.magazinTo.name : '' }}
+                    </b-tag>
                 </b-table-column>
-                <b-table-column field="type" label="Statut" sortable v-slot="props">
-                    {{ props.row.type }}
+                <b-table-column field="description" label="Description" v-slot="props" centered>
+                    <b-tooltip :label="props.row.description ? props.row.description : '-'" type="is-dark">
+                        <b-icon icon="message-bulleted" size="is-small"></b-icon>
+                    </b-tooltip>
                 </b-table-column>
                 <b-table-column field="user_id" label="Par" sortable v-slot="props">
                     {{ props.row.user ? props.row.user.name : '-' }}
                 </b-table-column>
-                <b-table-column field="created_at" label="Créé le" numeric sortable v-slot="props">
+                <!-- <b-table-column field="created_at" label="Créé le" numeric sortable v-slot="props">
                     {{ props.row.created_at }}
-                </b-table-column>
+                </b-table-column> -->
 
                 <template slot="empty">
                     <section class="section">
@@ -113,7 +117,7 @@
         
         methods: {
             loadAsyncData() {
-                Inertia.visit('/articles', {
+                Inertia.visit('/operations', {
                     method: 'get',
                     data: {
                         page: this.currentPage,
@@ -134,9 +138,9 @@
             deleteOperations() {
                 if (this.checkedRows.length) {
                     this.$buefy.dialog.confirm({
-                        title: 'Supprimer articles',
-                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(t)(s) article(s) ?<br/> Cette action ne peut pas être annulée.',
-                        confirmText: 'Supprimer article(s)',
+                        title: 'Supprimer opérations',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) éléments(s) ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer opération(s)',
                         type: 'is-danger',
                         hasIcon: true,
                         size: 'is-small',
@@ -146,12 +150,12 @@
                             var checkedForm = {
                                 checkedRows: this.checkedRows
                             }
-                            this.$inertia.post('/articles/delete-operations', checkedForm)
+                            this.$inertia.post('/operations/delete', checkedForm)
                             .then(() => {
                                 if (this.$page.flash.message != null ) {
                                     // this.resetForm()
                                     this.$buefy.notification.open({
-                                        message: 'Article(s) supprimé(s) avec succès.',
+                                        message: 'Opération(s) supprimée(s) avec succès.',
                                         type: 'is-success'
                                     })
                                 }
@@ -164,6 +168,15 @@
                         }
                     })
                 }
+            },
+            tagType(type) {
+                if (type == this.$OPERATION_SORTIE) {
+                    return 'is-danger'
+                }
+                if (type == this.$OPERATION_TRANSFERT) {
+                    return 'is-info'
+                }
+                return 'is-success'
             }
         },
         created() {

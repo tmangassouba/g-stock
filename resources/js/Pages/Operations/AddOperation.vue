@@ -2,8 +2,11 @@
     <app-layout>
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right" v-if="gerant">
-                <b-button class="is-info is-small" :loading="isSaving">{{ title }}</b-button>
-                <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteOperation" v-if="editMode">Supprimer</b-button>
+                <span v-if="editMode">
+                    <b-button class="is-info is-small" icon-left="arrow-left" tag="a" :href="'/operations/' + _operation.reference">Annuler</b-button>
+                    <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteOperation">Supprimer</b-button>
+                </span>
+                <b-button class="is-info is-small" icon-left="arrow-left" tag="a" href="/operations" v-else>Annuler</b-button>
             </div>
         </title-bar>
 
@@ -27,7 +30,7 @@
                         </b-field>
                         
                         <b-field
-                            v-if="form.type == $OPERATION_TRANSFERT"
+                            v-if="sortie || transfert"
                             horizontal 
                             label="Source"
                             :type="$page.errors.magazin_from_id ? 'is-danger' : ''"
@@ -44,6 +47,7 @@
                         </b-field>
                         
                         <b-field
+                            v-if="entrees || transfert"
                             horizontal 
                             label="Destination"
                             :type="$page.errors.magazin_to_id ? 'is-danger' : ''"
@@ -119,24 +123,24 @@
                             </b-autocomplete>
                         </b-table-column>
 
-                        <b-table-column field="quantite" label="Quantité" :width="150" v-slot="props">
+                        <b-table-column field="quantite" label="Quantité" :width="150" numeric v-slot="props">
                             <b-input name="quantite" v-model="props.row.quantite" type="number" size="is-small" required></b-input>
                         </b-table-column>
 
-                        <b-table-column field="piece" label="Nb. Pièce" :width="90" :visible="entrees" v-slot="props">
+                        <b-table-column field="piece" label="Nb. Pièce" :width="150" numeric :visible="entrees" v-slot="props">
                             <b-input name="piece" v-model="props.row.piece" type="number" size="is-small" required></b-input>
                         </b-table-column>
 
-                        <b-table-column field="" label="P.U" :width="150" :visible="entrees" v-slot="props">
+                        <b-table-column field="" label="P.U" :width="150" numeric :visible="entrees" v-slot="props">
                             <b-input name="prix" v-model="props.row.prix" type="number" size="is-small" required></b-input>
                         </b-table-column>
 
                         <b-table-column field="" label="Prix/Pièce" :width="150" numeric :visible="entrees" v-slot="props">
-                            {{ (props.row.prix / props.row.piece) | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
+                            {{ (props.row.prix / props.row.piece) | number('0,0', { thousandsSeparator: ' ' }) }}
                         </b-table-column>
 
                         <b-table-column field="" label="Sous total" :width="150" numeric :visible="entrees" v-slot="props">
-                            {{ (props.row.prix * props.row.quantite) | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
+                            {{ (props.row.prix * props.row.quantite) | number('0,0', { thousandsSeparator: ' ' }) }}
                         </b-table-column>
 
                         <b-table-column field="" label="" :width="50" align="right" v-slot="props">
@@ -200,6 +204,7 @@
             return {
                 magazins: [],
                 produits: [],
+                checkedRows: [],
                 isSaving: false,
                 loadingProducts: false,
                 isModalProductActive: false,
@@ -221,7 +226,7 @@
                             piece: 1,
                         }
                     ]
-                },
+                }
             }
         },
 
@@ -230,10 +235,37 @@
                 getEntreprise: 'parametres/getEntreprise'
             }),
             deleteOperation() {
-                //
-            },
-            updateData() {
-                alert("Edit")
+                if (this.checkedRows.length) {
+                    this.$buefy.dialog.confirm({
+                        title: 'Supprimer opération',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> cette opération ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer opération',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        size: 'is-small',
+                        onConfirm: () => {
+                            this.isDeleting = true
+                            var checkedForm = {
+                                checkedRows: this.checkedRows
+                            }
+                            this.$inertia.post('/operations/delete', checkedForm)
+                            .then(() => {
+                                if (this.$page.flash.message != null ) {
+                                    // this.resetForm()
+                                    this.$buefy.notification.open({
+                                        message: 'Opération(s) supprimée(s) avec succès.',
+                                        type: 'is-success'
+                                    })
+                                }
+                            })
+                            .catch(({message}) => {
+                                // this.$handleMessage(message, 'danger');
+                            }).finally(() => {
+                                this.isDeleting = false
+                            })
+                        }
+                    })
+                }
             },
             addData() {
                 this.isSaving = true
@@ -242,6 +274,23 @@
                     if (this.$page.flash.message != null ) {
                         this.$buefy.notification.open({
                             message: 'Ajoutée avec succès.',
+                            type: 'is-success'
+                        })
+                    }
+                })
+                .catch(({message}) => {
+                    // this.$handleMessage(message, 'danger');
+                }).finally(() => {
+                    this.isSaving = false
+                })
+            },
+            updateData() {
+                this.isSaving = true
+                this.$inertia.put('/operations/' + this._operation.reference + '/update', this.form)
+                .then(() => {
+                    if (this.$page.flash.message != null ) {
+                        this.$buefy.notification.open({
+                            message: 'Modifiée avec succès.',
                             type: 'is-success'
                         })
                     }
@@ -298,13 +347,16 @@
                 return this.organisation ? this.organisation.devise : '-'
             },
             title() {
-                return this.operation && this.operation.id ? 'Modifier' : 'Ajouter'
+                return this.editMode ? 'Modifier' : 'Ajouter'
             },
             titleStack () {
                 return [this.title + ' operation']
             },
             editMode() {
-                return this.operation && this.operation.id ? true : false;
+                return this._operation && this._operation.id ? true : false;
+            },
+            _operation() {
+                return this.operation && this.operation.data ? this.operation.data : null
             },
             magazinsFor() {
                 const mags = this.magazins.filter(item => item.id != this.form.magazin_from_id)
@@ -312,6 +364,12 @@
             },
             entrees() {
                 return this.form.type && this.form.type == this.$OPERATION_ENTREE
+            },
+            sortie() {
+                return this.form.type && this.form.type == this.$OPERATION_SORTIE
+            },
+            transfert() {
+                return this.form.type && this.form.type == this.$OPERATION_TRANSFERT
             },
             totalFacture: function () {
                 let total = 0
@@ -330,6 +388,32 @@
             .then((data) => {
                 this.magazins = data.data
             })
+            // console.log(this.operation.data)
+
+            if (this._operation) {
+                this.form.id              = this._operation.id
+                this.form.reference       = this._operation.reference
+                this.form.magazin_from_id = this._operation.magazin_from_id
+                this.form.magazin_to_id   = this._operation.magazin_to_id
+                this.form.description     = this._operation.description
+                this.form.type            = this._operation.type
+                this.form.user_id         = this._operation.user_id
+                let index = 0
+                
+                this._operation.products.forEach(element => {
+                    let prod = {
+                        produit_id: element.pivot ? element.id : null,
+                        produit_name: element.pivot ? element.designation : null,
+                        quantite: element.pivot ? element.pivot.quantite : null,
+                        prix: element.pivot ? element.pivot.prix : null,
+                        piece: element.pivot ? element.pivot.piece : null,
+                    }
+                    this.form.products[index] = prod
+                    index ++
+                });
+
+                this.checkedRows[0] = this._operation
+            }
         },
     }
 </script>
