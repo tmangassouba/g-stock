@@ -19,7 +19,7 @@ class ProductController extends Controller
         $sortField = $request->sortField ? $request->sortField : 'designation';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
 
-        $req = Product::orderBy($sortField, $sortOrder);
+        $req = Product::with('unite')->orderBy($sortField, $sortOrder);
         $products = $req->paginate(20);
 
         return Inertia::render('Articles/Index', [
@@ -54,6 +54,7 @@ class ProductController extends Controller
             'description'   => $request['description'],
             'stock_min'     => $request['stock_min'],
             'stock_max'     => $request['stock_max'],
+            'stock_ouverture'     => $request['stock_ouverture'],
             'unite_id'      => $request['unite_id'],
             'prix'          => $request['prix'],
             'quantite'      => $request['quantite'],

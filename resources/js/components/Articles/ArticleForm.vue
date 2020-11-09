@@ -38,6 +38,20 @@
             </b-field>
 
             <b-field 
+                horizontal
+                class="field-label is-small"
+                :type="$page.errors.stock_ouverture ? 'is-danger' : ''"
+                :message="$page.errors.stock_ouverture ? $page.errors.stock_ouverture[0] : ''">
+                <template slot="label">
+                    Stock d'ouverture
+                    <b-tooltip type="is-dark" label="Stock disponible au début.">
+                        <b-icon size="is-small" icon="help-circle-outline"></b-icon>
+                    </b-tooltip>
+                </template>
+                <b-input name="stock_ouverture" v-model="form.stock_ouverture" size="is-small" expanded></b-input>
+            </b-field>
+
+            <b-field 
                 horizontal 
                 label="Unité" 
                 class="field-label is-small"
@@ -125,6 +139,7 @@
                         description: this.article.description,
                         stock_min: this.article.stock_min,
                         stock_max: this.article.stock_max,
+                        stock_ouverture: this.article.stock_ouverture,
                         unite_id: this.article.unite_id,
                         prix: this.article.prix,
                         quantite: this.article.quantite
@@ -138,6 +153,7 @@
                     description: null,
                     stock_min: null,
                     stock_max: null,
+                    stock_ouverture: null,
                     unite_id: null,
                     prix: null,
                     quantite: null

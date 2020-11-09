@@ -25,6 +25,7 @@ table.table {
   }
 
   td {
+    border-bottom: 1px solid #eee;
     .image {
       margin: 0 auto;
       width: $table-avatar-size;

@@ -49,8 +49,24 @@
                 <b-table-column field="designation" label="Désignation" sortable v-slot="props">
                     <inertia-link :href="'/articles/' + props.row.code">{{ props.row.designation }}</inertia-link>
                 </b-table-column>
+                <b-table-column label="Unité" v-slot="props">
+                    <span v-if="props.row.unite">{{ props.row.unite.name }}</span>
+                </b-table-column>
+                <b-table-column label="Quantité" numeric>
+                    <template v-slot:header="{ column }">
+                        <b-tooltip label="Nb de pièces par unité." type="is-dark" append-to-body dashed>
+                            {{column.label}}
+                        </b-tooltip>
+                    </template>
+                    <template v-slot="props">{{ props.row.quantite }}</template>
+                </b-table-column>
+                <b-table-column field="prix" label="Prix de vente" sortable numeric v-slot="props">
+                    <span>{{ props.row.prix }}</span>
+                </b-table-column>
                 <b-table-column field="stock" label="Stock disponible" numeric v-slot="props">
-                    {{ props.row.stock }}
+                    <span class="has-text-weight-bold" :class="props.row.stock < props.row.stock_min ? 'has-text-danger' : 'has-text-success-' ">
+                        {{ props.row.stock }}
+                    </span>
                 </b-table-column>
 
                 <template slot="empty">

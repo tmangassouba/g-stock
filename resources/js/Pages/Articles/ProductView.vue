@@ -104,8 +104,25 @@
                         </div>
 
                         <section class="section is-main-section" style="background-color: #f3f3f3;">
-                            <strong>Stock</strong> <br>
-                            {{ _product }}
+                            <br>
+                            <div>
+                                <strong>
+                                    Stock d'ouverture
+                                    <b-tooltip type="is-dark" label="Stock disponible au début de l'exercice.">
+                                        <b-icon size="is-small" icon="help-circle-outline"></b-icon>
+                                    </b-tooltip> :
+                                </strong> 
+                                <!-- <br> -->
+                                <span>{{ _product.stock_ouverture }}</span>
+                            </div>
+                            <br>
+                            <div>
+                                <strong>Stock disponible :</strong>
+                                <!-- <br> -->
+                                <span :class="_product.stock < _product.stock_min ? 'has-text-danger' : '' ">
+                                    {{ _product.stock }}
+                                </span>
+                            </div>
                         </section>
                     </div>
                 </div>

@@ -16,11 +16,11 @@ class OperationController extends Controller
         $sortField = $request->sortField ? $request->sortField : 'date';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'DESC';
 
-        $req = Operation::orderBy($sortField, $sortOrder);
-        $products = $req->paginate(20);
+        $req = Operation::with('products', 'magazinFrom', 'magazinTo', 'user')->orderBy($sortField, $sortOrder);
+        $operations = $req->paginate(20);
 
         return Inertia::render('Operations/Index', [
-            'operations' => OperationResource::collection($products),
+            'operations' => OperationResource::collection($operations),
             'sortField'  => $sortField,
             'sortOrder'  => $sortOrder,
             'gerant'     => Auth::user()->can('gerant')

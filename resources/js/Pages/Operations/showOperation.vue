@@ -64,6 +64,7 @@
 
                     <b-table-column field="quantite" label="Quantité" :width="150" numeric v-slot="props">
                         {{ props.row.pivot ? props.row.pivot.quantite : '-' }}
+                        <small v-if="props.row.unite"> <br> {{ props.row.unite.name }}</small>
                     </b-table-column>
 
                     <b-table-column field="piece" label="Nb. Pièce" :width="150" numeric :visible="entrees" v-slot="props">

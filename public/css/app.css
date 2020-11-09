@@ -19639,6 +19639,10 @@ table.table th.checkbox-cell .b-checkbox.checkbox:not(.button) .control-label {
   padding: 0;
 }
 
+table.table td {
+  border-bottom: 1px solid #eee;
+}
+
 table.table td .image {
   margin: 0 auto;
   width: 1.5rem;

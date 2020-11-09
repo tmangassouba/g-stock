@@ -3652,6 +3652,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3786,6 +3802,23 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5552,6 +5585,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -7082,6 +7116,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -7116,6 +7164,7 @@ __webpack_require__.r(__webpack_exports__);
           description: this.article.description,
           stock_min: this.article.stock_min,
           stock_max: this.article.stock_max,
+          stock_ouverture: this.article.stock_ouverture,
           unite_id: this.article.unite_id,
           prix: this.article.prix,
           quantite: this.article.quantite
@@ -7130,6 +7179,7 @@ __webpack_require__.r(__webpack_exports__);
         description: null,
         stock_min: null,
         stock_max: null,
+        stock_ouverture: null,
         unite_id: null,
         prix: null,
         quantite: null
@@ -49487,6 +49537,77 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("b-table-column", {
+                attrs: { label: "Unité" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [
+                        props.row.unite
+                          ? _c("span", [_vm._v(_vm._s(props.row.unite.name))])
+                          : _vm._e()
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("b-table-column", {
+                attrs: { label: "Quantité", numeric: "" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "header",
+                    fn: function(ref) {
+                      var column = ref.column
+                      return [
+                        _c(
+                          "b-tooltip",
+                          {
+                            attrs: {
+                              label: "Nb de pièces par unité.",
+                              type: "is-dark",
+                              "append-to-body": "",
+                              dashed: ""
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(column.label) +
+                                "\n                    "
+                            )
+                          ]
+                        )
+                      ]
+                    }
+                  },
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [_vm._v(_vm._s(props.row.quantite))]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("b-table-column", {
+                attrs: {
+                  field: "prix",
+                  label: "Prix de vente",
+                  sortable: "",
+                  numeric: ""
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [_c("span", [_vm._v(_vm._s(props.row.prix))])]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("b-table-column", {
                 attrs: {
                   field: "stock",
                   label: "Stock disponible",
@@ -49497,10 +49618,22 @@ var render = function() {
                     key: "default",
                     fn: function(props) {
                       return [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(props.row.stock) +
-                            "\n            "
+                        _c(
+                          "span",
+                          {
+                            staticClass: "has-text-weight-bold",
+                            class:
+                              props.row.stock < props.row.stock_min
+                                ? "has-text-danger"
+                                : "has-text-success-"
+                          },
+                          [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(props.row.stock) +
+                                "\n                "
+                            )
+                          ]
                         )
                       ]
                     }
@@ -49979,14 +50112,66 @@ var render = function() {
                           staticStyle: { "background-color": "#f3f3f3" }
                         },
                         [
-                          _c("strong", [_vm._v("Stock")]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("div", [
+                            _c(
+                              "strong",
+                              [
+                                _vm._v(
+                                  "\n                                Stock d'ouverture\n                                "
+                                ),
+                                _c(
+                                  "b-tooltip",
+                                  {
+                                    attrs: {
+                                      type: "is-dark",
+                                      label:
+                                        "Stock disponible au début de l'exercice."
+                                    }
+                                  },
+                                  [
+                                    _c("b-icon", {
+                                      attrs: {
+                                        size: "is-small",
+                                        icon: "help-circle-outline"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" :\n                            ")
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(_vm._s(_vm._product.stock_ouverture))
+                            ])
+                          ]),
                           _vm._v(" "),
                           _c("br"),
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(_vm._product) +
-                              "\n                    "
-                          )
+                          _vm._v(" "),
+                          _c("div", [
+                            _c("strong", [_vm._v("Stock disponible :")]),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              {
+                                class:
+                                  _vm._product.stock < _vm._product.stock_min
+                                    ? "has-text-danger"
+                                    : ""
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(_vm._product.stock) +
+                                    "\n                            "
+                                )
+                              ]
+                            )
+                          ])
                         ]
                       )
                     ])
@@ -52520,8 +52705,14 @@ var render = function() {
                             _vm._s(
                               props.row.pivot ? props.row.pivot.quantite : "-"
                             ) +
-                            "\n                "
-                        )
+                            "\n                    "
+                        ),
+                        props.row.unite
+                          ? _c("small", [
+                              _c("br"),
+                              _vm._v(" " + _vm._s(props.row.unite.name))
+                            ])
+                          : _vm._e()
                       ]
                     }
                   }
@@ -55040,6 +55231,66 @@ var render = function() {
                   })
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                {
+                  staticClass: "field-label is-small",
+                  attrs: {
+                    horizontal: "",
+                    type: _vm.$page.errors.stock_ouverture ? "is-danger" : "",
+                    message: _vm.$page.errors.stock_ouverture
+                      ? _vm.$page.errors.stock_ouverture[0]
+                      : ""
+                  }
+                },
+                [
+                  _c(
+                    "template",
+                    { slot: "label" },
+                    [
+                      _vm._v(
+                        "\n                Stock d'ouverture\n                "
+                      ),
+                      _c(
+                        "b-tooltip",
+                        {
+                          attrs: {
+                            type: "is-dark",
+                            label: "Stock disponible au début."
+                          }
+                        },
+                        [
+                          _c("b-icon", {
+                            attrs: {
+                              size: "is-small",
+                              icon: "help-circle-outline"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("b-input", {
+                    attrs: {
+                      name: "stock_ouverture",
+                      size: "is-small",
+                      expanded: ""
+                    },
+                    model: {
+                      value: _vm.form.stock_ouverture,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form, "stock_ouverture", $$v)
+                      },
+                      expression: "form.stock_ouverture"
+                    }
+                  })
+                ],
+                2
               ),
               _vm._v(" "),
               _c(
