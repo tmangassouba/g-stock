@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\Magazin;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -119,5 +120,18 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->back()->with('message', 'Modifié avec succès.');
+    }
+
+    public function stocks(Product $product)
+    {
+        $stocks = [];
+        $magazins = Magazin::orderBy('name')->get();
+        foreach ( $magazins as $magazin) {
+            $stock['name']  = $magazin->name;
+            $stock['stock'] = $product->stockByMagazin($magazin->id);
+
+            $stocks[] = $stock;
+        }
+        return $stocks;
     }
 }

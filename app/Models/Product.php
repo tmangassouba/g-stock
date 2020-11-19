@@ -40,12 +40,27 @@ class Product extends Model
 
     public function stock()
     {
-        $stock = $this->stock_ouverture;
+        // $stock = $this->stock_ouverture;
+        $stock = 0;
         foreach ($this->operations as $operation) {
             if ($operation->type == Operation::TYPE_ENTREE && $operation->pivot) {
                 $stock += $operation->pivot->quantite;
             }
             if ($operation->type == Operation::TYPE_SORTIE && $operation->pivot) {
+                $stock -= $operation->pivot->quantite;
+            }
+        }
+        return $stock;
+    }
+
+    public function stockByMagazin($idMagazin)
+    {
+        $stock = 0;
+        foreach ($this->operations as $operation) {
+            if ($operation->type == Operation::TYPE_ENTREE && $operation->pivot && $operation->magazin_to_id == $idMagazin) {
+                $stock += $operation->pivot->quantite;
+            }
+            if ($operation->type == Operation::TYPE_SORTIE && $operation->pivot && $operation->magazin_from_id == $idMagazin) {
                 $stock -= $operation->pivot->quantite;
             }
         }

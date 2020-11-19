@@ -46,13 +46,30 @@
 
                         <br>
                         <h6 class="title is-6">Emplacements des stocks</h6>
-                        //
+                        <b-table 
+                            :data="magazins"
+                            :loading="loadingMagazins"
+                            striped
+                            hoverable>
+                            <b-table-column field="name" label="Magazins" v-slot="props">{{ props.row.name }}</b-table-column>
+                            <b-table-column label="Stock" width='150' numeric v-slot="props">{{ props.row.stock }}</b-table-column>
 
-                        <h6 class="title is-6">Opérations</h6>
+
+                            <template slot="empty">
+                                <section class="section">
+                                    <div class="content has-text-grey has-text-centered">
+                                        <p><b-icon icon="inbox" size="is-large"></b-icon></p>
+                                        <p>Aucun résultat.</p>
+                                    </div>
+                                </section>
+                            </template>
+                        </b-table>
+
+                        <!-- <h6 class="title is-6">Opérations</h6>
                         //
 
                         <h6 class="title is-6">Documents</h6>
-                        //
+                        // -->
                     </div>
 
                     <div class="column">
@@ -104,17 +121,16 @@
                         </div>
 
                         <section class="section is-main-section" style="background-color: #f3f3f3;">
-                            <br>
+                            <!-- <br>
                             <div>
                                 <strong>
                                     Stock d'ouverture
                                     <b-tooltip type="is-dark" label="Stock disponible au début de l'exercice.">
                                         <b-icon size="is-small" icon="help-circle-outline"></b-icon>
                                     </b-tooltip> :
-                                </strong> 
-                                <!-- <br> -->
+                                </strong>
                                 <span>{{ _product.stock_ouverture }}</span>
-                            </div>
+                            </div> -->
                             <br>
                             <div>
                                 <strong>Stock disponible :</strong>
@@ -171,7 +187,9 @@
                 changingImage: false,
                 deletingImage: false,
                 _product: {},
-                file: null
+                file: null,
+                magazins: [],
+                loadingMagazins: false
             }
         },
 
@@ -235,6 +253,16 @@
                 }).finally(() => {
                     this.deletingImage = false
                 })
+            },
+            getMagazins() {
+                this.loadingMagazins = true
+                axios.get('/articles/' + this._product.code +'/stocks')
+                .then((data) => {
+                    this.magazins = data.data
+                })
+                .finally(() => {
+                    this.loadingMagazins = false
+                })
             }
         },
 
@@ -256,6 +284,7 @@
             this.getEntreprise()
             if (this.product && this.product.data) {
                 this._product = this.product.data
+                this.getMagazins()
             }
         },
     }

@@ -3951,6 +3951,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3971,7 +3987,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       changingImage: false,
       deletingImage: false,
       _product: {},
-      file: null
+      file: null,
+      magazins: [],
+      loadingMagazins: false
     };
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
@@ -4037,6 +4055,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["finally"](function () {
         _this3.deletingImage = false;
       });
+    },
+    getMagazins: function getMagazins() {
+      var _this4 = this;
+
+      this.loadingMagazins = true;
+      axios.get('/articles/' + this._product.code + '/stocks').then(function (data) {
+        _this4.magazins = data.data;
+      })["finally"](function () {
+        _this4.loadingMagazins = false;
+      });
     }
   }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -4056,6 +4084,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     if (this.product && this.product.data) {
       this._product = this.product.data;
+      this.getMagazins();
     }
   }
 });
@@ -49794,140 +49823,214 @@ var render = function() {
                 "div",
                 [
                   _c("div", { staticClass: "columns" }, [
-                    _c("div", { staticClass: "column is-8 vue-ensemble" }, [
-                      _c("h6", { staticClass: "title is-6" }, [
-                        _vm._v("Vue d'ensemble")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "columns" }, [
-                        _c("div", { staticClass: "column is-3 le-label" }, [
-                          _vm._v("Référence")
+                    _c(
+                      "div",
+                      { staticClass: "column is-8 vue-ensemble" },
+                      [
+                        _c("h6", { staticClass: "title is-6" }, [
+                          _vm._v("Vue d'ensemble")
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "column value" }, [
-                          _vm._v(_vm._s(_vm._product.code))
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "columns" }, [
-                        _c("div", { staticClass: "column is-3 le-label" }, [
-                          _vm._v("Référence fabriant")
+                        _c("div", { staticClass: "columns" }, [
+                          _c("div", { staticClass: "column is-3 le-label" }, [
+                            _vm._v("Référence")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "column value" }, [
+                            _vm._v(_vm._s(_vm._product.code))
+                          ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "column value" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._product.ref_fabricant
-                                ? _vm._product.ref_fabricant
-                                : "-"
-                            )
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "columns" }, [
-                        _c("div", { staticClass: "column is-3 le-label" }, [
-                          _vm._v("Unité")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "column value" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._product.unite ? _vm._product.unite.name : "-"
-                            )
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "columns" }, [
-                        _c("div", { staticClass: "column is-3 le-label" }, [
-                          _vm._v("Quantité")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "column value" }, [
-                          _vm._v(
-                            "\n                            " +
+                        _c("div", { staticClass: "columns" }, [
+                          _c("div", { staticClass: "column is-3 le-label" }, [
+                            _vm._v("Référence fabriant")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "column value" }, [
+                            _vm._v(
                               _vm._s(
-                                _vm._product.quantite
-                                  ? _vm._product.quantite +
-                                      " pcs par " +
-                                      (_vm._product.unite
-                                        ? _vm._product.unite.name
-                                        : "-")
+                                _vm._product.ref_fabricant
+                                  ? _vm._product.ref_fabricant
                                   : "-"
+                              )
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "columns" }, [
+                          _c("div", { staticClass: "column is-3 le-label" }, [
+                            _vm._v("Unité")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "column value" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._product.unite
+                                  ? _vm._product.unite.name
+                                  : "-"
+                              )
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "columns" }, [
+                          _c("div", { staticClass: "column is-3 le-label" }, [
+                            _vm._v("Quantité")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "column value" }, [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  _vm._product.quantite
+                                    ? _vm._product.quantite +
+                                        " pcs par " +
+                                        (_vm._product.unite
+                                          ? _vm._product.unite.name
+                                          : "-")
+                                    : "-"
+                                ) +
+                                "\n                        "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "columns" }, [
+                          _c("div", { staticClass: "column is-3 le-label" }, [
+                            _vm._v("Stock minimal")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "column value" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._product.stock_min
+                                  ? _vm._product.stock_min
+                                  : "-"
+                              )
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "columns" }, [
+                          _c("div", { staticClass: "column is-3 le-label" }, [
+                            _vm._v("Stock maximal")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "column value" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._product.stock_max
+                                  ? _vm._product.stock_max
+                                  : "-"
+                              )
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "columns" }, [
+                          _c("div", { staticClass: "column is-3 le-label" }, [
+                            _vm._v("Prix de vente")
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "column value" }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm._product.prix ? _vm._product.prix : "-"
                               ) +
-                              "\n                        "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "columns" }, [
-                        _c("div", { staticClass: "column is-3 le-label" }, [
-                          _vm._v("Stock minimal")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "column value" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._product.stock_min
-                                ? _vm._product.stock_min
-                                : "-"
+                                " " +
+                                _vm._s(_vm.monaie)
                             )
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "columns" }, [
-                        _c("div", { staticClass: "column is-3 le-label" }, [
-                          _vm._v("Stock maximal")
+                          ])
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "column value" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._product.stock_max
-                                ? _vm._product.stock_max
-                                : "-"
-                            )
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "columns" }, [
-                        _c("div", { staticClass: "column is-3 le-label" }, [
-                          _vm._v("Prix de vente")
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("h6", { staticClass: "title is-6" }, [
+                          _vm._v("Emplacements des stocks")
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "column value" }, [
-                          _vm._v(
-                            _vm._s(
-                              _vm._product.prix ? _vm._product.prix : "-"
-                            ) +
-                              " " +
-                              _vm._s(_vm.monaie)
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("h6", { staticClass: "title is-6" }, [
-                        _vm._v("Emplacements des stocks")
-                      ]),
-                      _vm._v(
-                        "\n                    //\n\n                    "
-                      ),
-                      _c("h6", { staticClass: "title is-6" }, [
-                        _vm._v("Opérations")
-                      ]),
-                      _vm._v(
-                        "\n                    //\n\n                    "
-                      ),
-                      _c("h6", { staticClass: "title is-6" }, [
-                        _vm._v("Documents")
-                      ]),
-                      _vm._v("\n                    //\n                ")
-                    ]),
+                        _c(
+                          "b-table",
+                          {
+                            attrs: {
+                              data: _vm.magazins,
+                              loading: _vm.loadingMagazins,
+                              striped: "",
+                              hoverable: ""
+                            }
+                          },
+                          [
+                            _c("b-table-column", {
+                              attrs: { field: "name", label: "Magazins" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(props) {
+                                      return [_vm._v(_vm._s(props.row.name))]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                741795258
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("b-table-column", {
+                              attrs: {
+                                label: "Stock",
+                                width: "150",
+                                numeric: ""
+                              },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "default",
+                                    fn: function(props) {
+                                      return [_vm._v(_vm._s(props.row.stock))]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                565232317
+                              )
+                            }),
+                            _vm._v(" "),
+                            _c("template", { slot: "empty" }, [
+                              _c("section", { staticClass: "section" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "content has-text-grey has-text-centered"
+                                  },
+                                  [
+                                    _c(
+                                      "p",
+                                      [
+                                        _c("b-icon", {
+                                          attrs: {
+                                            icon: "inbox",
+                                            size: "is-large"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("p", [_vm._v("Aucun résultat.")])
+                                  ]
+                                )
+                              ])
+                            ])
+                          ],
+                          2
+                        )
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "column" }, [
                       _c("div", { staticClass: "columns" }, [
@@ -50112,44 +50215,6 @@ var render = function() {
                           staticStyle: { "background-color": "#f3f3f3" }
                         },
                         [
-                          _c("br"),
-                          _vm._v(" "),
-                          _c("div", [
-                            _c(
-                              "strong",
-                              [
-                                _vm._v(
-                                  "\n                                Stock d'ouverture\n                                "
-                                ),
-                                _c(
-                                  "b-tooltip",
-                                  {
-                                    attrs: {
-                                      type: "is-dark",
-                                      label:
-                                        "Stock disponible au début de l'exercice."
-                                    }
-                                  },
-                                  [
-                                    _c("b-icon", {
-                                      attrs: {
-                                        size: "is-small",
-                                        icon: "help-circle-outline"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" :\n                            ")
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("span", [
-                              _vm._v(_vm._s(_vm._product.stock_ouverture))
-                            ])
-                          ]),
-                          _vm._v(" "),
                           _c("br"),
                           _vm._v(" "),
                           _c("div", [
@@ -55231,66 +55296,6 @@ var render = function() {
                   })
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "b-field",
-                {
-                  staticClass: "field-label is-small",
-                  attrs: {
-                    horizontal: "",
-                    type: _vm.$page.errors.stock_ouverture ? "is-danger" : "",
-                    message: _vm.$page.errors.stock_ouverture
-                      ? _vm.$page.errors.stock_ouverture[0]
-                      : ""
-                  }
-                },
-                [
-                  _c(
-                    "template",
-                    { slot: "label" },
-                    [
-                      _vm._v(
-                        "\n                Stock d'ouverture\n                "
-                      ),
-                      _c(
-                        "b-tooltip",
-                        {
-                          attrs: {
-                            type: "is-dark",
-                            label: "Stock disponible au début."
-                          }
-                        },
-                        [
-                          _c("b-icon", {
-                            attrs: {
-                              size: "is-small",
-                              icon: "help-circle-outline"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("b-input", {
-                    attrs: {
-                      name: "stock_ouverture",
-                      size: "is-small",
-                      expanded: ""
-                    },
-                    model: {
-                      value: _vm.form.stock_ouverture,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "stock_ouverture", $$v)
-                      },
-                      expression: "form.stock_ouverture"
-                    }
-                  })
-                ],
-                2
               ),
               _vm._v(" "),
               _c(

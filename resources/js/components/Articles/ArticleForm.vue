@@ -37,7 +37,7 @@
                 <b-input name="stock_max" v-model="form.stock_max" size="is-small" expanded></b-input>
             </b-field>
 
-            <b-field 
+            <!-- <b-field 
                 horizontal
                 class="field-label is-small"
                 :type="$page.errors.stock_ouverture ? 'is-danger' : ''"
@@ -49,7 +49,7 @@
                     </b-tooltip>
                 </template>
                 <b-input name="stock_ouverture" v-model="form.stock_ouverture" size="is-small" expanded></b-input>
-            </b-field>
+            </b-field> -->
 
             <b-field 
                 horizontal 

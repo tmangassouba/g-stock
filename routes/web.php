@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UsersController;
 use App\Http\Resources\UserResource;
+use App\Models\Magazin;
 use Illuminate\Http\Request;
 
 /*
@@ -45,6 +46,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{product}', [ProductController::class, 'view'])->name('view');
         Route::post('/{product}/change-image', [ProductController::class, 'changeImage'])->name('changeImage');
         Route::delete('/{product}/delete-image', [ProductController::class, 'deleteImage'])->name('deleteImage');
+
+        Route::get('/{product}/stocks', [ProductController::class, 'stocks'])->name('stocks');
     });
 
     //Utilisateurs
@@ -72,7 +75,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     // Parametre
-    Route::get('/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise')->middleware('can:admin');
+    Route::get('/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise');
     Route::put('/entreprise', [ParametreController::class, 'update'])->name('update')->middleware('can:admin');
     Route::get('/profil-organisation', [ParametreController::class, 'index'])->name('index')->middleware('can:admin');
     Route::post('/entreprise/change-image', [ParametreController::class, 'changeImage'])->name('changeImage');

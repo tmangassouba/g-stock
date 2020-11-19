@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MagazinRequest;
 use App\Http\Resources\MagazinResource;
 use App\Models\Magazin;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
