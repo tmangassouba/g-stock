@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviseController;
 use App\Http\Controllers\MagazinController;
 use App\Http\Controllers\OperationController;
@@ -32,9 +33,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/user', function (Request $request) {
         return new UserResource($request->user());
     });
-    Route::get('/', function () {
-        return Inertia\Inertia::render('Dashboard');
-    })->name('dashboard');
+    
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // Articles
     Route::name('articles.')->prefix('articles')->group(function () {

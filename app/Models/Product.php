@@ -63,6 +63,14 @@ class Product extends Model
             if ($operation->type == Operation::TYPE_SORTIE && $operation->pivot && $operation->magazin_from_id == $idMagazin) {
                 $stock -= $operation->pivot->quantite;
             }
+            if ($operation->type == Operation::TYPE_TRANSFERT && $operation->pivot) {
+                if ($operation->magazin_from_id == $idMagazin) {
+                    $stock -= $operation->pivot->quantite;
+                }
+                if ($operation->magazin_to_id == $idMagazin) {
+                    $stock += $operation->pivot->quantite;
+                }
+            }
         }
         return $stock;
     }

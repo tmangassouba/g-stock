@@ -1,0 +1,64 @@
+.dashboard {
+    padding: 0px !important;
+}
+.dashboard .activites {
+    background-color: #f5faff !important;
+    // padding-top: 20px;
+    // padding-bottom: 30px;
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid #dde5e8;
+}
+.dashboard .dashboard-item {
+    display: block;
+    text-align: center;
+    border: 1px solid #dae1e4;
+    border-radius: 7px;
+    background-color: #fff;
+    // margin-top: 15px;
+    padding-top: 10%;
+    padding-bottom: 07%;
+}
+
+.dashboard .dashboard-item .icon {
+    color: #4a4a4a;
+}
+
+.dashboard .dashboard-item .chiffre {
+    font-weight: bolder;
+    color: #4a4a4a;
+    font-size: 1.5rem;
+}
+
+.dashboard .dashboard-item .name {
+    color: #4a4a4a;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.dashboard .stock {
+    border: 1px solid #dae1e4;
+    text-transform: uppercase;
+    border-radius: 7px;
+    background-color: #fff;
+    // padding-top: 10px;
+    // padding-bottom: 10px;
+    margin-bottom: 20px !important;
+}
+
+.text-blue {
+    color: #2485e8 !important;
+}
+
+.text-red {
+    color: #db584b !important;
+}
+
+.text-green {
+    color: #28a745 !important;
+}
+
+.text-yellow {
+    color: #ddb630 !important;
+}

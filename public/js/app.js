@@ -4142,6 +4142,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -4163,71 +4170,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['operations', 'products', 'stock', 'couts'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
-    return {
-      data: [{
-        'id': 1,
-        'first_name': 'Jesse',
-        'last_name': 'Simmons',
-        'date': '2016-10-15 13:43:27',
-        'gender': 'Male'
-      }, {
-        'id': 2,
-        'first_name': 'John',
-        'last_name': 'Jacobs',
-        'date': '2016-12-15 06:00:53',
-        'gender': 'Male'
-      }, {
-        'id': 3,
-        'first_name': 'Tina',
-        'last_name': 'Gilbert',
-        'date': '2016-04-26 06:26:28',
-        'gender': 'Female'
-      }, {
-        'id': 4,
-        'first_name': 'Clarence',
-        'last_name': 'Flores',
-        'date': '2016-04-10 10:28:46',
-        'gender': 'Male'
-      }, {
-        'id': 5,
-        'first_name': 'Anne',
-        'last_name': 'Lee',
-        'date': '2016-12-06 14:38:38',
-        'gender': 'Female'
-      }],
-      columns: [{
-        field: 'id',
-        label: 'ID',
-        width: '40',
-        numeric: true
-      }, {
-        field: 'first_name',
-        label: 'First Name'
-      }, {
-        field: 'last_name',
-        label: 'Last Name'
-      }, {
-        field: 'date',
-        label: 'Date',
-        centered: true
-      }, {
-        field: 'gender',
-        label: 'Gender'
-      }]
+    return {//
     };
   },
-  computed: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])({
+    getEntreprise: 'parametres/getEntreprise'
+  })),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])({
+    organisation: 'parametres/getParametre'
+  })), {}, {
+    monaie: function monaie() {
+      return this.organisation ? this.organisation.devise : '';
+    },
     titleStack: function titleStack() {
       return ['Tableau de bord'];
     }
+  }),
+  created: function created() {
+    this.getEntreprise();
   }
 });
 
@@ -50384,35 +50381,125 @@ var render = function() {
   return _c(
     "app-layout",
     [
-      _c("title-bar", { attrs: { "title-stack": _vm.titleStack } }, [
-        _c("div", { staticClass: "buttons is-right is-small" }, [
-          _c(
-            "a",
-            {
-              staticClass: "button is-primary is-small",
-              attrs: {
-                href: "https://admin-one.justboil.me/",
-                target: "_blank"
-              }
-            },
-            [
-              _c("b-icon", {
-                attrs: { icon: "plus", "custom-size": "default" }
-              }),
-              _vm._v(" "),
-              _c("span", [_vm._v("Ajouter")])
-            ],
-            1
-          )
-        ])
-      ]),
+      _c("title-bar", { attrs: { "title-stack": _vm.titleStack } }),
       _vm._v(" "),
-      _c(
-        "section",
-        { staticClass: "section is-main-section" },
-        [_c("b-table", { attrs: { data: _vm.data, columns: _vm.columns } })],
-        1
-      )
+      _c("section", { staticClass: "section is-main-section dashboard" }, [
+        _c("div", { staticClass: "activites" }, [
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-8" }, [
+              _c("h6", { staticClass: "title is-6" }, [_vm._v("Activité")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "columns" }, [
+                _c(
+                  "div",
+                  { staticClass: "column is-3" },
+                  [
+                    _c(
+                      "inertia-link",
+                      {
+                        staticClass: "dashboard-item",
+                        attrs: { href: "/articles" }
+                      },
+                      [
+                        _c("div", { staticClass: "chiffre text-blue" }, [
+                          _vm._v(_vm._s(_vm.products))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "name" },
+                          [
+                            _c("b-icon", {
+                              attrs: { icon: "cart-outline", size: "is-small" }
+                            }),
+                            _vm._v(" Articles")
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "column is-3" },
+                  [
+                    _c(
+                      "inertia-link",
+                      {
+                        staticClass: "dashboard-item",
+                        attrs: { href: "/operations" }
+                      },
+                      [
+                        _c("div", { staticClass: "chiffre text-red" }, [
+                          _vm._v(_vm._s(_vm.operations))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "name" },
+                          [
+                            _c("b-icon", {
+                              attrs: { icon: "credit-card", size: "is-small" }
+                            }),
+                            _vm._v(" Operations")
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("h6", { staticClass: "title is-6" }, [_vm._v("Stock")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "columns stock" }, [
+                _c("div", { staticClass: "column" }, [
+                  _vm._v("QUANTITÉ DISPONIBLE")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "column",
+                    staticStyle: { "text-align": "right", "font-weight": "700" }
+                  },
+                  [_vm._v(_vm._s(_vm.stock))]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "columns stock" }, [
+                _c("div", { staticClass: "column" }, [_vm._v("Coût total")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "column",
+                    staticStyle: { "text-align": "right", "font-weight": "700" }
+                  },
+                  [
+                    _vm._v(
+                      _vm._s(
+                        _vm._f("number")(_vm.couts, "0,0", {
+                          thousandsSeparator: " "
+                        })
+                      ) +
+                        " " +
+                        _vm._s(_vm.monaie)
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
     ],
     1
   )
