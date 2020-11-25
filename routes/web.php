@@ -48,6 +48,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::delete('/{product}/delete-image', [ProductController::class, 'deleteImage'])->name('deleteImage');
 
         Route::get('/{product}/stocks', [ProductController::class, 'stocks'])->name('stocks');
+        Route::get('/{product}/docs', [ProductController::class, 'docs'])->name('docs');
+        Route::post('/{product}/upload-files', [ProductController::class, 'uploadFiles'])->name('uploadFiles');
+        Route::post('/{product}/delete-files', [ProductController::class, 'deleteFiles'])->name('deleteFiles');
     });
 
     //Utilisateurs

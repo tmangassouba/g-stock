@@ -31,8 +31,9 @@ class ProductResource extends JsonResource
             'image'           => $this->image,
             'image_url'       => $this->image ? Storage::url('products/'.$this->image) : Storage::url('products/default.png'),
             'stock'           => $this->stock(),
-            'created_at'      => $this->created_at ? $this->created_at->format('d/m/Y H:m') : null,
-            'updated_at'      => $this->updated_at ? $this->updated_at->format('d/m/Y H:m') : null,
+            // 'files'           => FileResource::collection($this->files),
+            'created_at'      => $this->created_at ? $this->created_at->format('d/m/Y H:i') : null,
+            'updated_at'      => $this->updated_at ? $this->updated_at->format('d/m/Y H:i') : null,
         ];
     }
 }

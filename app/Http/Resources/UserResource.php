@@ -29,8 +29,8 @@ class UserResource extends JsonResource
             'avatar'      => $this->profile_photo_path ? Storage::url($this->profile_photo_path) : Storage::url('profile-photos/user-profile.png'),
             // 'shop_id'     => $this->shop_id,
             // 'shop'        => new Shop($this->shop),
-            'created_at'  => $this->created_at ? $this->created_at->format('d/m/Y H:m') : null,
-            'updated_at'  => $this->updated_at ? $this->updated_at->format('d/m/Y') : null,
+            'created_at'  => $this->created_at ? $this->created_at->format('d/m/Y H:i') : null,
+            'updated_at'  => $this->updated_at ? $this->updated_at->format('d/m/Y H:i') : null,
         ];
     }
 }

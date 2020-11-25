@@ -38,6 +38,11 @@ class Product extends Model
         return $this->belongsToMany(Operation::class, 'product_operation')->withPivot('quantite', 'prix', 'piece');
     }
 
+    public function files()
+    {
+        return $this->morphMany('App\Models\File', 'filable');
+    }
+
     public function stock()
     {
         // $stock = $this->stock_ouverture;

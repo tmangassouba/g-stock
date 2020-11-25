@@ -44,7 +44,8 @@
                             <div class="column value">{{ _product.prix ? _product.prix : '-' }} {{ monaie }}</div>
                         </div>
 
-                        <br>
+                        <hr>
+
                         <h6 class="title is-6">Emplacements des stocks</h6>
                         <b-table 
                             :data="magazins"
@@ -56,19 +57,60 @@
 
 
                             <template slot="empty">
-                                <section class="section">
+                                <section class="section-">
                                     <div class="content has-text-grey has-text-centered">
-                                        <p><b-icon icon="inbox" size="is-large"></b-icon></p>
+                                        <div><b-icon icon="inbox" size="is-medium"></b-icon></div>
                                         <p>Aucun résultat.</p>
                                     </div>
                                 </section>
                             </template>
                         </b-table>
 
-                        <!-- <h6 class="title is-6">Opérations</h6>
-                        //
+                        <hr>
+                        
+                        <div class="level">
+                            <div class="level-left"><h6 class="title is-6">Documents</h6></div>
+                            <div class="level-right" v-if="hasRole('ADMIN')">
+                                <div>
+                                    <b-tooltip type="is-dark" label="Télécharger des fichiers">
+                                        <b-button type="is-info" size="is-small" icon-left="upload" @click="isModalFileActive = true"></b-button>
+                                    </b-tooltip>
+                                        
+                                    <b-tooltip type="is-dark" label="Supprimer les fichiers sélectionnés">
+                                        <b-button type="is-danger" size="is-small" icon-left="delete" @click="deleteDocs()" v-if="checkedRows.length!=0"></b-button>
+                                    </b-tooltip>
+                                </div>
+                            </div>
+                        </div>
+                        <b-table 
+                            :data="docs"
+                            :loading="loadingDocs"
+                            striped
+                            :show-header="true"
+                            checkable
+                            :checked-rows.sync="checkedRows"
+                            hoverable>
+                            <b-table-column field="name" label="Document" v-slot="props">
+                                <!-- <span>{{ props.row.extension }}</span> -->
+                                <b-icon icon="file-document-outline" size="is-small"></b-icon>
+                                <a :href="props.row.file_url" target="_blank" rel="">{{ props.row.name }}</a>
+                            </b-table-column>
+                            <b-table-column field="created_at" label="Date" numeric v-slot="props">
+                                {{ props.row.created_at }}
+                            </b-table-column>
 
-                        <h6 class="title is-6">Documents</h6>
+
+                            <template slot="empty">
+                                <section class="section_">
+                                    <div class="content has-text-grey has-text-centered">
+                                        <div><b-icon icon="inbox" size="is-medium"></b-icon></div>
+                                        <p>Aucun document.</p>
+                                    </div>
+                                </section>
+                            </template>
+                        </b-table>
+
+                        <!-- <h6 class="title is-6">Opérations</h6>
                         // -->
                     </div>
 
@@ -152,6 +194,16 @@
                 >
                     <article-form :article="_product" @close="isModalActive = false"></article-form>
                 </b-modal>
+
+                <b-modal 
+                    v-model="isModalFileActive"
+                    trap-focus
+                    :destroy-on-hide="false"
+                    :can-cancel="['escape', 'x']"
+                    :width="640"
+                >
+                    <file-form :article="_product"  @reloadDocs="getDocs()" @close-file-modal="isModalFileActive = false"></file-form>
+                </b-modal>
             </div>
 
             <div v-else>Page introuvable !</div>
@@ -167,7 +219,7 @@
     import { mapGetters, mapActions } from 'vuex'
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
-    import { ArticleForm } from "../../components/Articles"
+    import { ArticleForm, FileForm } from "../../components/Articles"
     import { Inertia } from '@inertiajs/inertia'
 
     export default {
@@ -176,20 +228,25 @@
         components: {
             AppLayout,
             TitleBar,
-            ArticleForm
+            ArticleForm,
+            FileForm
         },
 
         data() {
             return {
                 isModalActive: false,
                 isImageModalActive: false,
+                isModalFileActive: false,
                 isDeleting: false,
                 changingImage: false,
                 deletingImage: false,
                 _product: {},
                 file: null,
                 magazins: [],
-                loadingMagazins: false
+                loadingMagazins: false,
+                docs: [],
+                loadingDocs: false,
+                checkedRows: []
             }
         },
 
@@ -263,6 +320,51 @@
                 .finally(() => {
                     this.loadingMagazins = false
                 })
+            },
+            getDocs() {
+                this.loadingDocs = true
+                axios.get('/articles/' + this._product.code +'/docs')
+                .then((data) => {
+                    this.docs = data.data.data
+                    // console.log(data.data.data)
+                })
+                .finally(() => {
+                    this.loadingDocs = false
+                })
+            },
+            deleteDocs() {
+                if (this.checkedRows.length) {
+                    this.$buefy.dialog.confirm({
+                        title: 'Supprimer fichiers',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) fichier(s) ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer fichier(s)',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        size: 'is-small',
+                        onConfirm: () => {
+                            // this.$buefy.toast.open('Account deleted!')
+                            this.isDeleting = true
+                            var checkedForm = {
+                                checkedRows: this.checkedRows
+                            }
+                            this.$inertia.post('/articles/' + this._product.code +'/delete-files', checkedForm)
+                            .then(() => {
+                                if (this.$page.flash.message != null ) {
+                                    this.getDocs()
+                                    this.$buefy.notification.open({
+                                        message: 'Fichier(s) supprimé(s) avec succès.',
+                                        type: 'is-success'
+                                    })
+                                }
+                            })
+                            .catch(({message}) => {
+                                // this.$handleMessage(message, 'danger');
+                            }).finally(() => {
+                                this.isDeleting = false
+                            })
+                        }
+                    })
+                }
             }
         },
 
@@ -285,6 +387,7 @@
             if (this.product && this.product.data) {
                 this._product = this.product.data
                 this.getMagazins()
+                this.getDocs()
             }
         },
     }
