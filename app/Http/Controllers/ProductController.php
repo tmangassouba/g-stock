@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\FileResource;
+use App\Http\Resources\OperationResource;
 use App\Http\Resources\ProductResource;
 use App\Models\File;
 use App\Models\Magazin;
@@ -178,5 +179,21 @@ class ProductController extends Controller
         }
         // Product::destroy($products);
         return redirect()->back()->with('message', 'Fichiers suprimés avec succès.');
+    }
+
+    public function operations(Request $request, Product $product)
+    {
+        $sortField = $request->sortField ? $request->sortField : 'date';
+        $sortOrder = $request->sortOrder ? $request->sortOrder : 'DESC';
+
+        $req = $product->operations()->with('products', 'magazinFrom', 'magazinTo', 'user')->orderBy($sortField, $sortOrder);
+        $operations = $req->paginate(20);
+
+        return Inertia::render('Articles/Operations', [
+            'product'    => $product,
+            'operations' => OperationResource::collection($operations),
+            'sortField'  => $sortField,
+            'sortOrder'  => $sortOrder,
+        ])->withViewData(['pageTitle' => 'Operations']);
     }
 }

@@ -46,6 +46,14 @@
 
                         <hr>
 
+                        <strong>
+                            <inertia-link :href="'/articles/' + _product.code + '/operations'">
+                                Liste des opérations <b-icon icon="arrow-right" size="is-small"></b-icon>
+                            </inertia-link>
+                        </strong>
+
+                        <hr>
+
                         <h6 class="title is-6">Emplacements des stocks</h6>
                         <b-table 
                             :data="magazins"
@@ -351,6 +359,7 @@
                             .then(() => {
                                 if (this.$page.flash.message != null ) {
                                     this.getDocs()
+                                    this.checkedRows = []
                                     this.$buefy.notification.open({
                                         message: 'Fichier(s) supprimé(s) avec succès.',
                                         type: 'is-success'

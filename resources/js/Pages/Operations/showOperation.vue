@@ -59,7 +59,9 @@
 
                 <!-- <template slot-scope="props"> -->
                     <b-table-column field="produit_name" label="Produit" v-slot="props">
-                        {{ props.row.designation ? props.row.designation : '-' }}
+                        <inertia-link :href="'/articles/' + props.row.code">
+                            {{ props.row.designation ? props.row.designation : '-' }}
+                        </inertia-link>
                     </b-table-column>
 
                     <b-table-column field="quantite" label="Quantité" :width="150" numeric v-slot="props">

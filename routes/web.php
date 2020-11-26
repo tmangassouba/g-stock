@@ -51,6 +51,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{product}/docs', [ProductController::class, 'docs'])->name('docs');
         Route::post('/{product}/upload-files', [ProductController::class, 'uploadFiles'])->name('uploadFiles');
         Route::post('/{product}/delete-files', [ProductController::class, 'deleteFiles'])->name('deleteFiles');
+        Route::get('/{product}/operations', [ProductController::class, 'operations'])->name('operations');
     });
 
     //Utilisateurs
