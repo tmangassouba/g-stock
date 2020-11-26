@@ -105,6 +105,69 @@
                     </div>
                 </div>
             </div>
+
+            <hr>
+
+            <div class="columns">
+                <div class="column is-6-">
+                    <div class="level">
+                        <div class="level-left"><h6 class="title is-4">Documents</h6></div>
+                        <div class="level-right" v-if="gerant">
+                            <div>
+                                <b-tooltip type="is-dark" label="Télécharger des fichiers">
+                                    <b-button type="is-info" size="is-small" icon-left="upload" @click="isModalFileActive = true"></b-button>
+                                </b-tooltip>
+                                    
+                                <b-tooltip type="is-dark" label="Supprimer les fichiers sélectionnés">
+                                    <b-button type="is-danger" size="is-small" icon-left="delete" @click="deleteDocs()" v-if="checkedFilesRows.length!=0"></b-button>
+                                </b-tooltip>
+                            </div>
+                        </div>
+                    </div>
+
+                    <b-table 
+                        :data="docs"
+                        :loading="loadingDocs"
+                        striped
+                        :show-header="true"
+                        checkable
+                        :checked-rows.sync="checkedFilesRows"
+                        hoverable>
+                        <b-table-column field="name" label="Document" v-slot="props">
+                            <b-icon icon="file-document-outline" size="is-small"></b-icon>
+                            <a :href="props.row.file_url" target="_blank" rel="">{{ props.row.name }}</a>
+                        </b-table-column>
+                        <b-table-column field="created_at" label="Date" numeric v-slot="props">
+                            {{ props.row.created_at }}
+                        </b-table-column>
+
+
+                        <template slot="empty">
+                            <section class="section_">
+                                <div class="content has-text-grey has-text-centered">
+                                    <div><b-icon icon="inbox" size="is-medium"></b-icon></div>
+                                    <p>Aucun document.</p>
+                                </div>
+                            </section>
+                        </template>
+                    </b-table>
+
+                    <b-modal
+                        v-if="_operation"
+                        v-model="isModalFileActive"
+                        trap-focus
+                        :destroy-on-hide="false"
+                        :can-cancel="['escape', 'x']"
+                        :width="640"
+                    >
+                        <file-form :operation="_operation"  @reloadDocs="getDocs()" @close-file-modal="isModalFileActive = false"></file-form>
+                    </b-modal>
+                </div>
+            </div>
+
+            <b-notification :closable="false" class="loading-notification">
+                <b-loading :is-full-page="true" v-model="isDeleting" :can-cancel="false"></b-loading>
+            </b-notification>
         </section>
     </app-layout>
 </template>
@@ -115,12 +178,14 @@
     import debounce from 'lodash/debounce'
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
+    import { FileForm } from "../../components/Operations"
 
     export default {
         props: ['operation', 'message', 'errors', 'gerant'],
         components: {
             AppLayout,
             TitleBar,
+            FileForm
         },
         data() {
             return {
@@ -129,7 +194,12 @@
                 checkedRows: [],
                 isSaving: false,
                 loadingProducts: false,
+                isDeleting: false,
                 isModalProductActive: false,
+                docs: [],
+                loadingDocs: false,
+                isModalFileActive: false,
+                checkedFilesRows: [],
             }
         },
 
@@ -178,6 +248,53 @@
                     return 'is-info'
                 }
                 return 'is-success'
+            },
+
+            getDocs() {
+                this.loadingDocs = true
+                axios.get('/operations/' + this._operation.reference +'/docs')
+                .then((data) => {
+                    this.docs = data.data.data
+                    // console.log(data.data.data)
+                })
+                .finally(() => {
+                    this.loadingDocs = false
+                })
+            },
+            deleteDocs() {
+                if (this.checkedFilesRows.length) {
+                    this.$buefy.dialog.confirm({
+                        title: 'Supprimer fichiers',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) fichier(s) ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer fichier(s)',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        size: 'is-small',
+                        onConfirm: () => {
+                            // this.$buefy.toast.open('Account deleted!')
+                            this.isDeleting = true
+                            var checkedForm = {
+                                checkedRows: this.checkedFilesRows
+                            }
+                            this.$inertia.post('/operations/' + this._operation.reference +'/delete-files', checkedForm)
+                            .then(() => {
+                                if (this.$page.flash.message != null ) {
+                                    this.getDocs()
+                                    this.checkedFilesRows = []
+                                    this.$buefy.notification.open({
+                                        message: 'Fichier(s) supprimé(s) avec succès.',
+                                        type: 'is-success'
+                                    })
+                                }
+                            })
+                            .catch(({message}) => {
+                                // this.$handleMessage(message, 'danger');
+                            }).finally(() => {
+                                this.isDeleting = false
+                            })
+                        }
+                    })
+                }
             }
         },
 
@@ -224,6 +341,7 @@
             this.getEntreprise()
             if (this._operation) {
                 this.checkedRows[0] = this._operation
+                this.getDocs()
             }
         },
     }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FileResource;
 use App\Http\Resources\OperationResource;
+use App\Models\File;
 use App\Models\Operation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class OperationController extends Controller
@@ -151,5 +154,48 @@ class OperationController extends Controller
         }
         // Product::destroy($products);
         return redirect()->route('operations.index')->with('message', 'Suprimées avec succès.');
+    }
+
+    public function docs(Operation $operation)
+    {
+        $docs = FileResource::collection($operation->files);
+        return $docs;
+    }
+
+    public function uploadFiles(Request $request, Operation $operation)
+    {
+        $request->validate([
+            'file' => 'required|max:2048',
+            ],
+            [ "required" => 'Veuillez selectionnez un fichier']
+        );
+        $file = $request->file;
+        $extension = $file->extension();
+        $name = $file->getClientOriginalName();
+        $fileName = $operation->reference.'-'.time().'.'.$file->extension();
+        Storage::putFileAs('public/files', $file, $fileName);
+
+        $file = new File([
+            'file_name' => $fileName,
+            'name' => $name,
+            'extension' => $extension
+        ]);
+        $operation->files()->save($file);
+
+        return redirect()->back()->with('message', 'Ajouté avec succès.');
+    }
+
+    public function deleteFiles(Request $request)
+    {
+        // $products = [];
+        foreach ($request->checkedRows as $file) {
+            // $products[] = $product['id'];
+            $_file = File::find($file['id']);
+            if ($_file && $_file->delete()) {
+                Storage::delete('public/files/'.$_file->file_name);
+            }
+        }
+        // Product::destroy($products);
+        return redirect()->back()->with('message', 'Fichiers suprimés avec succès.');
     }
 }

@@ -37,6 +37,12 @@
                 <b-table-column field="date" label="Date" v-slot="props">
                     <inertia-link :href="'/operations/' + props.row.reference">{{ props.row.date_formated }}</inertia-link>
                 </b-table-column>
+                <b-table-column field="type" label="Operation" sortable v-slot="props">
+                        {{ props.row.type }} :
+                        {{ props.row.magazinFrom ? props.row.magazinFrom.name : '' }}
+                        <b-icon icon="arrow-right" size="is-small"></b-icon>
+                        {{ props.row.magazinTo ? props.row.magazinTo.name : '' }}
+                </b-table-column>
                 <b-table-column field="user_id" label="Par" v-slot="props">
                     {{ props.row.user ? props.row.user.name : '-' }}
                 </b-table-column>

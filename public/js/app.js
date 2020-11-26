@@ -3850,6 +3850,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3946,7 +3952,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
 //
 //
 //
@@ -5756,6 +5761,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+/* harmony import */ var _components_Operations__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/Operations */ "./resources/js/components/Operations/index.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -5873,6 +5879,70 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -5882,7 +5952,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: ['operation', 'message', 'errors', 'gerant'],
   components: {
     AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_3__["default"],
-    TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_4__["default"]
+    TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_4__["default"],
+    FileForm: _components_Operations__WEBPACK_IMPORTED_MODULE_5__["FileForm"]
   },
   data: function data() {
     return {
@@ -5891,7 +5962,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       checkedRows: [],
       isSaving: false,
       loadingProducts: false,
-      isModalProductActive: false
+      isDeleting: false,
+      isModalProductActive: false,
+      docs: [],
+      loadingDocs: false,
+      isModalFileActive: false,
+      checkedFilesRows: []
     };
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
@@ -5942,6 +6018,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return 'is-success';
+    },
+    getDocs: function getDocs() {
+      var _this2 = this;
+
+      this.loadingDocs = true;
+      axios.get('/operations/' + this._operation.reference + '/docs').then(function (data) {
+        _this2.docs = data.data.data; // console.log(data.data.data)
+      })["finally"](function () {
+        _this2.loadingDocs = false;
+      });
+    },
+    deleteDocs: function deleteDocs() {
+      var _this3 = this;
+
+      if (this.checkedFilesRows.length) {
+        this.$buefy.dialog.confirm({
+          title: 'Supprimer fichiers',
+          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) fichier(s) ?<br/> Cette action ne peut pas être annulée.',
+          confirmText: 'Supprimer fichier(s)',
+          type: 'is-danger',
+          hasIcon: true,
+          size: 'is-small',
+          onConfirm: function onConfirm() {
+            // this.$buefy.toast.open('Account deleted!')
+            _this3.isDeleting = true;
+            var checkedForm = {
+              checkedRows: _this3.checkedFilesRows
+            };
+
+            _this3.$inertia.post('/operations/' + _this3._operation.reference + '/delete-files', checkedForm).then(function () {
+              if (_this3.$page.flash.message != null) {
+                _this3.getDocs();
+
+                _this3.checkedFilesRows = [];
+
+                _this3.$buefy.notification.open({
+                  message: 'Fichier(s) supprimé(s) avec succès.',
+                  type: 'is-success'
+                });
+              }
+            })["catch"](function (_ref2) {// this.$handleMessage(message, 'danger');
+
+              var message = _ref2.message;
+            })["finally"](function () {
+              _this3.isDeleting = false;
+            });
+          }
+        });
+      }
     }
   }),
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -5987,6 +6112,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     if (this._operation) {
       this.checkedRows[0] = this._operation;
+      this.getDocs();
     }
   }
 });
@@ -7956,6 +8082,105 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {//
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Operations/FileForm.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Operations/FileForm.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Card__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Card */ "./resources/js/components/Card/index.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'FileForm',
+  props: {
+    operation: {
+      type: Object,
+      required: true // default: {}
+
+    }
+  },
+  components: {
+    CardComponent: _Card__WEBPACK_IMPORTED_MODULE_1__["CardComponent"]
+  },
+  data: function data() {
+    return {
+      file: null,
+      uploadingFile: false,
+      message: null
+    };
+  },
+  methods: {
+    changeImage: function changeImage(file) {
+      this.file = file;
+      this.message = null;
+    },
+    uploadFile: function uploadFile() {
+      var _this = this;
+
+      var data = new FormData();
+      data.append('file', this.file || '');
+      this.uploadingFile = true;
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__["Inertia"].post('/operations/' + this.operation.reference + '/upload-files', data).then(function () {
+        if (_this.$page.flash.message != null) {
+          _this.file = null;
+          _this.message = "Ajouté avec succès.";
+
+          _this.$emit('reloadDocs');
+        }
+      })["finally"](function () {
+        _this.uploadingFile = false;
+      });
+    },
+    dropFile: function dropFile() {
+      this.file = null;
+    }
   }
 });
 
@@ -50239,6 +50464,42 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("b-table-column", {
+                attrs: { field: "type", label: "Operation", sortable: "" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(props.row.type) +
+                            " :\n                    " +
+                            _vm._s(
+                              props.row.magazinFrom
+                                ? props.row.magazinFrom.name
+                                : ""
+                            ) +
+                            "\n                    "
+                        ),
+                        _c("b-icon", {
+                          attrs: { icon: "arrow-right", size: "is-small" }
+                        }),
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(
+                              props.row.magazinTo
+                                ? props.row.magazinTo.name
+                                : ""
+                            ) +
+                            "\n            "
+                        )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
+              _c("b-table-column", {
                 attrs: { field: "user_id", label: "Par" },
                 scopedSlots: _vm._u([
                   {
@@ -50588,195 +50849,6 @@ var render = function() {
                                     ),
                                     _vm._v(" "),
                                     _c("p", [_vm._v("Aucun résultat.")])
-                                  ]
-                                )
-                              ])
-                            ])
-                          ],
-                          2
-                        ),
-                        _vm._v(" "),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "level" }, [
-                          _c("div", { staticClass: "level-left" }, [
-                            _c("h6", { staticClass: "title is-6" }, [
-                              _vm._v("Documents")
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm.hasRole("ADMIN")
-                            ? _c("div", { staticClass: "level-right" }, [
-                                _c(
-                                  "div",
-                                  [
-                                    _c(
-                                      "b-tooltip",
-                                      {
-                                        attrs: {
-                                          type: "is-dark",
-                                          label: "Télécharger des fichiers"
-                                        }
-                                      },
-                                      [
-                                        _c("b-button", {
-                                          attrs: {
-                                            type: "is-info",
-                                            size: "is-small",
-                                            "icon-left": "upload"
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.isModalFileActive = true
-                                            }
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "b-tooltip",
-                                      {
-                                        attrs: {
-                                          type: "is-dark",
-                                          label:
-                                            "Supprimer les fichiers sélectionnés"
-                                        }
-                                      },
-                                      [
-                                        _vm.checkedRows.length != 0
-                                          ? _c("b-button", {
-                                              attrs: {
-                                                type: "is-danger",
-                                                size: "is-small",
-                                                "icon-left": "delete"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.deleteDocs()
-                                                }
-                                              }
-                                            })
-                                          : _vm._e()
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ])
-                            : _vm._e()
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "b-table",
-                          {
-                            attrs: {
-                              data: _vm.docs,
-                              loading: _vm.loadingDocs,
-                              striped: "",
-                              "show-header": true,
-                              checkable: "",
-                              "checked-rows": _vm.checkedRows,
-                              hoverable: ""
-                            },
-                            on: {
-                              "update:checkedRows": function($event) {
-                                _vm.checkedRows = $event
-                              },
-                              "update:checked-rows": function($event) {
-                                _vm.checkedRows = $event
-                              }
-                            }
-                          },
-                          [
-                            _c("b-table-column", {
-                              attrs: { field: "name", label: "Document" },
-                              scopedSlots: _vm._u(
-                                [
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _c("b-icon", {
-                                          attrs: {
-                                            icon: "file-document-outline",
-                                            size: "is-small"
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c(
-                                          "a",
-                                          {
-                                            attrs: {
-                                              href: props.row.file_url,
-                                              target: "_blank",
-                                              rel: ""
-                                            }
-                                          },
-                                          [_vm._v(_vm._s(props.row.name))]
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ],
-                                null,
-                                false,
-                                3042807444
-                              )
-                            }),
-                            _vm._v(" "),
-                            _c("b-table-column", {
-                              attrs: {
-                                field: "created_at",
-                                label: "Date",
-                                numeric: ""
-                              },
-                              scopedSlots: _vm._u(
-                                [
-                                  {
-                                    key: "default",
-                                    fn: function(props) {
-                                      return [
-                                        _vm._v(
-                                          "\n                            " +
-                                            _vm._s(props.row.created_at) +
-                                            "\n                        "
-                                        )
-                                      ]
-                                    }
-                                  }
-                                ],
-                                null,
-                                false,
-                                1230482999
-                              )
-                            }),
-                            _vm._v(" "),
-                            _c("template", { slot: "empty" }, [
-                              _c("section", { staticClass: "section_" }, [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "content has-text-grey has-text-centered"
-                                  },
-                                  [
-                                    _c(
-                                      "div",
-                                      [
-                                        _c("b-icon", {
-                                          attrs: {
-                                            icon: "inbox",
-                                            size: "is-medium"
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("p", [_vm._v("Aucun document.")])
                                   ]
                                 )
                               ])
@@ -52828,7 +52900,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("b-table-column", {
-                attrs: { field: "type", label: "Type", sortable: "" },
+                attrs: { field: "type", label: "Operation", sortable: "" },
                 scopedSlots: _vm._u([
                   {
                     key: "default",
@@ -53837,7 +53909,244 @@ var render = function() {
                   ]
                 )
               ])
-            : _vm._e()
+            : _vm._e(),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column is-6-" },
+              [
+                _c("div", { staticClass: "level" }, [
+                  _c("div", { staticClass: "level-left" }, [
+                    _c("h6", { staticClass: "title is-4" }, [
+                      _vm._v("Documents")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.gerant
+                    ? _c("div", { staticClass: "level-right" }, [
+                        _c(
+                          "div",
+                          [
+                            _c(
+                              "b-tooltip",
+                              {
+                                attrs: {
+                                  type: "is-dark",
+                                  label: "Télécharger des fichiers"
+                                }
+                              },
+                              [
+                                _c("b-button", {
+                                  attrs: {
+                                    type: "is-info",
+                                    size: "is-small",
+                                    "icon-left": "upload"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.isModalFileActive = true
+                                    }
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-tooltip",
+                              {
+                                attrs: {
+                                  type: "is-dark",
+                                  label: "Supprimer les fichiers sélectionnés"
+                                }
+                              },
+                              [
+                                _vm.checkedFilesRows.length != 0
+                                  ? _c("b-button", {
+                                      attrs: {
+                                        type: "is-danger",
+                                        size: "is-small",
+                                        "icon-left": "delete"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteDocs()
+                                        }
+                                      }
+                                    })
+                                  : _vm._e()
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-table",
+                  {
+                    attrs: {
+                      data: _vm.docs,
+                      loading: _vm.loadingDocs,
+                      striped: "",
+                      "show-header": true,
+                      checkable: "",
+                      "checked-rows": _vm.checkedFilesRows,
+                      hoverable: ""
+                    },
+                    on: {
+                      "update:checkedRows": function($event) {
+                        _vm.checkedFilesRows = $event
+                      },
+                      "update:checked-rows": function($event) {
+                        _vm.checkedFilesRows = $event
+                      }
+                    }
+                  },
+                  [
+                    _c("b-table-column", {
+                      attrs: { field: "name", label: "Document" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
+                              _c("b-icon", {
+                                attrs: {
+                                  icon: "file-document-outline",
+                                  size: "is-small"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "a",
+                                {
+                                  attrs: {
+                                    href: props.row.file_url,
+                                    target: "_blank",
+                                    rel: ""
+                                  }
+                                },
+                                [_vm._v(_vm._s(props.row.name))]
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: {
+                        field: "created_at",
+                        label: "Date",
+                        numeric: ""
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(props.row.created_at) +
+                                  "\n                    "
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("template", { slot: "empty" }, [
+                      _c("section", { staticClass: "section_" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "content has-text-grey has-text-centered"
+                          },
+                          [
+                            _c(
+                              "div",
+                              [
+                                _c("b-icon", {
+                                  attrs: { icon: "inbox", size: "is-medium" }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("p", [_vm._v("Aucun document.")])
+                          ]
+                        )
+                      ])
+                    ])
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _vm._operation
+                  ? _c(
+                      "b-modal",
+                      {
+                        attrs: {
+                          "trap-focus": "",
+                          "destroy-on-hide": false,
+                          "can-cancel": ["escape", "x"],
+                          width: 640
+                        },
+                        model: {
+                          value: _vm.isModalFileActive,
+                          callback: function($$v) {
+                            _vm.isModalFileActive = $$v
+                          },
+                          expression: "isModalFileActive"
+                        }
+                      },
+                      [
+                        _c("file-form", {
+                          attrs: { operation: _vm._operation },
+                          on: {
+                            reloadDocs: function($event) {
+                              return _vm.getDocs()
+                            },
+                            "close-file-modal": function($event) {
+                              _vm.isModalFileActive = false
+                            }
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "b-notification",
+            { staticClass: "loading-notification", attrs: { closable: false } },
+            [
+              _c("b-loading", {
+                attrs: { "is-full-page": true, "can-cancel": false },
+                model: {
+                  value: _vm.isDeleting,
+                  callback: function($$v) {
+                    _vm.isDeleting = $$v
+                  },
+                  expression: "isDeleting"
+                }
+              })
+            ],
+            1
+          )
         ],
         1
       )
@@ -57027,6 +57336,159 @@ var render = function() {
             1
           )
         : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Operations/FileForm.vue?vue&type=template&id=15d473a8&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Operations/FileForm.vue?vue&type=template&id=15d473a8& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "card-component",
+    {
+      attrs: { title: "Télécharger des fichiers" },
+      on: {
+        close: function($event) {
+          return _vm.$emit("close-file-modal")
+        }
+      }
+    },
+    [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.uploadFile($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column is-5" },
+              [
+                _c(
+                  "b-upload",
+                  {
+                    attrs: {
+                      "drag-drop": "",
+                      expanded: "",
+                      loading: _vm.uploadingFile
+                    },
+                    on: { input: _vm.changeImage }
+                  },
+                  [
+                    _c("section", { staticClass: "section" }, [
+                      _c("div", { staticClass: "content has-text-centered" }, [
+                        _c(
+                          "p",
+                          [
+                            _c("b-icon", {
+                              attrs: { icon: "upload", size: "is-large" }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-7" }, [
+              _c("div", { staticClass: "tags" }, [
+                _vm.file
+                  ? _c("span", { staticClass: "tag is-info" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.file.name) +
+                          "\n                        "
+                      ),
+                      _c("button", {
+                        staticClass: "delete is-small",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.dropFile()
+                          }
+                        }
+                      })
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _vm.$page.errors.file
+                ? _c("span", { staticClass: "has-text-danger" }, [
+                    _vm._v(_vm._s(_vm.$page.errors.file[0]))
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.message
+                ? _c("div", { staticClass: "has-text-success" }, [
+                    _vm._v(_vm._s(_vm.message))
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {},
+            [
+              _c(
+                "b-button",
+                {
+                  attrs: {
+                    size: "is-small",
+                    type: "is-info",
+                    "native-type": "submit",
+                    loading: _vm.uploadingFile,
+                    disabled: _vm.file == null
+                  }
+                },
+                [_vm._v("Télécharger")]
+              ),
+              _vm._v(" "),
+              _c(
+                "b-button",
+                {
+                  attrs: { size: "is-small" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("close-file-modal")
+                    }
+                  }
+                },
+                [_vm._v("Annuler")]
+              )
+            ],
+            1
+          )
+        ]
+      )
     ]
   )
 }
@@ -75334,6 +75796,91 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MagazinForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MagazinForm */ "./resources/js/components/Magazins/MagazinForm.vue");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MagazinForm", function() { return _MagazinForm__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Operations/FileForm.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Operations/FileForm.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FileForm_vue_vue_type_template_id_15d473a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileForm.vue?vue&type=template&id=15d473a8& */ "./resources/js/components/Operations/FileForm.vue?vue&type=template&id=15d473a8&");
+/* harmony import */ var _FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Operations/FileForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileForm_vue_vue_type_template_id_15d473a8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FileForm_vue_vue_type_template_id_15d473a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Operations/FileForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Operations/FileForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Operations/FileForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./FileForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Operations/FileForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Operations/FileForm.vue?vue&type=template&id=15d473a8&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Operations/FileForm.vue?vue&type=template&id=15d473a8& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_template_id_15d473a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./FileForm.vue?vue&type=template&id=15d473a8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Operations/FileForm.vue?vue&type=template&id=15d473a8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_template_id_15d473a8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileForm_vue_vue_type_template_id_15d473a8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Operations/index.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/Operations/index.js ***!
+  \*****************************************************/
+/*! exports provided: FileForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FileForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileForm */ "./resources/js/components/Operations/FileForm.vue");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FileForm", function() { return _FileForm__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
 
 

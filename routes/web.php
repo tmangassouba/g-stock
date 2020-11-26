@@ -94,5 +94,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{operation}/modifier', [OperationController::class, 'edit'])->name('edit');
         Route::put('/{operation}/update', [OperationController::class, 'update'])->name('update');
         Route::post('/delete', [OperationController::class, 'destroy'])->name('destroy');
+
+        Route::get('/{operation}/docs', [OperationController::class, 'docs'])->name('docs');
+        Route::post('/{operation}/upload-files', [OperationController::class, 'uploadFiles'])->name('uploadFiles');
+        Route::post('/{operation}/delete-files', [OperationController::class, 'deleteFiles'])->name('deleteFiles');
     });
 });

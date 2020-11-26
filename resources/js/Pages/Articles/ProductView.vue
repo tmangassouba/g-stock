@@ -74,7 +74,7 @@
                             </template>
                         </b-table>
 
-                        <hr>
+                        <!-- <hr>
                         
                         <div class="level">
                             <div class="level-left"><h6 class="title is-6">Documents</h6></div>
@@ -99,7 +99,6 @@
                             :checked-rows.sync="checkedRows"
                             hoverable>
                             <b-table-column field="name" label="Document" v-slot="props">
-                                <!-- <span>{{ props.row.extension }}</span> -->
                                 <b-icon icon="file-document-outline" size="is-small"></b-icon>
                                 <a :href="props.row.file_url" target="_blank" rel="">{{ props.row.name }}</a>
                             </b-table-column>
@@ -116,7 +115,7 @@
                                     </div>
                                 </section>
                             </template>
-                        </b-table>
+                        </b-table> -->
 
                         <!-- <h6 class="title is-6">Opérations</h6>
                         // -->

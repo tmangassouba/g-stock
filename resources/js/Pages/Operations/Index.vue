@@ -49,7 +49,7 @@
                 <b-table-column field="date" label="Date" sortable v-slot="props">
                     <inertia-link :href="'/operations/' + props.row.reference">{{ props.row.date_formated }}</inertia-link>
                 </b-table-column>
-                <b-table-column field="type" label="Type" sortable v-slot="props">
+                <b-table-column field="type" label="Operation" sortable v-slot="props">
                     <b-tag :type="tagType(props.row.type) + ' is-light'">
                         {{ props.row.type }} :
                         {{ props.row.magazinFrom ? props.row.magazinFrom.name : '' }}
