@@ -13,7 +13,7 @@ const mutations = {
 
 const actions = {
     async getEntreprise ({ commit }) {
-        return await axios.get('/entreprise')
+        return await axios.get('/parametres/entreprise')
         .then(({data}) => {
             commit('setParametre', data.data)
         })

@@ -13,6 +13,7 @@ use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use Illuminate\Database\Schema\Builder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Builder::defaultStringLength(191);
+        
         Product::observe(ProductObserver::class);
         User::observe(UserObserver::class);
         Operation::observe(OperationObserver::class);

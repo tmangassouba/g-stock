@@ -28,7 +28,7 @@
                     <b-icon icon="cog" custom-size="default" />
 
                     <div slot="dropdown" class="navbar-dropdown">
-                        <inertia-link href="/profil-organisation" class="navbar-item">
+                        <inertia-link href="/parametres/profil-organisation" class="navbar-item">
                             <b-icon icon="domain" custom-size="default"></b-icon>
                             <span>Profil Organisation</span>
                         </inertia-link>
@@ -45,15 +45,22 @@
 
                         <hr class="navbar-divider" />
 
+                        <inertia-link href="/parametres/unites" class="navbar-item">
+                            <b-icon icon="chart-line-variant" custom-size="default"></b-icon>
+                            <span>Unités</span>
+                        </inertia-link>
+
+                        <!-- <hr class="navbar-divider" /> -->
+
                         <inertia-link href="/devises" class="navbar-item">
                             <b-icon icon="cash-usd-outline" custom-size="default"></b-icon>
                             <span>Devises</span>
                         </inertia-link>
 
-                        <inertia-link href="/modeles" class="navbar-item">
+                        <!-- <inertia-link href="/parametres/modeles" class="navbar-item">
                             <b-icon icon="palette-outline" custom-size="default"></b-icon>
                             <span>Modèles</span>
-                        </inertia-link>
+                        </inertia-link> -->
                     </div>
                 </nav-bar-menu>
 

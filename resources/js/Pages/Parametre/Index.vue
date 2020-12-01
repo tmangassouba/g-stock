@@ -195,7 +195,7 @@
             }),
             submit() {
                 this.savingData = true
-                this.$inertia.put('/entreprise/', this.form)
+                this.$inertia.put('/parametres/entreprise/', this.form)
                 .then(() => {
                     if (this.$page.flash.message != null ) {
                         this.$buefy.notification.open({
@@ -215,10 +215,10 @@
                 let data = new FormData()
                 data.append('photo', file || '')
                 this.changingImage = true
-                Inertia.post('/entreprise/change-image', data)
+                Inertia.post('/parametres/entreprise/change-image', data)
                 .then(() => {
                     if (this.$page.flash.message != null ) {
-                        this.$inertia.visit('/profil-organisation')
+                        this.$inertia.visit('/parametres/profil-organisation')
                     }
                 }).finally(() => {
                     this.changingImage = false
@@ -226,10 +226,10 @@
             },
             deleteImage() {
                 this.deletingImage = true
-                this.$inertia.delete('/entreprise/delete-image')
+                this.$inertia.delete('/parametres/entreprise/delete-image')
                 .then(() => {
                     if (this.$page.flash.message != null ) {
-                        this.$inertia.visit('/profil-organisation')
+                        this.$inertia.visit('/parametres/profil-organisation')
                     }
                 }).finally(() => {
                     this.deletingImage = false

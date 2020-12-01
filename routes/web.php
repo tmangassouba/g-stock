@@ -7,6 +7,7 @@ use App\Http\Controllers\OperationController;
 use App\Http\Controllers\ParametreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UniteController;
 use App\Http\Controllers\UsersController;
 use App\Http\Resources\UserResource;
 use App\Models\Magazin;
@@ -79,11 +80,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     // Parametre
-    Route::get('/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise');
-    Route::put('/entreprise', [ParametreController::class, 'update'])->name('update')->middleware('can:admin');
-    Route::get('/profil-organisation', [ParametreController::class, 'index'])->name('index')->middleware('can:admin');
-    Route::post('/entreprise/change-image', [ParametreController::class, 'changeImage'])->name('changeImage');
-    Route::delete('/entreprise/delete-image', [ParametreController::class, 'deleteImage'])->name('deleteImage');
+    Route::name('parametres.')->prefix('parametres')->middleware('can:admin')->group(function () {
+        Route::get('/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise');
+        Route::put('/entreprise', [ParametreController::class, 'update'])->name('update');
+        Route::get('/profil-organisation', [ParametreController::class, 'index'])->name('index');
+        Route::post('/entreprise/change-image', [ParametreController::class, 'changeImage'])->name('changeImage');
+        Route::delete('/entreprise/delete-image', [ParametreController::class, 'deleteImage'])->name('deleteImage');
+
+        //Unités
+        Route::get('/unites', [UniteController::class, 'index']);
+        Route::post('/unites', [UniteController::class, 'store']);
+        Route::put('/unites/{unite}', [UniteController::class, 'update']);
+        Route::post('/unites/delete-unites', [UniteController::class, 'deleteUnites']);
+    });
 
     // Operation
     Route::name('operations.')->prefix('operations')->middleware('can:gerant')->group(function () {
