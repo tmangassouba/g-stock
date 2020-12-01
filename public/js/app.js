@@ -50740,7 +50740,16 @@ var render = function() {
                             "\n                    "
                         ),
                         props.row.validated == 0
-                          ? _c("b-tag", [_vm._v("Brouillon")])
+                          ? _c(
+                              "b-tag",
+                              {
+                                attrs: {
+                                  type: "is-warning is-light",
+                                  rounded: ""
+                                }
+                              },
+                              [_vm._v("Brouillon")]
+                            )
                           : _vm._e()
                       ]
                     }
@@ -53180,7 +53189,16 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         props.row.validated == 0
-                          ? _c("b-tag", [_vm._v("Brouillon")])
+                          ? _c(
+                              "b-tag",
+                              {
+                                attrs: {
+                                  type: "is-warning is-light",
+                                  rounded: ""
+                                }
+                              },
+                              [_vm._v("Brouillon")]
+                            )
                           : _vm._e()
                       ]
                     }

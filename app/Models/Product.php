@@ -46,8 +46,9 @@ class Product extends Model
     public function stock()
     {
         // $stock = $this->stock_ouverture;
+        $operations = $this->operations()->where('validated', 1)->get();
         $stock = 0;
-        foreach ($this->operations as $operation) {
+        foreach ($operations as $operation) {
             if ($operation->type == Operation::TYPE_ENTREE && $operation->pivot) {
                 $stock += $operation->pivot->quantite;
             }
@@ -61,7 +62,8 @@ class Product extends Model
     public function stockByMagazin($idMagazin)
     {
         $stock = 0;
-        foreach ($this->operations as $operation) {
+        $operations = $this->operations()->where('validated', 1)->get();
+        foreach ($operations as $operation) {
             if ($operation->type == Operation::TYPE_ENTREE && $operation->pivot && $operation->magazin_to_id == $idMagazin) {
                 $stock += $operation->pivot->quantite;
             }

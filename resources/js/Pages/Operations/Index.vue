@@ -56,7 +56,7 @@
                         <b-icon icon="arrow-right" size="is-small"></b-icon>
                         {{ props.row.magazinTo ? props.row.magazinTo.name : '' }}
                     <!-- </b-tag> -->
-                    <b-tag v-if="props.row.validated == 0">Brouillon</b-tag>
+                    <b-tag type="is-warning is-light" rounded v-if="props.row.validated == 0">Brouillon</b-tag>
                 </b-table-column>
                 <b-table-column field="description" label="Description" v-slot="props" centered>
                     <b-tooltip :label="props.row.description ? props.row.description : '-'" type="is-dark">
