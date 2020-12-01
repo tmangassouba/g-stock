@@ -50,12 +50,13 @@
                     <inertia-link :href="'/operations/' + props.row.reference">{{ props.row.date_formated }}</inertia-link>
                 </b-table-column>
                 <b-table-column field="type" label="Operation" sortable v-slot="props">
-                    <b-tag :type="tagType(props.row.type) + ' is-light'">
+                    <!-- <b-tag :type="tagType(props.row.type) + ' is-light'"> -->
                         {{ props.row.type }} :
                         {{ props.row.magazinFrom ? props.row.magazinFrom.name : '' }}
                         <b-icon icon="arrow-right" size="is-small"></b-icon>
                         {{ props.row.magazinTo ? props.row.magazinTo.name : '' }}
-                    </b-tag>
+                    <!-- </b-tag> -->
+                    <b-tag v-if="props.row.validated == 0">Brouillon</b-tag>
                 </b-table-column>
                 <b-table-column field="description" label="Description" v-slot="props" centered>
                     <b-tooltip :label="props.row.description ? props.row.description : '-'" type="is-dark">

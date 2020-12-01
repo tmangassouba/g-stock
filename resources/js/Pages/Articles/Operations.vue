@@ -42,6 +42,7 @@
                         {{ props.row.magazinFrom ? props.row.magazinFrom.name : '' }}
                         <b-icon icon="arrow-right" size="is-small"></b-icon>
                         {{ props.row.magazinTo ? props.row.magazinTo.name : '' }}
+                        <b-tag v-if="props.row.validated == 0">Brouillon</b-tag>
                 </b-table-column>
                 <b-table-column field="user_id" label="Par" v-slot="props">
                     {{ props.row.user ? props.row.user.name : '-' }}

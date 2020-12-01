@@ -8,6 +8,7 @@ use App\Models\File;
 use App\Models\Operation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -197,5 +198,13 @@ class OperationController extends Controller
         }
         // Product::destroy($products);
         return redirect()->back()->with('message', 'Fichiers suprimés avec succès.');
+    }
+
+    public function validateOperation(Operation $operation)
+    {
+        $operation->validated = true;
+        $operation->save();
+        // return Redirect::route('operations.show', $operation)->with('message', 'Validée avec succès.');
+        return redirect()->back()->with('message', 'Validée avec succès.');
     }
 }

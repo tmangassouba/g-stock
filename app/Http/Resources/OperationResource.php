@@ -23,6 +23,7 @@ class OperationResource extends JsonResource
             'date'            => $this->date,
             'date_formated'   => $this->date ? date('d M Y', strtotime($this->date)) : null,
             'type'            => $this->type,
+            'validated'       => $this->validated,
             'user_id'         => $this->user_id,
             'magazinFrom'     => new MagazinResource($this->magazinFrom),
             'magazinTo'       => new MagazinResource($this->magazinTo),

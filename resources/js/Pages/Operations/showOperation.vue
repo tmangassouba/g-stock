@@ -2,6 +2,7 @@
     <app-layout>
         <title-bar :title-stack="titleStack">
             <div class="buttons is-right" v-if="gerant">
+                <b-button class="is-success is-small" icon-left="check" v-if="_operation.validated == 0" @click="validateOperation()">Valider</b-button>
                 <b-button class="is-info is-small" icon-left="pencil" tag="a" :href="'/operations/'+ _operation.reference +'/modifier'">Modifier</b-button>
                 <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteOperation">Supprimer</b-button>
             </div>
@@ -239,6 +240,30 @@
                         }
                     })
                 }
+            },
+            validateOperation() {
+                this.$buefy.dialog.confirm({
+                    title: 'Valider opération',
+                    message: 'Etes-vous sûrs de vouloir <b>valider</b> cette opération ?<br/> Cette action ne peut pas être annulée.',
+                    confirmText: 'Valider opération',
+                    type: 'is-success',
+                    hasIcon: true,
+                    size: 'is-small',
+                    onConfirm: () => {
+                        this.isDeleting = true
+                        axios.post('/operations/' + this._operation.reference +'/validate')
+                        .then((data) => {
+                            this.$buefy.notification.open({
+                                message: 'Validée avec succès.',
+                                type: 'is-success'
+                            })
+                            this._operation.validated = true
+                        })
+                        .finally(() => {
+                            this.isDeleting = false
+                        })
+                    }
+                })
             },
             tagType(type) {
                 if (type == this.$OPERATION_SORTIE) {

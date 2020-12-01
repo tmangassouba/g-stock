@@ -3863,6 +3863,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -5384,6 +5385,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -5949,6 +5951,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -6015,6 +6018,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     },
+    validateOperation: function validateOperation() {
+      var _this2 = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'Valider opération',
+        message: 'Etes-vous sûrs de vouloir <b>valider</b> cette opération ?<br/> Cette action ne peut pas être annulée.',
+        confirmText: 'Valider opération',
+        type: 'is-success',
+        hasIcon: true,
+        size: 'is-small',
+        onConfirm: function onConfirm() {
+          _this2.isDeleting = true;
+          axios.post('/operations/' + _this2._operation.reference + '/validate').then(function (data) {
+            _this2.$buefy.notification.open({
+              message: 'Validée avec succès.',
+              type: 'is-success'
+            });
+
+            _this2._operation.validated = true;
+          })["finally"](function () {
+            _this2.isDeleting = false;
+          });
+        }
+      });
+    },
     tagType: function tagType(type) {
       if (type == this.$OPERATION_SORTIE) {
         return 'is-danger';
@@ -6027,17 +6055,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return 'is-success';
     },
     getDocs: function getDocs() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.loadingDocs = true;
       axios.get('/operations/' + this._operation.reference + '/docs').then(function (data) {
-        _this2.docs = data.data.data; // console.log(data.data.data)
+        _this3.docs = data.data.data; // console.log(data.data.data)
       })["finally"](function () {
-        _this2.loadingDocs = false;
+        _this3.loadingDocs = false;
       });
     },
     deleteDocs: function deleteDocs() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.checkedFilesRows.length) {
         this.$buefy.dialog.confirm({
@@ -6049,18 +6077,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           size: 'is-small',
           onConfirm: function onConfirm() {
             // this.$buefy.toast.open('Account deleted!')
-            _this3.isDeleting = true;
+            _this4.isDeleting = true;
             var checkedForm = {
-              checkedRows: _this3.checkedFilesRows
+              checkedRows: _this4.checkedFilesRows
             };
 
-            _this3.$inertia.post('/operations/' + _this3._operation.reference + '/delete-files', checkedForm).then(function () {
-              if (_this3.$page.flash.message != null) {
-                _this3.getDocs();
+            _this4.$inertia.post('/operations/' + _this4._operation.reference + '/delete-files', checkedForm).then(function () {
+              if (_this4.$page.flash.message != null) {
+                _this4.getDocs();
 
-                _this3.checkedFilesRows = [];
+                _this4.checkedFilesRows = [];
 
-                _this3.$buefy.notification.open({
+                _this4.$buefy.notification.open({
                   message: 'Fichier(s) supprimé(s) avec succès.',
                   type: 'is-success'
                 });
@@ -6069,7 +6097,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               var message = _ref2.message;
             })["finally"](function () {
-              _this3.isDeleting = false;
+              _this4.isDeleting = false;
             });
           }
         });
@@ -50709,8 +50737,11 @@ var render = function() {
                                 ? props.row.magazinTo.name
                                 : ""
                             ) +
-                            "\n            "
-                        )
+                            "\n                    "
+                        ),
+                        props.row.validated == 0
+                          ? _c("b-tag", [_vm._v("Brouillon")])
+                          : _vm._e()
                       ]
                     }
                   }
@@ -53124,40 +53155,33 @@ var render = function() {
                     key: "default",
                     fn: function(props) {
                       return [
-                        _c(
-                          "b-tag",
-                          {
-                            attrs: {
-                              type: _vm.tagType(props.row.type) + " is-light"
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(props.row.type) +
-                                " :\n                    " +
-                                _vm._s(
-                                  props.row.magazinFrom
-                                    ? props.row.magazinFrom.name
-                                    : ""
-                                ) +
-                                "\n                    "
-                            ),
-                            _c("b-icon", {
-                              attrs: { icon: "arrow-right", size: "is-small" }
-                            }),
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(
-                                  props.row.magazinTo
-                                    ? props.row.magazinTo.name
-                                    : ""
-                                ) +
-                                "\n                "
-                            )
-                          ],
-                          1
-                        )
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(props.row.type) +
+                            " :\n                    " +
+                            _vm._s(
+                              props.row.magazinFrom
+                                ? props.row.magazinFrom.name
+                                : ""
+                            ) +
+                            "\n                    "
+                        ),
+                        _c("b-icon", {
+                          attrs: { icon: "arrow-right", size: "is-small" }
+                        }),
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(
+                              props.row.magazinTo
+                                ? props.row.magazinTo.name
+                                : ""
+                            ) +
+                            "\n                "
+                        ),
+                        _vm._v(" "),
+                        props.row.validated == 0
+                          ? _c("b-tag", [_vm._v("Brouillon")])
+                          : _vm._e()
                       ]
                     }
                   }
@@ -53757,6 +53781,22 @@ var render = function() {
               "div",
               { staticClass: "buttons is-right" },
               [
+                _vm._operation.validated == 0
+                  ? _c(
+                      "b-button",
+                      {
+                        staticClass: "is-success is-small",
+                        attrs: { "icon-left": "check" },
+                        on: {
+                          click: function($event) {
+                            return _vm.validateOperation()
+                          }
+                        }
+                      },
+                      [_vm._v("Valider")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
                 _c(
                   "b-button",
                   {

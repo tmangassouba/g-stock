@@ -24,6 +24,7 @@ class Operation extends Model
         'reference',
         'type',
         'date',
+        'validated',
         'user_id',
         'description'
     ];
