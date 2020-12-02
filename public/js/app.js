@@ -7891,11 +7891,11 @@ __webpack_require__.r(__webpack_exports__);
         code: null,
         ref_fabricant: null,
         description: null,
-        stock_min: null,
-        stock_max: null,
+        stock_min: 10,
+        stock_max: 100,
         stock_ouverture: null,
         unite_id: null,
-        prix: null,
+        prix: 1,
         quantite: null
       };
     }
