@@ -2941,6 +2941,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _NavBarMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NavBarMenu */ "./resources/js/Menu/NavBarMenu.vue");
 /* harmony import */ var _UserAvatar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UserAvatar */ "./resources/js/Menu/UserAvatar.vue");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -3041,6 +3045,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -3052,10 +3080,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      isMenuNavBarActive: false // isNavBarVisible: true,
+      isMenuNavBarActive: false,
+      // isNavBarVisible: true,
       // isAsideMobileExpanded: true,
       // userName: "Tidiane"
-
+      search: null,
+      isFetching: false,
+      data: [],
+      selected: null
     };
   },
   computed: _objectSpread({
@@ -3086,6 +3118,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.post('/logout').then(function (response) {
         window.location = '/';
       });
+    },
+    getAsyncData: lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default()(function (search) {
+      var _this = this;
+
+      if (!search.length) {
+        this.data = [];
+        return;
+      }
+
+      this.isFetching = true;
+      axios.get('/articles/search?search=' + search).then(function (_ref) {
+        var data = _ref.data;
+        _this.data = data.data; // console.log(data)
+        // data.results.forEach((item) => this.data.push(item))
+      })["catch"](function (error) {
+        _this.data = [];
+        throw error;
+      })["finally"](function () {
+        _this.isFetching = false;
+      });
+    }, 500),
+    selectRow: function selectRow(option) {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].visit('/articles/' + option.code);
     }
   }
 });
@@ -49161,7 +49216,70 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _vm._m(0)
+        _c(
+          "div",
+          { staticClass: "navbar-item has-control no-left-space-touch" },
+          [
+            _c(
+              "div",
+              { staticClass: "control" },
+              [
+                _c(
+                  "b-field",
+                  { staticClass: "recherche", attrs: { label: "" } },
+                  [
+                    _c(
+                      "b-autocomplete",
+                      {
+                        attrs: {
+                          rounded: "",
+                          expanded: "",
+                          size: "is-small",
+                          data: _vm.data,
+                          placeholder: "Recherche ...",
+                          icon: "magnify",
+                          clearable: "",
+                          loading: _vm.isFetching
+                        },
+                        on: { typing: _vm.getAsyncData, select: _vm.selectRow },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(props.option.designation) +
+                                    "\n                            "
+                                )
+                              ]
+                            }
+                          }
+                        ]),
+                        model: {
+                          value: _vm.search,
+                          callback: function($$v) {
+                            _vm.search = $$v
+                          },
+                          expression: "search"
+                        }
+                      },
+                      [
+                        _vm._v(" "),
+                        _c("template", { slot: "empty" }, [
+                          _vm._v("Aucun résultat.")
+                        ])
+                      ],
+                      2
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ]
+        )
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "navbar-brand is-right" }, [
@@ -49414,25 +49532,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "navbar-item has-control no-left-space-touch" },
-      [
-        _c("div", { staticClass: "control" }, [
-          _c("input", {
-            staticClass: "input",
-            attrs: { placeholder: "Search everywhere..." }
-          })
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

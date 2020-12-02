@@ -43,6 +43,13 @@ hr {
     margin-bottom: 20px !important;
     border: 0 !important;
     border-top: 1px solid rgba(0,0,0,.1) !important;
+}
+
+.recherche {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,.1) !important;
+    border-radius: 20px !important;
+    width: 300px !important;
 }@charset "UTF-8";
 
 /* Theme style (colors & sizes) */

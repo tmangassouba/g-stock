@@ -9,7 +9,29 @@
             </a>
             <div class="navbar-item has-control no-left-space-touch">
                 <div class="control">
-                    <input class="input" placeholder="Search everywhere..." />
+                    <b-field label="" class="recherche">
+                        <b-autocomplete
+                            rounded
+                            expanded
+                            size="is-small"
+                            v-model="search"
+                            :data="data"
+                            placeholder="Recherche ..."
+                            icon="magnify"
+                            clearable
+                            :loading="isFetching"
+                            @typing="getAsyncData"
+                            @select="selectRow">
+                            <template slot-scope="props">
+                                <!-- <inertia-link :href="'/articles/' + props.option.code"> -->
+                                    {{ props.option.designation }}
+                                <!-- </inertia-link> -->
+                            </template>
+
+                            <template slot="empty">Aucun résultat.</template>
+                        </b-autocomplete>
+                    </b-field>
+                    <!-- <input class="input" placeholder="Search everywhere..." /> -->
                 </div>
             </div>
         </div>
@@ -96,6 +118,8 @@
     import { mapGetters } from 'vuex'
     import NavBarMenu from './NavBarMenu'
     import UserAvatar from './UserAvatar'
+    import debounce from 'lodash/debounce'
+    import { Inertia } from '@inertiajs/inertia'
 
     export default {
         name: 'NavBar',
@@ -109,8 +133,13 @@
                 // isNavBarVisible: true,
                 // isAsideMobileExpanded: true,
                 // userName: "Tidiane"
+                search: null,
+                isFetching: false,
+                data: [],
+                selected: null
             }
         },
+
         computed: {
             menuNavBarToggleIcon () {
                 return this.isMenuNavBarActive ? 'close' : 'dots-vertical'
@@ -130,6 +159,7 @@
                 this.isMenuNavBarActive = false
             // })
         },
+
         methods: {
             menuToggleMobile () {
                 this.$store.commit('menu/asideMobileStateToggle')
@@ -143,6 +173,29 @@
                     window.location = '/';
                 })
             },
+            getAsyncData: debounce(function (search) {
+                if (!search.length) {
+                    this.data = []
+                    return
+                }
+                this.isFetching = true
+                axios.get('/articles/search?search=' + search)
+                    .then(({ data }) => {
+                        this.data = data.data
+                        // console.log(data)
+                        // data.results.forEach((item) => this.data.push(item))
+                    })
+                    .catch((error) => {
+                        this.data = []
+                        throw error
+                    })
+                    .finally(() => {
+                        this.isFetching = false
+                    })
+            }, 500),
+            selectRow(option) {
+                Inertia.visit('/articles/' + option.code)
+            }
         }
     }
 </script>

@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Articles
     Route::name('articles.')->prefix('articles')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/search', [ProductController::class, 'search'])->name('search');
         Route::post('/', [ProductController::class, 'store'])->name('store')->middleware('can:admin');
         Route::put('/{product}', [ProductController::class, 'update'])->name('update')->middleware('can:admin');
         Route::post('/delete-products', [ProductController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');

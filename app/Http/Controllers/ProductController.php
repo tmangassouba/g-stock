@@ -34,6 +34,19 @@ class ProductController extends Controller
         ])->withViewData(['pageTitle' => 'Articles']);
     }
 
+    public function search(Request $request)
+    {
+        // $products = Product::all();
+        $search = $request->search;
+
+        $products = Product::with('unite')
+                            ->where('designation', 'LIKE', '%'.$search.'%')
+                            ->orWhere('code', 'LIKE', '%'.$search.'%')
+                            ->orderBy('designation')
+                            ->paginate(20);
+        return $products;
+    }
+
     public function store(ArticleRequest $request)
     {
         Product::create($request->all());
