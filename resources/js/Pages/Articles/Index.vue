@@ -8,14 +8,6 @@
         </title-bar>
 
         <section class="section is-main-section">
-            <!-- <b-notification
-                v-if="message"
-                type="is-success"
-                has-icon
-                aria-close-label="Close notification">
-                {{ message }}
-            </b-notification> -->
-
             <b-table 
                 :data="products.data"
                 :loading="loading"
@@ -184,11 +176,11 @@
         },
         created() {
             if (this.products) {
-                this.currentPage = this.products.current_page
+                this.currentPage = this.products.meta.current_page
                 this._sortField = this.sortField
                 this._sortOrder = this.sortOrder
-                this.perPage = this.products.per_page
-                this.total = this.products.total
+                this.perPage = this.products.meta.per_page
+                this.total = this.products.meta.total
             }
         },
 

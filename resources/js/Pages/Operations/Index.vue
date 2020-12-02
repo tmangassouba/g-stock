@@ -182,11 +182,11 @@
         },
         created() {
             if (this.operations) {
-                this.currentPage = this.operations.current_page
+                this.currentPage = this.operations.meta.current_page
                 this._sortField = this.sortField
                 this._sortOrder = this.sortOrder
-                this.perPage = this.operations.per_page
-                this.total = this.operations.total
+                this.perPage = this.operations.meta.per_page
+                this.total = this.operations.meta.total
             }
         },
 

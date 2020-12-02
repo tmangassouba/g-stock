@@ -3722,14 +3722,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3816,11 +3808,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (this.products) {
-      this.currentPage = this.products.current_page;
+      this.currentPage = this.products.meta.current_page;
       this._sortField = this.sortField;
       this._sortOrder = this.sortOrder;
-      this.perPage = this.products.per_page;
-      this.total = this.products.total;
+      this.perPage = this.products.meta.per_page;
+      this.total = this.products.meta.total;
     }
   },
   computed: {
@@ -5536,11 +5528,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (this.operations) {
-      this.currentPage = this.operations.current_page;
+      this.currentPage = this.operations.meta.current_page;
       this._sortField = this.sortField;
       this._sortOrder = this.sortOrder;
-      this.perPage = this.operations.per_page;
-      this.total = this.operations.total;
+      this.perPage = this.operations.meta.per_page;
+      this.total = this.operations.meta.total;
     }
   },
   computed: {
@@ -7709,11 +7701,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (this.users) {
-      this.currentPage = this.users.current_page;
+      this.currentPage = this.users.meta.current_page;
       this._sortField = this.sortField;
       this._sortOrder = this.sortOrder;
-      this.perPage = this.users.per_page;
-      this.total = this.users.total;
+      this.perPage = this.users.meta.per_page;
+      this.total = this.users.meta.total;
     }
   },
   computed: {

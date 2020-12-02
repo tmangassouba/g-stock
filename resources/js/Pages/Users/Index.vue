@@ -200,11 +200,11 @@
         },
         created() {
             if (this.users) {
-                this.currentPage = this.users.current_page
+                this.currentPage = this.users.meta.current_page
                 this._sortField = this.sortField
                 this._sortOrder = this.sortOrder
-                this.perPage = this.users.per_page
-                this.total = this.users.total
+                this.perPage = this.users.meta.per_page
+                this.total = this.users.meta.total
             }
         },
 
