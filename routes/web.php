@@ -10,7 +10,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UniteController;
 use App\Http\Controllers\UsersController;
 use App\Http\Resources\UserResource;
-use App\Models\Magazin;
 use Illuminate\Http\Request;
 
 /*
