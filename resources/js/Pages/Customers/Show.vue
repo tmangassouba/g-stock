@@ -43,6 +43,7 @@
                         <span v-else></span>
                     </b-field>
                 </div>
+
                 <div class="column">
                     <b-field
                         horizontal 
@@ -85,6 +86,20 @@
                     </b-field>
                 </div>
             </div>
+
+            <b-tabs :animated="false">
+                <b-tab-item label="Factures">
+                    Lorem ipsum dolor sit amet.
+                </b-tab-item>
+
+                <b-tab-item label="Documents" :disabled="true">
+                    Lorem <br>
+                    ipsum <br>
+                    dolor <br>
+                    sit <br>
+                    amet.
+                </b-tab-item>
+            </b-tabs>
         </section>
     </app-layout>
 </template>

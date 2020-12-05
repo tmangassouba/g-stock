@@ -4988,6 +4988,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -53040,105 +53055,150 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("section", { staticClass: "section is-main-section" }, [
-        _c("div", { staticClass: "columns" }, [
-          _c(
-            "div",
-            { staticClass: "column" },
-            [
-              _c("b-field", { attrs: { horizontal: "", label: "Type" } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm._customer.type) +
-                    "\n                "
+      _c(
+        "section",
+        { staticClass: "section is-main-section" },
+        [
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column" },
+              [
+                _c("b-field", { attrs: { horizontal: "", label: "Type" } }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm._customer.type) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("b-field", { attrs: { horizontal: "", label: "Prénom" } }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm._customer.fisrt_name) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("b-field", { attrs: { horizontal: "", label: "Adresse" } }, [
+                  _vm._customer.address
+                    ? _c("span", [_vm._v(_vm._s(_vm._customer.address))])
+                    : _c("span")
+                ]),
+                _vm._v(" "),
+                _c("b-field", { attrs: { horizontal: "", label: "Fixe" } }, [
+                  _vm._customer.telephone
+                    ? _c(
+                        "a",
+                        { attrs: { href: "tel:" + _vm._customer.telephone } },
+                        [_vm._v(_vm._s(_vm._customer.telephone))]
+                      )
+                    : _c("span", [_vm._v("-")])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { horizontal: "", label: "Compagnie" } },
+                  [
+                    _vm._customer.company
+                      ? _c("span", [_vm._v(_vm._s(_vm._customer.company))])
+                      : _c("span")
+                  ]
                 )
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Prénom" } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm._customer.fisrt_name) +
-                    "\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Adresse" } }, [
-                _vm._customer.address
-                  ? _c("span", [_vm._v(_vm._s(_vm._customer.address))])
-                  : _c("span")
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Fixe" } }, [
-                _vm._customer.telephone
-                  ? _c(
-                      "a",
-                      { attrs: { href: "tel:" + _vm._customer.telephone } },
-                      [_vm._v(_vm._s(_vm._customer.telephone))]
-                    )
-                  : _c("span", [_vm._v("-")])
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Compagnie" } }, [
-                _vm._customer.company
-                  ? _c("span", [_vm._v(_vm._s(_vm._customer.company))])
-                  : _c("span")
-              ])
-            ],
-            1
-          ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "column" },
+              [
+                _c("b-field", { attrs: { horizontal: "", label: "Titre" } }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm._customer.title) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("b-field", { attrs: { horizontal: "", label: "Nom" } }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm._customer.last_name) +
+                      "\n                "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("b-field", { attrs: { horizontal: "", label: "Ville" } }, [
+                  _vm._customer.city
+                    ? _c("span", [_vm._v(_vm._s(_vm._customer.city))])
+                    : _c("span")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-field",
+                  { attrs: { horizontal: "", label: "Site web" } },
+                  [
+                    _vm._customer.website
+                      ? _c(
+                          "a",
+                          {
+                            attrs: {
+                              href: _vm._customer.website,
+                              target: "_blank"
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm._customer.website))]
+                        )
+                      : _c("span", [_vm._v("-")])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("b-field", { attrs: { horizontal: "", label: "Email" } }, [
+                  _vm._customer.email
+                    ? _c(
+                        "a",
+                        { attrs: { href: "mailto:" + _vm._customer.email } },
+                        [_vm._v(_vm._s(_vm._customer.email))]
+                      )
+                    : _c("span", [_vm._v("-")])
+                ])
+              ],
+              1
+            )
+          ]),
           _vm._v(" "),
           _c(
-            "div",
-            { staticClass: "column" },
+            "b-tabs",
+            { attrs: { animated: false } },
             [
-              _c("b-field", { attrs: { horizontal: "", label: "Titre" } }, [
+              _c("b-tab-item", { attrs: { label: "Factures" } }, [
                 _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm._customer.title) +
-                    "\n                "
+                  "\n                Lorem ipsum dolor sit amet.\n            "
                 )
               ]),
               _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Nom" } }, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm._customer.last_name) +
-                    "\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Ville" } }, [
-                _vm._customer.city
-                  ? _c("span", [_vm._v(_vm._s(_vm._customer.city))])
-                  : _c("span")
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Site web" } }, [
-                _vm._customer.website
-                  ? _c(
-                      "a",
-                      {
-                        attrs: { href: _vm._customer.website, target: "_blank" }
-                      },
-                      [_vm._v(_vm._s(_vm._customer.website))]
-                    )
-                  : _c("span", [_vm._v("-")])
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Email" } }, [
-                _vm._customer.email
-                  ? _c(
-                      "a",
-                      { attrs: { href: "mailto:" + _vm._customer.email } },
-                      [_vm._v(_vm._s(_vm._customer.email))]
-                    )
-                  : _c("span", [_vm._v("-")])
-              ])
+              _c(
+                "b-tab-item",
+                { attrs: { label: "Documents", disabled: true } },
+                [
+                  _vm._v("\n                Lorem "),
+                  _c("br"),
+                  _vm._v("\n                ipsum "),
+                  _c("br"),
+                  _vm._v("\n                dolor "),
+                  _c("br"),
+                  _vm._v("\n                sit "),
+                  _c("br"),
+                  _vm._v("\n                amet.\n            ")
+                ]
+              )
             ],
             1
           )
-        ])
-      ])
+        ],
+        1
+      )
     ],
     1
   )
