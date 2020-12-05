@@ -44,21 +44,21 @@
             </ul>
 
             <!-- Facturation -->
-            <!-- <p class="menu-label">Facturation</p>
+            <p class="menu-label">Facturation</p>
             <ul class="menu-list">
-                <li :class="{ 'is-active': isDropdownActive }">
+                <!-- <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/factures" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="file-document-outline" custom-size="default" />
                         <span class="menu-item-label">Factures</span>
                     </inertia-link>
-                </li>
+                </li> -->
                 <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/clients" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="account-circle-outline" custom-size="default" />
                         <span class="menu-item-label">Clients</span>
                     </inertia-link>
                 </li>
-            </ul> -->
+            </ul>
 
             <!-- Administration -->
             <!-- <p class="menu-label" v-if="hasRole('ADMIN')">Administration</p>

@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Customer;
 use App\Models\Operation;
 use App\Models\Product;
 use App\Models\User;
+use App\Observers\CustomerObserver;
 use App\Observers\OperationObserver;
 use App\Observers\ProductObserver;
 use App\Observers\UserObserver;
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Product::observe(ProductObserver::class);
         User::observe(UserObserver::class);
         Operation::observe(OperationObserver::class);
+        Customer::observe(CustomerObserver::class);
 
         Inertia::share([
             'errors' => function () {

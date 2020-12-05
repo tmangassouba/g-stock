@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviseController;
 use App\Http\Controllers\MagazinController;
@@ -108,5 +109,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{operation}/docs', [OperationController::class, 'docs'])->name('docs');
         Route::post('/{operation}/upload-files', [OperationController::class, 'uploadFiles'])->name('uploadFiles');
         Route::post('/{operation}/delete-files', [OperationController::class, 'deleteFiles'])->name('deleteFiles');
+    });
+    
+    // Clients
+    Route::name('clients.')->prefix('clients')->group(function () {
+        Route::get('/', [CustomerController::class, 'index'])->name('index');
+        Route::get('/ajouter', [CustomerController::class, 'create'])->name('create')->middleware('can:gerant');
+        Route::post('/', [CustomerController::class, 'store'])->name('store')->middleware('can:gerant');
+        Route::get('/{customer}', [CustomerController::class, 'show'])->name('show')->middleware('can:gerant');
+        Route::get('/{customer}/modifier', [CustomerController::class, 'edit'])->name('edit')->middleware('can:gerant');
+        Route::put('/{customer}', [CustomerController::class, 'update'])->name('update')->middleware('can:gerant');
+        Route::post('/delete-clients', [CustomerController::class, 'deleteClients'])->name('delete.clients')->middleware('can:gerant');
     });
 });

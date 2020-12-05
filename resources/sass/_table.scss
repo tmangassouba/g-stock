@@ -39,6 +39,11 @@ table.table {
   }
 }
 
+th.is-current-sort {
+  border-top: 1px solid #ddd !important;
+  // border-bottom: 1px solid #eee !important;
+}
+
 .b-table {
   .table {
     border: 0;

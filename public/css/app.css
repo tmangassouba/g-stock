@@ -19669,6 +19669,10 @@ table.table td.is-progress-col {
   vertical-align: middle;
 }
 
+th.is-current-sort {
+  border-top: 1px solid #ddd !important;
+}
+
 .b-table {
   /* This stylizes buefy's pagination */
 }
