@@ -51,66 +51,69 @@
 
             <br>
 
-            <b-table
-                :data="_operation.products"
-                :striped="true"
-                :hoverable="false"
-                :narrowed="false"
-                :mobile-cards="true">
+            
 
-                <!-- <template slot-scope="props"> -->
-                    <b-table-column field="produit_name" label="Produit" v-slot="props">
-                        <inertia-link :href="'/articles/' + props.row.code">
-                            {{ props.row.designation ? props.row.designation : '-' }}
-                        </inertia-link>
-                    </b-table-column>
+            <b-tabs :animated="false">
+                <b-tab-item label="Articles">
+                    <h6 class="title is-4">Articles</h6>
+                    <b-table
+                        :data="_operation.products"
+                        :striped="true"
+                        :hoverable="false"
+                        :narrowed="false"
+                        :mobile-cards="true">
 
-                    <b-table-column field="quantite" label="Quantité" :width="150" numeric v-slot="props">
-                        {{ props.row.pivot ? props.row.pivot.quantite : '-' }}
-                        <small v-if="props.row.unite"> <br> {{ props.row.unite.name }}</small>
-                    </b-table-column>
+                        <!-- <template slot-scope="props"> -->
+                            <b-table-column field="produit_name" label="Produit" v-slot="props">
+                                <inertia-link :href="'/articles/' + props.row.code">
+                                    {{ props.row.designation ? props.row.designation : '-' }}
+                                </inertia-link>
+                            </b-table-column>
 
-                    <b-table-column field="piece" label="Nb. Pièce" :width="150" numeric :visible="entrees" v-slot="props">
-                        {{ props.row.pivot ? props.row.pivot.piece : '-' }}
-                    </b-table-column>
+                            <b-table-column field="quantite" label="Quantité" :width="150" numeric v-slot="props">
+                                {{ props.row.pivot ? props.row.pivot.quantite : '-' }}
+                                <small v-if="props.row.unite"> <br> {{ props.row.unite.name }}</small>
+                            </b-table-column>
 
-                    <b-table-column field="" label="P.U" :width="150" numeric :visible="entrees" v-slot="props">
-                        {{ props.row.pivot ? props.row.pivot.prix : '-' }}
-                    </b-table-column>
+                            <b-table-column field="piece" label="Nb. Pièce" :width="150" numeric :visible="entrees" v-slot="props">
+                                {{ props.row.pivot ? props.row.pivot.piece : '-' }}
+                            </b-table-column>
 
-                    <b-table-column field="" label="Prix/Pièce" :width="150" numeric :visible="entrees" v-slot="props">
-                        <span v-if="props.row.pivot">
-                            {{ (props.row.pivot.prix / props.row.pivot.piece) | number('0,0', { thousandsSeparator: ' ' }) }}
-                        </span>
-                    </b-table-column>
+                            <b-table-column field="" label="P.U" :width="150" numeric :visible="entrees" v-slot="props">
+                                {{ props.row.pivot ? props.row.pivot.prix : '-' }}
+                            </b-table-column>
 
-                    <b-table-column field="" label="Sous total" :width="150" numeric :visible="entrees" v-slot="props">
-                        <span v-if="props.row.pivot">
-                            {{ (props.row.pivot.prix * props.row.pivot.quantite) | number('0,0', { thousandsSeparator: ' ' }) }}
-                        </span>
-                    </b-table-column>
-                <!-- </template> -->
-            </b-table>
+                            <b-table-column field="" label="Prix/Pièce" :width="150" numeric :visible="entrees" v-slot="props">
+                                <span v-if="props.row.pivot">
+                                    {{ (props.row.pivot.prix / props.row.pivot.piece) | number('0,0', { thousandsSeparator: ' ' }) }}
+                                </span>
+                            </b-table-column>
 
-            <div class="columns" v-if="entrees">
-                <div class="column is-8">
-                    <!-- {{ totalFacture }} -->
-                </div>
+                            <b-table-column field="" label="Sous total" :width="150" numeric :visible="entrees" v-slot="props">
+                                <span v-if="props.row.pivot">
+                                    {{ (props.row.pivot.prix * props.row.pivot.quantite) | number('0,0', { thousandsSeparator: ' ' }) }}
+                                </span>
+                            </b-table-column>
+                        <!-- </template> -->
+                    </b-table>
 
-                <div class="column is-4"  style="padding-top: 30px;">
-                    <div class="info-row has-text-weight-bold" style="text-align:right;padding-right: 20px;">
-                        <div class="has-text-grey">Total</div>
-                        <div class="">
-                            {{  totalFacture | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
+                    <div class="columns" v-if="entrees">
+                        <div class="column is-8">
+                            <!-- {{ totalFacture }} -->
+                        </div>
+
+                        <div class="column is-4"  style="padding-top: 30px;">
+                            <div class="info-row has-text-weight-bold" style="text-align:right;padding-right: 20px;">
+                                <div class="has-text-grey">Total</div>
+                                <div class="">
+                                    {{  totalFacture | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </b-tab-item>
 
-            <hr>
-
-            <div class="columns">
-                <div class="column is-6-">
+                <b-tab-item label="Documents">
                     <div class="level">
                         <div class="level-left"><h6 class="title is-4">Documents</h6></div>
                         <div class="level-right" v-if="gerant">
@@ -152,19 +155,19 @@
                             </section>
                         </template>
                     </b-table>
+                </b-tab-item>
+            </b-tabs>
 
-                    <b-modal
-                        v-if="_operation"
-                        v-model="isModalFileActive"
-                        trap-focus
-                        :destroy-on-hide="false"
-                        :can-cancel="['escape', 'x']"
-                        :width="640"
-                    >
-                        <file-form :operation="_operation"  @reloadDocs="getDocs()" @close-file-modal="isModalFileActive = false"></file-form>
-                    </b-modal>
-                </div>
-            </div>
+            <b-modal
+                v-if="_operation"
+                v-model="isModalFileActive"
+                trap-focus
+                :destroy-on-hide="false"
+                :can-cancel="['escape', 'x']"
+                :width="640"
+            >
+                <file-form :operation="_operation"  @reloadDocs="getDocs()" @close-file-modal="isModalFileActive = false"></file-form>
+            </b-modal>
 
             <b-notification :closable="false" class="loading-notification">
                 <b-loading :is-full-page="true" v-model="isDeleting" :can-cancel="false"></b-loading>

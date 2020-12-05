@@ -6567,6 +6567,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -55636,464 +55639,488 @@ var render = function() {
           _c("br"),
           _vm._v(" "),
           _c(
-            "b-table",
-            {
-              attrs: {
-                data: _vm._operation.products,
-                striped: true,
-                hoverable: false,
-                narrowed: false,
-                "mobile-cards": true
-              }
-            },
+            "b-tabs",
+            { attrs: { animated: false } },
             [
-              _c("b-table-column", {
-                attrs: { field: "produit_name", label: "Produit" },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        _c(
-                          "inertia-link",
-                          { attrs: { href: "/articles/" + props.row.code } },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(
-                                  props.row.designation
-                                    ? props.row.designation
-                                    : "-"
-                                ) +
-                                "\n                    "
-                            )
-                          ]
-                        )
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("b-table-column", {
-                attrs: {
-                  field: "quantite",
-                  label: "Quantité",
-                  width: 150,
-                  numeric: ""
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(
-                              props.row.pivot ? props.row.pivot.quantite : "-"
-                            ) +
-                            "\n                    "
-                        ),
-                        props.row.unite
-                          ? _c("small", [
-                              _c("br"),
-                              _vm._v(" " + _vm._s(props.row.unite.name))
-                            ])
-                          : _vm._e()
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("b-table-column", {
-                attrs: {
-                  field: "piece",
-                  label: "Nb. Pièce",
-                  width: 150,
-                  numeric: "",
-                  visible: _vm.entrees
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(
-                              props.row.pivot ? props.row.pivot.piece : "-"
-                            ) +
-                            "\n                "
-                        )
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("b-table-column", {
-                attrs: {
-                  field: "",
-                  label: "P.U",
-                  width: 150,
-                  numeric: "",
-                  visible: _vm.entrees
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(
-                              props.row.pivot ? props.row.pivot.prix : "-"
-                            ) +
-                            "\n                "
-                        )
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("b-table-column", {
-                attrs: {
-                  field: "",
-                  label: "Prix/Pièce",
-                  width: 150,
-                  numeric: "",
-                  visible: _vm.entrees
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        props.row.pivot
-                          ? _c("span", [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(
-                                    _vm._f("number")(
-                                      props.row.pivot.prix /
-                                        props.row.pivot.piece,
-                                      "0,0",
-                                      { thousandsSeparator: " " }
-                                    )
-                                  ) +
-                                  "\n                    "
-                              )
-                            ])
-                          : _vm._e()
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("b-table-column", {
-                attrs: {
-                  field: "",
-                  label: "Sous total",
-                  width: 150,
-                  numeric: "",
-                  visible: _vm.entrees
-                },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        props.row.pivot
-                          ? _c("span", [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(
-                                    _vm._f("number")(
-                                      props.row.pivot.prix *
-                                        props.row.pivot.quantite,
-                                      "0,0",
-                                      { thousandsSeparator: " " }
-                                    )
-                                  ) +
-                                  "\n                    "
-                              )
-                            ])
-                          : _vm._e()
-                      ]
-                    }
-                  }
-                ])
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.entrees
-            ? _c("div", { staticClass: "columns" }, [
-                _c("div", { staticClass: "column is-8" }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "column is-4",
-                    staticStyle: { "padding-top": "30px" }
-                  },
-                  [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "info-row has-text-weight-bold",
-                        staticStyle: {
-                          "text-align": "right",
-                          "padding-right": "20px"
-                        }
-                      },
-                      [
-                        _c("div", { staticClass: "has-text-grey" }, [
-                          _vm._v("Total")
-                        ]),
-                        _vm._v(" "),
-                        _c("div", {}, [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(
-                                _vm._f("number")(_vm.totalFacture, "0,0", {
-                                  thousandsSeparator: " "
-                                })
-                              ) +
-                              " " +
-                              _vm._s(_vm.monaie) +
-                              "\n                    "
-                          )
-                        ])
-                      ]
-                    )
-                  ]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c(
-              "div",
-              { staticClass: "column is-6-" },
-              [
-                _c("div", { staticClass: "level" }, [
-                  _c("div", { staticClass: "level-left" }, [
-                    _c("h6", { staticClass: "title is-4" }, [
-                      _vm._v("Documents")
-                    ])
-                  ]),
+              _c(
+                "b-tab-item",
+                { attrs: { label: "Articles" } },
+                [
+                  _c("h6", { staticClass: "title is-4" }, [_vm._v("Articles")]),
                   _vm._v(" "),
-                  _vm.gerant
-                    ? _c("div", { staticClass: "level-right" }, [
-                        _c(
-                          "div",
-                          [
-                            _c(
-                              "b-tooltip",
-                              {
-                                attrs: {
-                                  type: "is-dark",
-                                  label: "Télécharger des fichiers"
-                                }
-                              },
-                              [
-                                _c("b-button", {
-                                  attrs: {
-                                    type: "is-info",
-                                    size: "is-small",
-                                    "icon-left": "upload"
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.isModalFileActive = true
-                                    }
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "b-tooltip",
-                              {
-                                attrs: {
-                                  type: "is-dark",
-                                  label: "Supprimer les fichiers sélectionnés"
-                                }
-                              },
-                              [
-                                _vm.checkedFilesRows.length != 0
-                                  ? _c("b-button", {
-                                      attrs: {
-                                        type: "is-danger",
-                                        size: "is-small",
-                                        "icon-left": "delete"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.deleteDocs()
-                                        }
-                                      }
-                                    })
-                                  : _vm._e()
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-table",
-                  {
-                    attrs: {
-                      data: _vm.docs,
-                      loading: _vm.loadingDocs,
-                      striped: "",
-                      "show-header": true,
-                      checkable: "",
-                      "checked-rows": _vm.checkedFilesRows,
-                      hoverable: ""
-                    },
-                    on: {
-                      "update:checkedRows": function($event) {
-                        _vm.checkedFilesRows = $event
-                      },
-                      "update:checked-rows": function($event) {
-                        _vm.checkedFilesRows = $event
-                      }
-                    }
-                  },
-                  [
-                    _c("b-table-column", {
-                      attrs: { field: "name", label: "Document" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function(props) {
-                            return [
-                              _c("b-icon", {
-                                attrs: {
-                                  icon: "file-document-outline",
-                                  size: "is-small"
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "a",
-                                {
-                                  attrs: {
-                                    href: props.row.file_url,
-                                    target: "_blank",
-                                    rel: ""
-                                  }
-                                },
-                                [_vm._v(_vm._s(props.row.name))]
-                              )
-                            ]
-                          }
-                        }
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _c("b-table-column", {
+                  _c(
+                    "b-table",
+                    {
                       attrs: {
-                        field: "created_at",
-                        label: "Date",
-                        numeric: ""
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function(props) {
-                            return [
-                              _vm._v(
-                                "\n                        " +
-                                  _vm._s(props.row.created_at) +
-                                  "\n                    "
-                              )
-                            ]
+                        data: _vm._operation.products,
+                        striped: true,
+                        hoverable: false,
+                        narrowed: false,
+                        "mobile-cards": true
+                      }
+                    },
+                    [
+                      _c("b-table-column", {
+                        attrs: { field: "produit_name", label: "Produit" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                _c(
+                                  "inertia-link",
+                                  {
+                                    attrs: {
+                                      href: "/articles/" + props.row.code
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          props.row.designation
+                                            ? props.row.designation
+                                            : "-"
+                                        ) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
                           }
-                        }
-                      ])
-                    }),
-                    _vm._v(" "),
-                    _c("template", { slot: "empty" }, [
-                      _c("section", { staticClass: "section_" }, [
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("b-table-column", {
+                        attrs: {
+                          field: "quantite",
+                          label: "Quantité",
+                          width: 150,
+                          numeric: ""
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(
+                                      props.row.pivot
+                                        ? props.row.pivot.quantite
+                                        : "-"
+                                    ) +
+                                    "\n                            "
+                                ),
+                                props.row.unite
+                                  ? _c("small", [
+                                      _c("br"),
+                                      _vm._v(" " + _vm._s(props.row.unite.name))
+                                    ])
+                                  : _vm._e()
+                              ]
+                            }
+                          }
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("b-table-column", {
+                        attrs: {
+                          field: "piece",
+                          label: "Nb. Pièce",
+                          width: 150,
+                          numeric: "",
+                          visible: _vm.entrees
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(
+                                      props.row.pivot
+                                        ? props.row.pivot.piece
+                                        : "-"
+                                    ) +
+                                    "\n                        "
+                                )
+                              ]
+                            }
+                          }
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("b-table-column", {
+                        attrs: {
+                          field: "",
+                          label: "P.U",
+                          width: 150,
+                          numeric: "",
+                          visible: _vm.entrees
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(
+                                      props.row.pivot
+                                        ? props.row.pivot.prix
+                                        : "-"
+                                    ) +
+                                    "\n                        "
+                                )
+                              ]
+                            }
+                          }
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("b-table-column", {
+                        attrs: {
+                          field: "",
+                          label: "Prix/Pièce",
+                          width: 150,
+                          numeric: "",
+                          visible: _vm.entrees
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                props.row.pivot
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm._f("number")(
+                                              props.row.pivot.prix /
+                                                props.row.pivot.piece,
+                                              "0,0",
+                                              { thousandsSeparator: " " }
+                                            )
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            }
+                          }
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("b-table-column", {
+                        attrs: {
+                          field: "",
+                          label: "Sous total",
+                          width: 150,
+                          numeric: "",
+                          visible: _vm.entrees
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                props.row.pivot
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm._f("number")(
+                                              props.row.pivot.prix *
+                                                props.row.pivot.quantite,
+                                              "0,0",
+                                              { thousandsSeparator: " " }
+                                            )
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]
+                            }
+                          }
+                        ])
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.entrees
+                    ? _c("div", { staticClass: "columns" }, [
+                        _c("div", { staticClass: "column is-8" }),
+                        _vm._v(" "),
                         _c(
                           "div",
                           {
-                            staticClass:
-                              "content has-text-grey has-text-centered"
+                            staticClass: "column is-4",
+                            staticStyle: { "padding-top": "30px" }
                           },
                           [
                             _c(
                               "div",
+                              {
+                                staticClass: "info-row has-text-weight-bold",
+                                staticStyle: {
+                                  "text-align": "right",
+                                  "padding-right": "20px"
+                                }
+                              },
                               [
-                                _c("b-icon", {
-                                  attrs: { icon: "inbox", size: "is-medium" }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("p", [_vm._v("Aucun document.")])
+                                _c("div", { staticClass: "has-text-grey" }, [
+                                  _vm._v("Total")
+                                ]),
+                                _vm._v(" "),
+                                _c("div", {}, [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        _vm._f("number")(
+                                          _vm.totalFacture,
+                                          "0,0",
+                                          { thousandsSeparator: " " }
+                                        )
+                                      ) +
+                                      " " +
+                                      _vm._s(_vm.monaie) +
+                                      "\n                            "
+                                  )
+                                ])
+                              ]
+                            )
                           ]
                         )
                       ])
-                    ])
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _vm._operation
-                  ? _c(
-                      "b-modal",
-                      {
-                        attrs: {
-                          "trap-focus": "",
-                          "destroy-on-hide": false,
-                          "can-cancel": ["escape", "x"],
-                          width: 640
-                        },
-                        model: {
-                          value: _vm.isModalFileActive,
-                          callback: function($$v) {
-                            _vm.isModalFileActive = $$v
-                          },
-                          expression: "isModalFileActive"
-                        }
+                    : _vm._e()
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-tab-item",
+                { attrs: { label: "Documents" } },
+                [
+                  _c("div", { staticClass: "level" }, [
+                    _c("div", { staticClass: "level-left" }, [
+                      _c("h6", { staticClass: "title is-4" }, [
+                        _vm._v("Documents")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm.gerant
+                      ? _c("div", { staticClass: "level-right" }, [
+                          _c(
+                            "div",
+                            [
+                              _c(
+                                "b-tooltip",
+                                {
+                                  attrs: {
+                                    type: "is-dark",
+                                    label: "Télécharger des fichiers"
+                                  }
+                                },
+                                [
+                                  _c("b-button", {
+                                    attrs: {
+                                      type: "is-info",
+                                      size: "is-small",
+                                      "icon-left": "upload"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.isModalFileActive = true
+                                      }
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "b-tooltip",
+                                {
+                                  attrs: {
+                                    type: "is-dark",
+                                    label: "Supprimer les fichiers sélectionnés"
+                                  }
+                                },
+                                [
+                                  _vm.checkedFilesRows.length != 0
+                                    ? _c("b-button", {
+                                        attrs: {
+                                          type: "is-danger",
+                                          size: "is-small",
+                                          "icon-left": "delete"
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.deleteDocs()
+                                          }
+                                        }
+                                      })
+                                    : _vm._e()
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "b-table",
+                    {
+                      attrs: {
+                        data: _vm.docs,
+                        loading: _vm.loadingDocs,
+                        striped: "",
+                        "show-header": true,
+                        checkable: "",
+                        "checked-rows": _vm.checkedFilesRows,
+                        hoverable: ""
                       },
-                      [
-                        _c("file-form", {
-                          attrs: { operation: _vm._operation },
-                          on: {
-                            reloadDocs: function($event) {
-                              return _vm.getDocs()
-                            },
-                            "close-file-modal": function($event) {
-                              _vm.isModalFileActive = false
+                      on: {
+                        "update:checkedRows": function($event) {
+                          _vm.checkedFilesRows = $event
+                        },
+                        "update:checked-rows": function($event) {
+                          _vm.checkedFilesRows = $event
+                        }
+                      }
+                    },
+                    [
+                      _c("b-table-column", {
+                        attrs: { field: "name", label: "Document" },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                _c("b-icon", {
+                                  attrs: {
+                                    icon: "file-document-outline",
+                                    size: "is-small"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: {
+                                      href: props.row.file_url,
+                                      target: "_blank",
+                                      rel: ""
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(props.row.name))]
+                                )
+                              ]
                             }
                           }
-                        })
-                      ],
-                      1
-                    )
-                  : _vm._e()
-              ],
-              1
-            )
-          ]),
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("b-table-column", {
+                        attrs: {
+                          field: "created_at",
+                          label: "Date",
+                          numeric: ""
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(props) {
+                              return [
+                                _vm._v(
+                                  "\n                        " +
+                                    _vm._s(props.row.created_at) +
+                                    "\n                    "
+                                )
+                              ]
+                            }
+                          }
+                        ])
+                      }),
+                      _vm._v(" "),
+                      _c("template", { slot: "empty" }, [
+                        _c("section", { staticClass: "section_" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "content has-text-grey has-text-centered"
+                            },
+                            [
+                              _c(
+                                "div",
+                                [
+                                  _c("b-icon", {
+                                    attrs: { icon: "inbox", size: "is-medium" }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("p", [_vm._v("Aucun document.")])
+                            ]
+                          )
+                        ])
+                      ])
+                    ],
+                    2
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm._operation
+            ? _c(
+                "b-modal",
+                {
+                  attrs: {
+                    "trap-focus": "",
+                    "destroy-on-hide": false,
+                    "can-cancel": ["escape", "x"],
+                    width: 640
+                  },
+                  model: {
+                    value: _vm.isModalFileActive,
+                    callback: function($$v) {
+                      _vm.isModalFileActive = $$v
+                    },
+                    expression: "isModalFileActive"
+                  }
+                },
+                [
+                  _c("file-form", {
+                    attrs: { operation: _vm._operation },
+                    on: {
+                      reloadDocs: function($event) {
+                        return _vm.getDocs()
+                      },
+                      "close-file-modal": function($event) {
+                        _vm.isModalFileActive = false
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "b-notification",
