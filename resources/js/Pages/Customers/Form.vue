@@ -171,7 +171,7 @@
             },
             updateData() {
                 this.isSaving = true
-                this.$inertia.put('/clients/' + this._operation.reference + '/update', this.form)
+                this.$inertia.put('/clients/' + this.customer.code, this.form)
                 .then(() => {
                     if (this.$page.flash.message != null ) {
                         this.$buefy.notification.open({
@@ -207,9 +207,11 @@
             if (this.customer) {
                 this.form.id         = this.customer.id,
                 this.form.code       = this.customer.code,
+                this.form.type       = this.customer.type,
                 this.form.title      = this.customer.title,
                 this.form.fisrt_name = this.customer.fisrt_name,
                 this.form.last_name  = this.customer.last_name,
+                this.form.address    = this.customer.address,
                 this.form.city       = this.customer.city,
                 this.form.telephone  = this.customer.telephone,
                 this.form.mobile     = this.customer.mobile,

@@ -20,7 +20,7 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         // $products = Product::all();
-        $sortField = $request->sortField ? $request->sortField : 'last_name';
+        $sortField = $request->sortField ? $request->sortField : 'name';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
 
         $req = Customer::orderBy($sortField, $sortOrder);
@@ -41,7 +41,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Customers/Create', [
+        return Inertia::render('Customers/Form', [
             'customer' => new Customer(),
             'gerant'     => Auth::user()->can('gerant')
         ])->withViewData(['pageTitle' => 'Ajouter client']);
@@ -83,7 +83,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        return Inertia::render('Customers/Create', [
+        return Inertia::render('Customers/Form', [
             'customer' => $customer,
             'gerant'     => Auth::user()->can('gerant')
         ])->withViewData(['pageTitle' => 'Modifier client']);
@@ -98,7 +98,8 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, Customer $customer)
     {
-        //
+        $customer->update($request->all());
+        return redirect()->back()->with('message', 'Modifié avec succès.');
     }
 
     /**

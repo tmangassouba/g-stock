@@ -35,35 +35,33 @@
                 @sort="onSort"
             >
                 <!-- :default-sort-direction="defaultSortOrder" -->
-                <b-table-column field="code" label="Ref." sortable v-slot="props">
+                <!-- <b-table-column field="code" label="Ref." sortable v-slot="props">
                     <inertia-link :href="'/clients/' + props.row.code">{{ props.row.code }}</inertia-link>
-                </b-table-column>
-                <b-table-column field="title" label="Titre" sortable v-slot="props">
-                    <inertia-link :href="'/clients/' + props.row.code">{{ props.row.title }}</inertia-link>
-                </b-table-column>
-                <b-table-column field="last_name" label="Nom" sortable v-slot="props">
-                    <inertia-link :href="'/clients/' + props.row.code">{{ props.row.last_name }}</inertia-link>
-                </b-table-column>
-                <b-table-column field="fisrt_name" label="Prénom" sortable v-slot="props">
-                    <inertia-link :href="'/clients/' + props.row.code">{{ props.row.fisrt_name }}</inertia-link>
+                </b-table-column> -->
+                <b-table-column field="name" label="Client" sortable v-slot="props">
+                    <inertia-link :href="'/clients/' + props.row.code">
+                        {{ props.row.title }}
+                        {{ props.row.name }}
+                    </inertia-link>
                 </b-table-column>
                 <b-table-column field="company" label="Compagnie" sortable v-slot="props">
                     {{ props.row.company ? props.row.company : '-' }}
                 </b-table-column>
-                <b-table-column field="address" label="Adresse" sortable v-slot="props">
-                    {{ props.row.address ? props.row.address : '-' }}
-                </b-table-column>
-                <b-table-column field="city" label="Ville" sortable v-slot="props">
-                    {{ props.row.city ? props.row.city : '-' }}
+                <b-table-column field="city" label="Adresse" sortable v-slot="props">
+                    {{ props.row.address}}{{ props.row.address && props.row.city ? ', ' : '' }}
+                    {{ props.row.city }}
                 </b-table-column>
                 <b-table-column field="telephone" label="Téléphone" sortable v-slot="props">
-                    {{ props.row.telephone ? props.row.telephone : '-' }}
+                    <a :href="'tel:' + props.row.telephone" v-if="props.row.telephone">{{ props.row.telephone }}</a>
+                    <span v-else>-</span>
                 </b-table-column>
                 <b-table-column field="mobile" label="Mobile" sortable v-slot="props">
-                    {{ props.row.mobile ? props.row.mobile : '-' }}
+                    <a :href="'tel:' + props.row.mobile" v-if="props.row.mobile">{{ props.row.mobile }}</a>
+                    <span v-else>-</span>
                 </b-table-column>
                 <b-table-column field="email" label="Email" sortable v-slot="props">
-                    {{ props.row.email ? props.row.email : '-' }}
+                    <a :href="'mailto:' + props.row.email" v-if="props.row.email">{{ props.row.email }}</a>
+                    <span v-else>-</span>
                 </b-table-column>
                 <b-table-column field="website" label="Site web" sortable v-slot="props">
                     <a :href="props.row.website" target="_blank" v-if="props.row.website">{{ props.row.website }}</a>
