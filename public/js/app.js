@@ -4558,6 +4558,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       isSaving: false,
+      checkedRows: [],
       form: {
         id: null,
         code: null,
@@ -4566,7 +4567,7 @@ __webpack_require__.r(__webpack_exports__);
         last_name: null,
         city: null,
         telephone: null,
-        mobile: null,
+        // mobile: null,
         email: null,
         website: null,
         company: null
@@ -4610,7 +4611,41 @@ __webpack_require__.r(__webpack_exports__);
         _this2.isSaving = false;
       });
     },
-    deleteCustomer: function deleteCustomer() {//
+    deleteCustomer: function deleteCustomer() {
+      var _this3 = this;
+
+      if (this.checkedRows.length) {
+        this.$buefy.dialog.confirm({
+          title: 'Supprimer clients',
+          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce client ?<br/> Cette action ne peut pas être annulée.',
+          confirmText: 'Supprimer client(s)',
+          type: 'is-danger',
+          hasIcon: true,
+          size: 'is-small',
+          onConfirm: function onConfirm() {
+            // this.$buefy.toast.open('Account deleted!')
+            _this3.isDeleting = true;
+            var checkedForm = {
+              checkedRows: _this3.checkedRows
+            };
+
+            _this3.$inertia.post('/clients/delete-clients', checkedForm).then(function () {
+              if (_this3.$page.flash.message != null) {
+                // this.resetForm()
+                _this3.$buefy.notification.open({
+                  message: 'Client supprimé avec succès.',
+                  type: 'is-success'
+                });
+              }
+            })["catch"](function (_ref3) {// this.$handleMessage(message, 'danger');
+
+              var message = _ref3.message;
+            })["finally"](function () {
+              _this3.isDeleting = false;
+            });
+          }
+        });
+      }
     }
   },
   computed: {
@@ -4626,7 +4661,12 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     if (this.customer) {
-      this.form.id = this.customer.id, this.form.code = this.customer.code, this.form.type = this.customer.type, this.form.title = this.customer.title, this.form.fisrt_name = this.customer.fisrt_name, this.form.last_name = this.customer.last_name, this.form.address = this.customer.address, this.form.city = this.customer.city, this.form.telephone = this.customer.telephone, this.form.mobile = this.customer.mobile, this.form.email = this.customer.email, this.form.website = this.customer.website, this.form.company = this.customer.company;
+      this.form.id = this.customer.id, this.form.code = this.customer.code, this.form.type = this.customer.type, this.form.title = this.customer.title, this.form.fisrt_name = this.customer.fisrt_name, this.form.last_name = this.customer.last_name, this.form.address = this.customer.address, this.form.city = this.customer.city, this.form.telephone = this.customer.telephone, // this.form.mobile     = this.customer.mobile,
+      this.form.email = this.customer.email, this.form.website = this.customer.website, this.form.company = this.customer.company;
+    }
+
+    if (this.customer) {
+      this.checkedRows[0] = this.customer;
     }
   }
 });
@@ -4783,7 +4823,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.checkedRows.length) {
         this.$buefy.dialog.confirm({
           title: 'Supprimer clients',
-          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(t)(s) client(s) ?<br/> Cette action ne peut pas être annulée.',
+          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) client(s) ?<br/> Cette action ne peut pas être annulée.',
           confirmText: 'Supprimer client(s)',
           type: 'is-danger',
           hasIcon: true,
@@ -4797,7 +4837,8 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$inertia.post('/clients/delete-clients', checkedForm).then(function () {
               if (_this.$page.flash.message != null) {
-                // this.resetForm()
+                _this.checkedFilesRows = [];
+
                 _this.$buefy.notification.open({
                   message: 'Client(s) supprimé(s) avec succès.',
                   type: 'is-success'
@@ -4957,11 +4998,46 @@ __webpack_require__.r(__webpack_exports__);
     TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
-    return {//
+    return {
+      checkedRows: []
     };
   },
   methods: {
-    deleteCustomer: function deleteCustomer() {//
+    deleteCustomer: function deleteCustomer() {
+      var _this = this;
+
+      if (this.checkedRows.length) {
+        this.$buefy.dialog.confirm({
+          title: 'Supprimer clients',
+          message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce client ?<br/> Cette action ne peut pas être annulée.',
+          confirmText: 'Supprimer client(s)',
+          type: 'is-danger',
+          hasIcon: true,
+          size: 'is-small',
+          onConfirm: function onConfirm() {
+            // this.$buefy.toast.open('Account deleted!')
+            _this.isDeleting = true;
+            var checkedForm = {
+              checkedRows: _this.checkedRows
+            };
+
+            _this.$inertia.post('/clients/delete-clients', checkedForm).then(function () {
+              if (_this.$page.flash.message != null) {
+                // this.resetForm()
+                _this.$buefy.notification.open({
+                  message: 'Client supprimé avec succès.',
+                  type: 'is-success'
+                });
+              }
+            })["catch"](function (_ref) {// this.$handleMessage(message, 'danger');
+
+              var message = _ref.message;
+            })["finally"](function () {
+              _this.isDeleting = false;
+            });
+          }
+        });
+      }
     }
   },
   computed: {
@@ -4972,7 +5048,10 @@ __webpack_require__.r(__webpack_exports__);
       return this.customer && this.customer.data ? this.customer.data : null;
     }
   },
-  created: function created() {//
+  created: function created() {
+    if (this._customer) {
+      this.checkedRows[0] = this._customer;
+    }
   }
 });
 
@@ -52469,7 +52548,6 @@ var render = function() {
                           _c("b-input", {
                             attrs: {
                               name: "telephone",
-                              placeholder: "Fixe",
                               size: "is-small",
                               expanded: ""
                             },
@@ -52479,22 +52557,6 @@ var render = function() {
                                 _vm.$set(_vm.form, "telephone", $$v)
                               },
                               expression: "form.telephone"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("b-input", {
-                            attrs: {
-                              name: "mobile",
-                              placeholder: "Mobile",
-                              size: "is-small",
-                              expanded: ""
-                            },
-                            model: {
-                              value: _vm.form.mobile,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "mobile", $$v)
-                              },
-                              expression: "form.mobile"
                             }
                           })
                         ],
@@ -52826,26 +52888,6 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("b-table-column", {
-                attrs: { field: "mobile", label: "Mobile", sortable: "" },
-                scopedSlots: _vm._u([
-                  {
-                    key: "default",
-                    fn: function(props) {
-                      return [
-                        props.row.mobile
-                          ? _c(
-                              "a",
-                              { attrs: { href: "tel:" + props.row.mobile } },
-                              [_vm._v(_vm._s(props.row.mobile))]
-                            )
-                          : _c("span", [_vm._v("-")])
-                      ]
-                    }
-                  }
-                ])
-              }),
-              _vm._v(" "),
-              _c("b-table-column", {
                 attrs: { field: "email", label: "Email", sortable: "" },
                 scopedSlots: _vm._u([
                   {
@@ -53040,16 +53082,6 @@ var render = function() {
                 _vm._customer.company
                   ? _c("span", [_vm._v(_vm._s(_vm._customer.company))])
                   : _c("span")
-              ]),
-              _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Email" } }, [
-                _vm._customer.email
-                  ? _c(
-                      "a",
-                      { attrs: { href: "mailto:" + _vm._customer.email } },
-                      [_vm._v(_vm._s(_vm._customer.email))]
-                    )
-                  : _c("span", [_vm._v("-")])
               ])
             ],
             1
@@ -53081,16 +53113,6 @@ var render = function() {
                   : _c("span")
               ]),
               _vm._v(" "),
-              _c("b-field", { attrs: { horizontal: "", label: "Mobile" } }, [
-                _vm._customer.mobile
-                  ? _c(
-                      "a",
-                      { attrs: { href: "tel:" + _vm._customer.mobile } },
-                      [_vm._v(_vm._s(_vm._customer.mobile))]
-                    )
-                  : _c("span", [_vm._v("-")])
-              ]),
-              _vm._v(" "),
               _c("b-field", { attrs: { horizontal: "", label: "Site web" } }, [
                 _vm._customer.website
                   ? _c(
@@ -53099,6 +53121,16 @@ var render = function() {
                         attrs: { href: _vm._customer.website, target: "_blank" }
                       },
                       [_vm._v(_vm._s(_vm._customer.website))]
+                    )
+                  : _c("span", [_vm._v("-")])
+              ]),
+              _vm._v(" "),
+              _c("b-field", { attrs: { horizontal: "", label: "Email" } }, [
+                _vm._customer.email
+                  ? _c(
+                      "a",
+                      { attrs: { href: "mailto:" + _vm._customer.email } },
+                      [_vm._v(_vm._s(_vm._customer.email))]
                     )
                   : _c("span", [_vm._v("-")])
               ])

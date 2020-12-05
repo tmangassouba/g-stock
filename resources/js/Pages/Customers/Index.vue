@@ -55,10 +55,10 @@
                     <a :href="'tel:' + props.row.telephone" v-if="props.row.telephone">{{ props.row.telephone }}</a>
                     <span v-else>-</span>
                 </b-table-column>
-                <b-table-column field="mobile" label="Mobile" sortable v-slot="props">
+                <!-- <b-table-column field="mobile" label="Mobile" sortable v-slot="props">
                     <a :href="'tel:' + props.row.mobile" v-if="props.row.mobile">{{ props.row.mobile }}</a>
                     <span v-else>-</span>
-                </b-table-column>
+                </b-table-column> -->
                 <b-table-column field="email" label="Email" sortable v-slot="props">
                     <a :href="'mailto:' + props.row.email" v-if="props.row.email">{{ props.row.email }}</a>
                     <span v-else>-</span>
@@ -137,7 +137,7 @@
                 if (this.checkedRows.length) {
                     this.$buefy.dialog.confirm({
                         title: 'Supprimer clients',
-                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(t)(s) client(s) ?<br/> Cette action ne peut pas être annulée.',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce(s) client(s) ?<br/> Cette action ne peut pas être annulée.',
                         confirmText: 'Supprimer client(s)',
                         type: 'is-danger',
                         hasIcon: true,
@@ -151,7 +151,7 @@
                             this.$inertia.post('/clients/delete-clients', checkedForm)
                             .then(() => {
                                 if (this.$page.flash.message != null ) {
-                                    // this.resetForm()
+                                    this.checkedFilesRows = []
                                     this.$buefy.notification.open({
                                         message: 'Client(s) supprimé(s) avec succès.',
                                         type: 'is-success'

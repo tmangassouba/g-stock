@@ -42,13 +42,6 @@
                         <span v-if="_customer.company">{{ _customer.company }}</span>
                         <span v-else></span>
                     </b-field>
-
-                    <b-field
-                        horizontal 
-                        label="Email">
-                        <a :href="'mailto:' + _customer.email" v-if="_customer.email">{{ _customer.email }}</a>
-                        <span v-else>-</span>
-                    </b-field>
                 </div>
                 <div class="column">
                     <b-field
@@ -70,17 +63,24 @@
                         <span v-else></span>
                     </b-field>
 
-                    <b-field
+                    <!-- <b-field
                         horizontal 
                         label="Mobile">
                         <a :href="'tel:' + _customer.mobile" v-if="_customer.mobile">{{ _customer.mobile }}</a>
                         <span v-else>-</span>
-                    </b-field>
+                    </b-field> -->
 
                     <b-field
                         horizontal 
                         label="Site web">
                         <a :href="_customer.website" target="_blank" v-if="_customer.website">{{ _customer.website }}</a>
+                        <span v-else>-</span>
+                    </b-field>
+
+                    <b-field
+                        horizontal 
+                        label="Email">
+                        <a :href="'mailto:' + _customer.email" v-if="_customer.email">{{ _customer.email }}</a>
                         <span v-else>-</span>
                     </b-field>
                 </div>
@@ -102,13 +102,44 @@
         },
         data() {
             return {
-                //
+                checkedRows: []
             }
         },
 
         methods: {
             deleteCustomer() {
-                //
+                if (this.checkedRows.length) {
+                    this.$buefy.dialog.confirm({
+                        title: 'Supprimer clients',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce client ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer client(s)',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        size: 'is-small',
+                        onConfirm: () => {
+                            // this.$buefy.toast.open('Account deleted!')
+                            this.isDeleting = true
+                            var checkedForm = {
+                                checkedRows: this.checkedRows
+                            }
+                            this.$inertia.post('/clients/delete-clients', checkedForm)
+                            .then(() => {
+                                if (this.$page.flash.message != null ) {
+                                    // this.resetForm()
+                                    this.$buefy.notification.open({
+                                        message: 'Client supprimé avec succès.',
+                                        type: 'is-success'
+                                    })
+                                }
+                            })
+                            .catch(({message}) => {
+                                // this.$handleMessage(message, 'danger');
+                            }).finally(() => {
+                                this.isDeleting = false
+                            })
+                        }
+                    })
+                }
             }
         },
 
@@ -122,7 +153,9 @@
         },
 
         created() {
-            //
+            if (this._customer) {
+                this.checkedRows[0] = this._customer
+            }
         },
     }
 </script>

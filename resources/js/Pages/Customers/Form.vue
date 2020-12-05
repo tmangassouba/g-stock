@@ -76,8 +76,8 @@
                             :type="$page.errors.telephone || $page.errors.mobile ? 'is-danger' : ''"
                             :message="$page.errors.telephone ? $page.errors.telephone[0] : $page.errors.mobile ? $page.errors.mobile[0] : ''"
                             class="field-label is-small">
-                            <b-input name="telephone" v-model="form.telephone" placeholder="Fixe" size="is-small" expanded></b-input>
-                            <b-input name="mobile" v-model="form.mobile" placeholder="Mobile" size="is-small" expanded></b-input>
+                            <b-input name="telephone" v-model="form.telephone" size="is-small" expanded></b-input>
+                            <!-- <b-input name="mobile" v-model="form.mobile" placeholder="Mobile" size="is-small" expanded></b-input> -->
                         </b-field>
 
                         <b-field
@@ -135,6 +135,7 @@
         data() {
             return {
                 isSaving: false,
+                checkedRows: [],
                 form: {
                     id: null,
                     code: null,
@@ -143,7 +144,7 @@
                     last_name: null,
                     city: null,
                     telephone: null,
-                    mobile: null,
+                    // mobile: null,
                     email: null,
                     website: null,
                     company: null
@@ -187,7 +188,38 @@
                 })
             },
             deleteCustomer() {
-                //
+                if (this.checkedRows.length) {
+                    this.$buefy.dialog.confirm({
+                        title: 'Supprimer clients',
+                        message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce client ?<br/> Cette action ne peut pas être annulée.',
+                        confirmText: 'Supprimer client(s)',
+                        type: 'is-danger',
+                        hasIcon: true,
+                        size: 'is-small',
+                        onConfirm: () => {
+                            // this.$buefy.toast.open('Account deleted!')
+                            this.isDeleting = true
+                            var checkedForm = {
+                                checkedRows: this.checkedRows
+                            }
+                            this.$inertia.post('/clients/delete-clients', checkedForm)
+                            .then(() => {
+                                if (this.$page.flash.message != null ) {
+                                    // this.resetForm()
+                                    this.$buefy.notification.open({
+                                        message: 'Client supprimé avec succès.',
+                                        type: 'is-success'
+                                    })
+                                }
+                            })
+                            .catch(({message}) => {
+                                // this.$handleMessage(message, 'danger');
+                            }).finally(() => {
+                                this.isDeleting = false
+                            })
+                        }
+                    })
+                }
             }
         },
 
@@ -214,10 +246,13 @@
                 this.form.address    = this.customer.address,
                 this.form.city       = this.customer.city,
                 this.form.telephone  = this.customer.telephone,
-                this.form.mobile     = this.customer.mobile,
+                // this.form.mobile     = this.customer.mobile,
                 this.form.email      = this.customer.email,
                 this.form.website    = this.customer.website,
                 this.form.company    = this.customer.company
+            }
+            if (this.customer) {
+                this.checkedRows[0] = this.customer
             }
         },
     }

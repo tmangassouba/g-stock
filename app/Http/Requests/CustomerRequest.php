@@ -31,7 +31,7 @@ class CustomerRequest extends FormRequest
             'address'     => 'nullable|max:100',
             'city'        => 'nullable|max:100',
             'telephone'   => 'nullable|max:100',
-            'mobile'      => 'nullable|max:100',
+            // 'mobile'      => 'nullable|max:100',
             'email'       => 'nullable|max:100',
             'website'     => 'nullable|max:100',
             'company'     => 'nullable|max:100'

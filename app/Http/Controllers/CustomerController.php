@@ -58,7 +58,7 @@ class CustomerController extends Controller
         $customer = Customer::create($request->all());
         // return redirect()->route('clients.show', ['client' => $customer]);
         // return Redirect::route('clients.show', ['client' => $customer]);
-        return Inertia::location(route('clients.show', ['client' => $customer]));
+        return Inertia::location(route('clients.show', ['customer' => $customer]));
     }
 
     /**
@@ -111,5 +111,17 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         //
+    }
+
+    public function deleteClients(Request $request)
+    {
+        foreach ($request->checkedRows as $customer) {
+            $_customer = Customer::find($customer['id']);
+            if ($_customer) {
+                $_customer->delete();
+            }
+        }
+        // Product::destroy($products);
+        return redirect()->route('clients.index')->with('message', 'Suprimé(s) avec succès.');
     }
 }
