@@ -9,97 +9,60 @@
 
         <section class="section is-main-section">
             <div class="columns">
-                <div class="column">
-                    <b-field
-                        horizontal 
-                        label="Type">
-                        {{ _customer.type }}
-                    </b-field>
+                <div class="column is-3">
+                    <div>{{ _customer.type }}</div>
+                    <hr>
+                    <strong>{{ _customer.title }} {{ _customer.name }}</strong>
 
-                    <b-field
-                        horizontal 
-                        label="Prénom">
-                        {{ _customer.fisrt_name }}
-                    </b-field>
-
-                    <b-field
-                        horizontal 
-                        label="Adresse">
-                        <span v-if="_customer.address">{{ _customer.address }}</span>
-                        <span v-else></span>
-                    </b-field>
-
-                    <b-field
-                        horizontal 
-                        label="Fixe">
-                        <a :href="'tel:' + _customer.telephone" v-if="_customer.telephone">{{ _customer.telephone }}</a>
-                        <span v-else>-</span>
-                    </b-field>
-
-                    <b-field
-                        horizontal 
-                        label="Compagnie">
-                        <span v-if="_customer.company">{{ _customer.company }}</span>
-                        <span v-else></span>
-                    </b-field>
-                </div>
-
-                <div class="column">
-                    <b-field
-                        horizontal 
-                        label="Titre">
-                        {{ _customer.title }}
-                    </b-field>
-
-                    <b-field
-                        horizontal 
-                        label="Nom">
-                        {{ _customer.last_name }}
-                    </b-field>
-
-                    <b-field
-                        horizontal 
-                        label="Ville">
-                        <span v-if="_customer.city">{{ _customer.city }}</span>
-                        <span v-else></span>
-                    </b-field>
-
-                    <!-- <b-field
-                        horizontal 
-                        label="Mobile">
-                        <a :href="'tel:' + _customer.mobile" v-if="_customer.mobile">{{ _customer.mobile }}</a>
-                        <span v-else>-</span>
-                    </b-field> -->
-
-                    <b-field
-                        horizontal 
-                        label="Site web">
-                        <a :href="_customer.website" target="_blank" v-if="_customer.website">{{ _customer.website }}</a>
-                        <span v-else>-</span>
-                    </b-field>
-
-                    <b-field
-                        horizontal 
-                        label="Email">
+                    <div>
+                        <b-icon icon="email-outline" size="is-small"></b-icon>
                         <a :href="'mailto:' + _customer.email" v-if="_customer.email">{{ _customer.email }}</a>
                         <span v-else>-</span>
-                    </b-field>
+                    </div>
+
+                    <div>
+                        <b-icon icon="phone-outline" size="is-small"></b-icon>
+                        <a :href="'tel:' + _customer.telephone" v-if="_customer.telephone">{{ _customer.telephone }}</a>
+                        <span v-else>-</span>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <strong>Adresse</strong><br>
+                        <span v-if="_customer.address || _customer.city">
+                            {{ _customer.address }}{{ _customer.address && _customer.city ? ', ' : '' }} {{ _customer.city }}
+                        </span>
+                        <span v-else>-</span>
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <strong>Compagnie</strong> <br>
+                        {{ _customer.company ? _customer.company : '-' }}
+                    </div>
+
+                    <div style="margin-top: 1rem;">
+                        <strong>Site web</strong> <br>
+                        <a :href="_customer.website" target="_blank" v-if="_customer.website">{{ _customer.website }}</a>
+                        <span v-else>-</span>
+                    </div>
+                </div>
+
+                <div class="column" style="border-left: 1px solid #eee;">
+                    <div>
+                        Facture impayées
+                    </div>
+
+                    <hr>
+
+                    <b-tabs :animated="false">
+                        <b-tab-item label="Factures">
+                            Lorem ipsum dolor sit amet.
+                        </b-tab-item>
+
+                        <b-tab-item label="Documents" :disabled="true">
+                        </b-tab-item>
+                    </b-tabs>
                 </div>
             </div>
-
-            <b-tabs :animated="false">
-                <b-tab-item label="Factures">
-                    Lorem ipsum dolor sit amet.
-                </b-tab-item>
-
-                <b-tab-item label="Documents" :disabled="true">
-                    Lorem <br>
-                    ipsum <br>
-                    dolor <br>
-                    sit <br>
-                    amet.
-                </b-tab-item>
-            </b-tabs>
         </section>
     </app-layout>
 </template>
@@ -160,7 +123,8 @@
 
         computed: {
             titleStack () {
-                return [' client']
+                let title = this._customer ? this._customer.name : '-'
+                return ['Client > ' + title]
             },
             _customer() {
                 return this.customer && this.customer.data ? this.customer.data : null

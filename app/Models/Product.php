@@ -43,6 +43,11 @@ class Product extends Model
         return $this->morphMany('App\Models\File', 'filable');
     }
 
+    public function invoices()
+    {
+        return $this->belongsToMany('App\Models\Invoice');
+    }
+
     public function stock()
     {
         // $stock = $this->stock_ouverture;

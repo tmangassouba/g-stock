@@ -19,7 +19,6 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        // $products = Product::all();
         $sortField = $request->sortField ? $request->sortField : 'name';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
 

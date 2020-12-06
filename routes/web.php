@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviseController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\MagazinController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\ParametreController;
@@ -120,5 +121,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{customer}/modifier', [CustomerController::class, 'edit'])->name('edit')->middleware('can:gerant');
         Route::put('/{customer}', [CustomerController::class, 'update'])->name('update')->middleware('can:gerant');
         Route::post('/delete-clients', [CustomerController::class, 'deleteClients'])->name('delete.clients')->middleware('can:gerant');
+    });
+    
+    // Factures
+    Route::name('factures.')->prefix('factures')->group(function () {
+        Route::get('/', [InvoiceController::class, 'index'])->name('index');
+        Route::get('/ajouter', [InvoiceController::class, 'create'])->name('create')->middleware('can:gerant');
+        Route::post('/', [InvoiceController::class, 'store'])->name('store')->middleware('can:gerant');
+        Route::get('/{customer}', [InvoiceController::class, 'show'])->name('show')->middleware('can:gerant');
+        Route::get('/{customer}/modifier', [InvoiceController::class, 'edit'])->name('edit')->middleware('can:gerant');
+        Route::put('/{customer}', [InvoiceController::class, 'update'])->name('update')->middleware('can:gerant');
+        Route::post('/delete-clients', [InvoiceController::class, 'deleteClients'])->name('delete.clients')->middleware('can:gerant');
     });
 });

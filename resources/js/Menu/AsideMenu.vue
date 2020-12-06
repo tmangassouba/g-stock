@@ -29,12 +29,6 @@
             <!-- Stock -->
             <p class="menu-label">Stock</p>
             <ul class="menu-list">
-                <!-- <li :class="{ 'is-active': isDropdownActive }">
-                    <inertia-link href="/magazin" exact-active-class="is-active" class="has-icon">
-                        <b-icon icon="store-outline" custom-size="default" />
-                        <span class="menu-item-label">Magazin</span>
-                    </inertia-link>
-                </li> -->
                 <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/operations" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="credit-card" custom-size="default" />
@@ -46,12 +40,12 @@
             <!-- Facturation -->
             <p class="menu-label">Facturation</p>
             <ul class="menu-list">
-                <!-- <li :class="{ 'is-active': isDropdownActive }">
+                <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/factures" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="file-document-outline" custom-size="default" />
                         <span class="menu-item-label">Factures</span>
                     </inertia-link>
-                </li> -->
+                </li>
                 <li :class="{ 'is-active': isDropdownActive }">
                     <inertia-link href="/clients" exact-active-class="is-active" class="has-icon">
                         <b-icon icon="account-circle-outline" custom-size="default" />
@@ -59,17 +53,6 @@
                     </inertia-link>
                 </li>
             </ul>
-
-            <!-- Administration -->
-            <!-- <p class="menu-label" v-if="hasRole('ADMIN')">Administration</p>
-            <ul class="menu-list" v-if="hasRole('ADMIN')">
-                <li :class="{ 'is-active': isDropdownActive }">
-                    <inertia-link href="/users" exact-active-class="is-active" class="has-icon">
-                        <b-icon icon="account-multiple-outline" custom-size="default" />
-                        <span class="menu-item-label">Utilisateurs</span>
-                    </inertia-link>
-                </li>
-            </ul> -->
         </div>
     </aside>
 </template>

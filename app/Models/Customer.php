@@ -29,4 +29,9 @@ class Customer extends Model
     {
         return 'code';
     }
+
+    public function invoices()
+    {
+        return $this->hasMany('App\Models\Invoice');
+    }
 }
