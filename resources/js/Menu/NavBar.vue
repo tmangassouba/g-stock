@@ -9,6 +9,23 @@
             </a>
             <div class="navbar-item has-control no-left-space-touch">
                 <div class="control">
+                    <!-- <b-field class="recherche">
+                        <p class="control">
+                            <b-dropdown v-model="cible">
+                                <button class="button is-small" slot="trigger">
+                                    <span>?</span>
+                                    <b-icon icon="cog"></b-icon>
+                                </button>
+
+                                <b-dropdown-item value="Articles">Articles</b-dropdown-item>
+                                <b-dropdown-item value="Clients">Clients</b-dropdown-item>
+                                <b-dropdown-item value="Opérations">Opérations</b-dropdown-item>
+                                <b-dropdown-item value="Factures">Factures</b-dropdown-item>
+                            </b-dropdown>
+                        </p>
+                        <b-input size="is-small" icon="magnify" type="search" placeholder="Search..."></b-input>
+                    </b-field> -->
+
                     <b-field label="" class="recherche">
                         <b-autocomplete
                             rounded
@@ -23,15 +40,12 @@
                             @typing="getAsyncData"
                             @select="selectRow">
                             <template slot-scope="props">
-                                <!-- <inertia-link :href="'/articles/' + props.option.code"> -->
                                     {{ props.option.designation }}
-                                <!-- </inertia-link> -->
                             </template>
 
                             <template slot="empty">Aucun résultat.</template>
                         </b-autocomplete>
                     </b-field>
-                    <!-- <input class="input" placeholder="Search everywhere..." /> -->
                 </div>
             </div>
         </div>
@@ -132,7 +146,7 @@
                 isMenuNavBarActive: false,
                 // isNavBarVisible: true,
                 // isAsideMobileExpanded: true,
-                // userName: "Tidiane"
+                cible: 'Articles',
                 search: null,
                 isFetching: false,
                 data: [],

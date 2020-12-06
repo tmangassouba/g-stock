@@ -3050,6 +3050,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3066,7 +3080,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isMenuNavBarActive: false,
       // isNavBarVisible: true,
       // isAsideMobileExpanded: true,
-      // userName: "Tidiane"
+      cible: 'Articles',
       search: null,
       isFetching: false,
       data: [],
@@ -50040,7 +50054,7 @@ var render = function() {
                                 _vm._v(
                                   "\n                                " +
                                     _vm._s(props.option.designation) +
-                                    "\n                            "
+                                    "\n                        "
                                 )
                               ]
                             }
