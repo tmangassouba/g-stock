@@ -277,7 +277,6 @@
                 }
                 return 'is-success'
             },
-
             getDocs() {
                 this.loadingDocs = true
                 axios.get('/operations/' + this._operation.reference +'/docs')
@@ -337,7 +336,7 @@
                 return 'Opération'
             },
             titleStack () {
-                return ['Opération ' + (this._operation ? this._operation.reference : '') ]
+                return ['Opération ' + (this._operation ? '#' + this._operation.reference : '') ]
             },
             _operation() {
                 return this.operation && this.operation.data ? this.operation.data : null

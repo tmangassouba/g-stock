@@ -42,7 +42,7 @@
                 </b-table-column>
 
                 <b-table-column field="statut" label="Statut" sortable v-slot="props">
-                    <b-tag :type="tagType(props.row.statut) + ' is-light'" rounded>{{ props.row.statut }}</b-tag>
+                    <b-tag :type="tagType(props.row.statut) + ' is-light'">{{ props.row.statut }}</b-tag>
                 </b-table-column>
 
                 <b-table-column field="customer_id" label="Client" sortable v-slot="props">

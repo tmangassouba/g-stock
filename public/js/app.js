@@ -5932,10 +5932,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
+/* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -5951,21 +5958,104 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['invoice', 'message', 'errors', 'canEdit'],
   components: {
-    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__["default"],
-    TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__["default"]
+    AppLayout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_2__["default"],
+    TitleBar: _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
       checkedRows: []
     };
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    getEntreprise: 'parametres/getEntreprise'
+  })), {}, {
     deleteInvoice: function deleteInvoice() {
       var _this = this;
 
@@ -6001,21 +6091,56 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    tagType: function tagType(status) {
+      if (status == this.$INVOICE_PAYEE) {
+        return 'is-success';
+      }
+
+      if (status == this.$INVOICE_ACOMPTE) {
+        return 'is-warning';
+      }
+
+      if (status == this.$INVOICE_NON_PAYEE) {
+        return 'is-danger';
+      }
+
+      return null;
     }
-  },
-  computed: {
+  }),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    organisation: 'parametres/getParametre'
+  })), {}, {
+    monaie: function monaie() {
+      return this.organisation ? this.organisation.devise : '-';
+    },
     titleStack: function titleStack() {
       var title = this._invoice ? this._invoice.reference : '-';
-      return ['Factures > ' + title];
+      return ['Factures #' + title];
     },
     _invoice: function _invoice() {
       return this.invoice && this.invoice.data ? this.invoice.data : null;
+    },
+    totalFacture: function totalFacture() {
+      var total = 0;
+
+      if (this._invoice && this._invoice.products) {
+        this._invoice.products.forEach(function (produit) {
+          if (produit.pivot) {
+            total += produit.pivot.quantite * produit.pivot.prix;
+          }
+        });
+      }
+
+      return total;
     }
-  },
+  }),
   created: function created() {
     if (this._invoice) {
       this.checkedRows[0] = this._invoice;
     }
+
+    this.getEntreprise();
   }
 });
 
@@ -7478,7 +7603,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return 'Opération';
     },
     titleStack: function titleStack() {
-      return ['Opération ' + (this._operation ? this._operation.reference : '')];
+      return ['Opération ' + (this._operation ? '#' + this._operation.reference : '')];
     },
     _operation: function _operation() {
       return this.operation && this.operation.data ? this.operation.data : null;
@@ -55204,8 +55329,7 @@ var render = function() {
                           "b-tag",
                           {
                             attrs: {
-                              type: _vm.tagType(props.row.statut) + " is-light",
-                              rounded: ""
+                              type: _vm.tagType(props.row.statut) + " is-light"
                             }
                           },
                           [_vm._v(_vm._s(props.row.statut))]
@@ -55360,9 +55484,295 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("section", { staticClass: "section is-main-section" }, [
-        _vm._v("\n        " + _vm._s(_vm._invoice) + "\n    ")
-      ])
+      _c(
+        "section",
+        { staticClass: "section is-main-section" },
+        [
+          _c(
+            "div",
+            [
+              _c(
+                "b-field",
+                { attrs: { horizontal: "", label: "Num. Référence" } },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm._invoice.reference) +
+                      "\n            "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                { attrs: { horizontal: "", label: "Client" } },
+                [
+                  _vm._invoice.customer
+                    ? _c(
+                        "inertia-link",
+                        {
+                          attrs: {
+                            href: "/clients/" + _vm._invoice.customer.code
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(_vm._invoice.customer.name) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    : _c("span")
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("b-field", { attrs: { horizontal: "", label: "Date" } }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm._invoice.formated_date) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                { attrs: { horizontal: "", label: "Statut" } },
+                [
+                  _c(
+                    "b-tag",
+                    {
+                      attrs: {
+                        type: _vm.tagType(_vm._invoice.statut) + " is-light"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm._invoice.statut))]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "b-field",
+                { attrs: { horizontal: "", label: "Description" } },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        _vm._invoice.description
+                          ? _vm._invoice.description
+                          : "-"
+                      ) +
+                      "\n            "
+                  )
+                ]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _vm._invoice
+            ? _c(
+                "b-table",
+                {
+                  attrs: {
+                    data: _vm._invoice.products,
+                    striped: true,
+                    hoverable: false,
+                    narrowed: false,
+                    "mobile-cards": true
+                  }
+                },
+                [
+                  _c("b-table-column", {
+                    attrs: { field: "produit_name", label: "Produit" },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
+                              _c(
+                                "inertia-link",
+                                {
+                                  attrs: { href: "/articles/" + props.row.code }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                        " +
+                                      _vm._s(
+                                        props.row.designation
+                                          ? props.row.designation
+                                          : "-"
+                                      ) +
+                                      "\n                    "
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      false,
+                      2434423847
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: {
+                      field: "quantite",
+                      label: "Quantité",
+                      width: 150,
+                      numeric: ""
+                    },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(
+                                    props.row.pivot
+                                      ? props.row.pivot.quantite
+                                      : "-"
+                                  ) +
+                                  "\n                    "
+                              ),
+                              props.row.unite
+                                ? _c("small", [
+                                    _c("br"),
+                                    _vm._v(" " + _vm._s(props.row.unite.name))
+                                  ])
+                                : _vm._e()
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      false,
+                      2344400837
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: { field: "", label: "P.U", width: 150, numeric: "" },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(
+                                    props.row.pivot ? props.row.pivot.prix : "-"
+                                  ) +
+                                  "\n                "
+                              )
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      false,
+                      1609759660
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("b-table-column", {
+                    attrs: {
+                      field: "",
+                      label: "Sous total",
+                      width: 150,
+                      numeric: ""
+                    },
+                    scopedSlots: _vm._u(
+                      [
+                        {
+                          key: "default",
+                          fn: function(props) {
+                            return [
+                              props.row.pivot
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                        " +
+                                        _vm._s(
+                                          _vm._f("number")(
+                                            props.row.pivot.prix *
+                                              props.row.pivot.quantite,
+                                            "0,0",
+                                            { thousandsSeparator: " " }
+                                          )
+                                        ) +
+                                        "\n                    "
+                                    )
+                                  ])
+                                : _vm._e()
+                            ]
+                          }
+                        }
+                      ],
+                      null,
+                      false,
+                      1728269416
+                    )
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-8" }),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "column is-4",
+                staticStyle: { "padding-top": "30px" }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass: "info-row has-text-weight-bold",
+                    staticStyle: {
+                      "text-align": "right",
+                      "padding-right": "20px"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "has-text-grey" }, [
+                      _vm._v("Total")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", {}, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(
+                            _vm._f("number")(_vm.totalFacture, "0,0", {
+                              thousandsSeparator: " "
+                            })
+                          ) +
+                          " " +
+                          _vm._s(_vm.monaie) +
+                          "\n                    "
+                      )
+                    ])
+                  ]
+                )
+              ]
+            )
+          ])
+        ],
+        1
+      )
     ],
     1
   )
