@@ -4882,6 +4882,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var _Menu_TitleBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Menu/TitleBar */ "./resources/js/Menu/TitleBar.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -4951,6 +4958,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -4962,10 +5002,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      checkedRows: []
+      checkedRows: [],
+      factures: [],
+      loadingInvoices: true
     };
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapActions"])({
+    getEntreprise: 'parametres/getEntreprise'
+  })), {}, {
     deleteCustomer: function deleteCustomer() {
       var _this = this;
 
@@ -5001,21 +5045,58 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    getFactures: function getFactures() {
+      var _this2 = this;
+
+      this.loadingInvoices = true;
+      axios.get('/clients/' + this._customer.code + '/factures', null).then(function (_ref2) {
+        var data = _ref2.data;
+        _this2.factures = data.data; // console.log(data)
+      })["catch"](function (_ref3) {// this.$handleMessage(message, 'danger');
+
+        var message = _ref3.message;
+      })["finally"](function () {
+        _this2.loadingInvoices = false;
+      });
+    },
+    tagType: function tagType(status) {
+      if (status == this.$INVOICE_PAYEE) {
+        return 'is-success';
+      }
+
+      if (status == this.$INVOICE_ACOMPTE) {
+        return 'is-warning';
+      }
+
+      if (status == this.$INVOICE_NON_PAYEE) {
+        return 'is-danger';
+      }
+
+      return null;
     }
-  },
-  computed: {
+  }),
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])({
+    organisation: 'parametres/getParametre'
+  })), {}, {
     titleStack: function titleStack() {
       var title = this._customer ? this._customer.name : '-';
       return ['Client > ' + title];
     },
+    monaie: function monaie() {
+      return this.organisation ? this.organisation.devise : '-';
+    },
     _customer: function _customer() {
       return this.customer && this.customer.data ? this.customer.data : null;
     }
-  },
+  }),
   created: function created() {
     if (this._customer) {
       this.checkedRows[0] = this._customer;
     }
+
+    this.getFactures();
+    this.getEntreprise();
   }
 });
 
@@ -53982,15 +54063,155 @@ var render = function() {
                 "b-tabs",
                 { attrs: { animated: false } },
                 [
-                  _c("b-tab-item", { attrs: { label: "Factures" } }, [
-                    _vm._v(
-                      "\n                        Lorem ipsum dolor sit amet.\n                    "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("b-tab-item", {
-                    attrs: { label: "Documents", disabled: true }
-                  })
+                  _c(
+                    "b-tab-item",
+                    { attrs: { label: "Factures" } },
+                    [
+                      _c(
+                        "b-table",
+                        {
+                          attrs: {
+                            data: _vm.factures,
+                            loading: _vm.loadingInvoices,
+                            striped: "",
+                            hoverable: ""
+                          }
+                        },
+                        [
+                          _c("b-table-column", {
+                            attrs: { field: "date", label: "Date" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(props) {
+                                  return [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(props.row.formated_date) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                }
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { field: "reference", label: "Nº Facture" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(props) {
+                                  return [
+                                    _c(
+                                      "inertia-link",
+                                      {
+                                        attrs: {
+                                          href:
+                                            "/factures/" + props.row.reference
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(props.row.reference) +
+                                            "\n                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: { field: "statut", label: "Statut" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(props) {
+                                  return [
+                                    _c(
+                                      "b-tag",
+                                      {
+                                        attrs: {
+                                          type:
+                                            _vm.tagType(props.row.statut) +
+                                            " is-light"
+                                        }
+                                      },
+                                      [_vm._v(_vm._s(props.row.statut))]
+                                    )
+                                  ]
+                                }
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: {
+                              field: "date",
+                              label: "Montant",
+                              numeric: ""
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(props) {
+                                  return [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          _vm._f("number")(
+                                            props.row.total,
+                                            "0,0",
+                                            { thousandsSeparator: " " }
+                                          )
+                                        ) +
+                                        " " +
+                                        _vm._s(_vm.monaie) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                }
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("template", { slot: "empty" }, [
+                            _c("section", { staticClass: "section" }, [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "content has-text-grey has-text-centered"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    [
+                                      _c("b-icon", {
+                                        attrs: {
+                                          icon: "inbox",
+                                          size: "is-large"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", [_vm._v("Aucun résultat.")])
+                                ]
+                              )
+                            ])
+                          ])
+                        ],
+                        2
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )

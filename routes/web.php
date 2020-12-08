@@ -121,6 +121,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/{customer}/modifier', [CustomerController::class, 'edit'])->name('edit')->middleware('can:gerant');
         Route::put('/{customer}', [CustomerController::class, 'update'])->name('update')->middleware('can:gerant');
         Route::post('/delete-clients', [CustomerController::class, 'deleteClients'])->name('delete.clients')->middleware('can:gerant');
+        Route::get('/{customer}/factures', [CustomerController::class, 'factures'])->name('factures');
     });
     
     // Factures

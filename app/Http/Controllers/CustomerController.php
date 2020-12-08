@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
+use App\Http\Resources\InvoiceResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,7 +72,7 @@ class CustomerController extends Controller
         return Inertia::render('Customers/Show', [
             'customer' => new CustomerResource($customer),
             'gerant'     => Auth::user()->can('gerant')
-        ])->withViewData(['pageTitle' => 'Ajouter client']);
+        ])->withViewData(['pageTitle' => 'Client']);
     }
 
     /**
@@ -122,5 +123,11 @@ class CustomerController extends Controller
         }
         // Product::destroy($products);
         return redirect()->route('clients.index')->with('message', 'Suprimé(s) avec succès.');
+    }
+
+    public function factures(Request $request, Customer $customer)
+    {
+        $invoices = $customer->invoices()->with('customer')->orderBy('date', 'desc')->get();
+        return InvoiceResource::collection($invoices);
     }
 }
