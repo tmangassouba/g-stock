@@ -28,6 +28,10 @@ Vue.prototype.$OPERATION_ENTREE = "ENTREE"
 Vue.prototype.$OPERATION_SORTIE = "SORTIE"
 Vue.prototype.$OPERATION_TRANSFERT = "TRANSFERT"
 
+Vue.prototype.$INVOICE_PAYEE = "PAYÉE"
+Vue.prototype.$INVOICE_ACOMPTE = "ACOMPTE"
+Vue.prototype.$INVOICE_NON_PAYEE = "NON PAYÉE"
+
 // Vue.prototype.$route = (...args) => route(...args).url()
 Vue.prototype.$handleMessage = function (message, type) {
     let mess = handleMessage(message)

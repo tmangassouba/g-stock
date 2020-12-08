@@ -4,7 +4,7 @@
             <div class="buttons is-right">
                 <span v-if="editMode">
                     <b-button class="is-small" icon-left="arrow-left" tag="a" :href="'/clients/' + customer.code">Annuler</b-button>
-                    <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteCustomer" v-if="gerant">Supprimer</b-button>
+                    <b-button class="is-danger is-small" icon-left="delete-outline" @click="deleteCustomer">Supprimer</b-button>
                 </span>
                 <b-button class="is-small" icon-left="arrow-left" tag="a" href="/clients" v-else>Annuler</b-button>
             </div>
@@ -127,7 +127,7 @@
     import TitleBar from '../../Menu/TitleBar'
 
     export default {
-        props: ['customer', 'message', 'errors', 'gerant'],
+        props: ['customer', 'message', 'errors'],
         components: {
             AppLayout,
             TitleBar,
@@ -236,7 +236,7 @@
         },
 
         created() {
-            if (this.customer) {
+            if (this.editMode) {
                 this.form.id         = this.customer.id,
                 this.form.code       = this.customer.code,
                 this.form.type       = this.customer.type,

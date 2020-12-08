@@ -8,7 +8,7 @@ class InvoiceObserver
 {
     public function created(Invoice $invoice)
     {
-        $invoice->reference = 'FAC-'.str_pad($invoice->id, 5, '0', STR_PAD_LEFT);
+        $invoice->reference = 'FACT-'.str_pad($invoice->id, 5, '0', STR_PAD_LEFT);
         $invoice->save();
     }
 }

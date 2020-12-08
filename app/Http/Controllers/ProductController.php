@@ -24,7 +24,7 @@ class ProductController extends Controller
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
 
         $req = Product::with('unite')->orderBy($sortField, $sortOrder);
-        $products = $req->paginate(20);
+        $products = $req->paginate(50);
 
         return Inertia::render('Articles/Index', [
             'products'  => ProductResource::collection($products),

@@ -23,7 +23,7 @@ class CustomerController extends Controller
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
 
         $req = Customer::orderBy($sortField, $sortOrder);
-        $customers = $req->paginate(20);
+        $customers = $req->paginate(50);
 
         return Inertia::render('Customers/Index', [
             'customers' => CustomerResource::collection($customers),

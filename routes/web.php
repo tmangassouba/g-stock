@@ -82,8 +82,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
     // Parametre
+    Route::get('/parametres/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise');
     Route::name('parametres.')->prefix('parametres')->middleware('can:admin')->group(function () {
-        Route::get('/entreprise', [ParametreController::class, 'entreprise'])->name('entreprise');
         Route::put('/entreprise', [ParametreController::class, 'update'])->name('update');
         Route::get('/profil-organisation', [ParametreController::class, 'index'])->name('index');
         Route::post('/entreprise/change-image', [ParametreController::class, 'changeImage'])->name('changeImage');
@@ -126,11 +126,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Factures
     Route::name('factures.')->prefix('factures')->group(function () {
         Route::get('/', [InvoiceController::class, 'index'])->name('index');
-        Route::get('/ajouter', [InvoiceController::class, 'create'])->name('create')->middleware('can:gerant');
-        Route::post('/', [InvoiceController::class, 'store'])->name('store')->middleware('can:gerant');
-        Route::get('/{customer}', [InvoiceController::class, 'show'])->name('show')->middleware('can:gerant');
-        Route::get('/{customer}/modifier', [InvoiceController::class, 'edit'])->name('edit')->middleware('can:gerant');
-        Route::put('/{customer}', [InvoiceController::class, 'update'])->name('update')->middleware('can:gerant');
-        Route::post('/delete-clients', [InvoiceController::class, 'deleteClients'])->name('delete.clients')->middleware('can:gerant');
+        Route::get('/ajouter', [InvoiceController::class, 'create'])->name('create');
+        Route::post('/', [InvoiceController::class, 'store'])->name('store');
+        Route::get('/{invoice}', [InvoiceController::class, 'show'])->name('show');
+        Route::get('/{invoice}/modifier', [InvoiceController::class, 'edit'])->name('edit');
+        Route::put('/{invoice}', [InvoiceController::class, 'update'])->name('update');
+        Route::delete('/{invoice}', [InvoiceController::class, 'destroy'])->name('destroy');
     });
 });

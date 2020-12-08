@@ -90,7 +90,7 @@
                     this.$buefy.dialog.confirm({
                         title: 'Supprimer clients',
                         message: 'Etes-vous sûrs de vouloir <b>supprimer</b> ce client ?<br/> Cette action ne peut pas être annulée.',
-                        confirmText: 'Supprimer client(s)',
+                        confirmText: 'Supprimer client',
                         type: 'is-danger',
                         hasIcon: true,
                         size: 'is-small',

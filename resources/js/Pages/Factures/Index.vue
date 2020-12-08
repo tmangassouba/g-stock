@@ -31,24 +31,29 @@
                 :default-sort="[_sortField, _sortOrder]"
                 @sort="onSort"
             >
-                <b-table-column field="reference" label="Réf." sortable v-slot="props">
+                <b-table-column field="date" label="Date" sortable v-slot="props">
+                        {{ props.row.formated_date }}
+                </b-table-column>
+
+                <b-table-column field="reference" label="Nº Facture" sortable v-slot="props">
                     <inertia-link :href="'/factures/' + props.row.reference">
                         {{ props.row.reference }}
                     </inertia-link>
                 </b-table-column>
-                <b-table-column field="date" label="Date" sortable v-slot="props">
-                    <!-- <inertia-link :href="'/factures/' + props.row.reference"> -->
-                        {{ props.row.formated_date }}
-                    <!-- </inertia-link> -->
+
+                <b-table-column field="statut" label="Statut" sortable v-slot="props">
+                    <b-tag :type="tagType(props.row.statut) + ' is-light'" rounded>{{ props.row.statut }}</b-tag>
                 </b-table-column>
+
                 <b-table-column field="customer_id" label="Client" sortable v-slot="props">
                     <inertia-link :href="'/clients/' + props.row.customer.code" v-if="props.row.customer">
                         {{ props.row.customer.name }}
                     </inertia-link>
                     <span v-else>-</span>
                 </b-table-column>
-                <b-table-column field="statut" label="Statut" sortable v-slot="props">
-                    <b-tag>{{ props.row.statut }}</b-tag>
+
+                <b-table-column field="date" label="Montant" numeric v-slot="props">
+                    {{ props.row.total | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
                 </b-table-column>
 
                 <template slot="empty">
@@ -68,6 +73,7 @@
     import AppLayout from '../../Layouts/AppLayout'
     import TitleBar from '../../Menu/TitleBar'
     import { Inertia } from '@inertiajs/inertia'
+    import { mapActions, mapGetters } from 'vuex'
 
     export default {
         props: ['invoices', 'sortField', 'sortOrder', 'message', 'errors', 'can_edit'],
@@ -88,6 +94,9 @@
         },
 
         methods: {
+            ...mapActions({
+                getEntreprise: 'parametres/getEntreprise'
+            }),
             loadAsyncData() {
                 Inertia.visit('/factures', {
                     method: 'get',
@@ -107,15 +116,30 @@
                 this._sortOrder = order
                 this.loadAsyncData()
             },
-            deleteData() {
-                //
+            tagType(status) {
+                if (status == this.$INVOICE_PAYEE) {
+                    return 'is-success'
+                }
+                if (status == this.$INVOICE_ACOMPTE) {
+                    return 'is-warning'
+                }
+                if (status == this.$INVOICE_NON_PAYEE) {
+                    return 'is-danger'
+                }
+                return null
             }
         },
 
         computed: {
+            ...mapGetters({
+                organisation: 'parametres/getParametre',
+            }),
             titleStack () {
                 return ['Factures']
-            }
+            },
+            monaie() {
+                return this.organisation ? this.organisation.devise : '-'
+            },
         },
 
         created() {
@@ -126,6 +150,7 @@
                 this.perPage = this.invoices.meta.per_page
                 this.total = this.invoices.meta.total
             }
+            this.getEntreprise()
         },
     }
 </script>

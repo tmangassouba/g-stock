@@ -21,8 +21,12 @@ class InvoiceResource extends JsonResource
             'date'          => $this->date,
             'formated_date' => $this->date ? date('d M Y', strtotime($this->date)) : null,
             'customer_id'   => $this->customer_id,
-            'description'   => $this->description,
             'customer'      => $this->customer,
+            'description'   => nl2br(e($this->description)),
+            'user_id'       => $this->user_id,
+            'user'          => $this->user,
+            'products'      => $this->products,
+            'total'         => $this->total(),
             'created_at'    => $this->created_at ? $this->created_at->format('d/m/Y H:i') : null,
             'updated_at'    => $this->updated_at ? $this->updated_at->format('d/m/Y H:i') : null,
         ];

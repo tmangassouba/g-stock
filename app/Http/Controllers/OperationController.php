@@ -21,7 +21,7 @@ class OperationController extends Controller
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'DESC';
 
         $req = Operation::with('products', 'magazinFrom', 'magazinTo', 'user')->orderBy($sortField, $sortOrder);
-        $operations = $req->paginate(20);
+        $operations = $req->paginate(50);
 
         return Inertia::render('Operations/Index', [
             'operations' => OperationResource::collection($operations),
@@ -75,7 +75,7 @@ class OperationController extends Controller
             }
         }
 
-        return redirect()->route('operations.show', ['operation' => $operation]);
+        return redirect()->route('operations.edit', ['operation' => $operation]);
     }
 
     /**

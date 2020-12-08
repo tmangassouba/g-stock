@@ -12,16 +12,17 @@ class Invoice extends Model
     /**
      * ROLES
      */
-    public const STATUT_PAYEE = "PAYEÉE";
+    public const STATUT_PAYEE = "PAYÉE";
     public const STATUT_ACOMPTE = "ACOMPTE";
-    public const STATUT_NON_PAYEE = "NON PAYEÉE";
+    public const STATUT_NON_PAYEE = "NON PAYÉE";
 
     protected $fillable = [
         'reference',
         'statut',
         'customer_id',
         'date',
-        'description'
+        'description',
+        'user_id'
     ];
 
     public function getRouteKeyName()
@@ -36,6 +37,23 @@ class Invoice extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')->withPivot('quantite', 'prix');
+        return $this->belongsToMany('App\Models\Product', 'product_invoice')->withPivot('quantite', 'prix');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function total()
+    {
+        $total = 0;
+        foreach ($this->products as $product) {
+            if ($product->pivot) {
+                $total += $product->pivot->quantite * $product->pivot->prix;
+            }
+        }
+
+        return $total;
     }
 }

@@ -17,11 +17,13 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->string('reference', 255)->nullable();
             $table->string('statut', 20);
-            $table->unsignedBigInteger('customer_id')->nullable();
             $table->date('created_at');
             $table->text('description')->nullable();
-            
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });

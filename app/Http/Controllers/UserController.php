@@ -26,7 +26,7 @@ class UsersController extends Controller
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'asc';
 
         $req = User::orderBy($sortField, $sortOrder);
-        $users = $req->paginate(20);
+        $users = $req->paginate(50);
 
         return Inertia::render('Users/Index', [
             'users'       => UserResource::collection($users),

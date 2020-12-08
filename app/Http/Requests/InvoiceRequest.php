@@ -13,7 +13,7 @@ class InvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,17 @@ class InvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'statut'       => 'required',
+            'customer_id'  => 'required',
+            'date'         => 'nullable|date'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'Veuillez renseigner ce champ.',
+            'datetime' => 'Date incorrecte'
         ];
     }
 }

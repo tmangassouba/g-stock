@@ -28,7 +28,7 @@ class OperationResource extends JsonResource
             'magazinFrom'     => new MagazinResource($this->magazinFrom),
             'magazinTo'       => new MagazinResource($this->magazinTo),
             'user'            => new UserResource($this->user),
-            'products'        => ProductResource::collection($this->products),
+            // 'products'        => ProductResource::collection($this->products),
             'products'        => $this->products,
             'created_at'      => $this->created_at ? $this->created_at->format('d/m/Y H:i') : null,
             'updated_at'      => $this->updated_at ? $this->updated_at->format('d/m/Y H:i') : null,

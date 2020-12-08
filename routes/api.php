@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Resources\CustomerResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\UserResource;
+use App\Models\Customer;
 use App\Models\Devise;
 use App\Models\Magazin;
 use App\Models\Product;
@@ -49,4 +51,13 @@ Route::get('produits', function (Request $request) {
     }
     $products = $req->paginate(20);
     return ProductResource::collection($products);
+});
+
+Route::get('clients', function (Request $request) {
+    $req = Customer::orderBy('name');
+    if ($request->recherche) {
+        $req = $req->where('name', 'like', '%'.$request->recherche.'%');
+    }
+    $products = $req->paginate(20);
+    return CustomerResource::collection($products);
 });

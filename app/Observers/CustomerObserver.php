@@ -13,7 +13,7 @@ class CustomerObserver
 
     public function created(Customer $customer)
     {
-        $customer->code = str_pad($customer->id, 4, '0', STR_PAD_LEFT);
+        $customer->code = str_pad($customer->id, 5, '0', STR_PAD_LEFT);
         $customer->save();
     }
 }

@@ -14,7 +14,7 @@ class ProductObserver
      */
     public function created(Product $product)
     {
-        $idPad = str_pad($product->id, 4, '0', STR_PAD_LEFT);
+        $idPad = str_pad($product->id, 5, '0', STR_PAD_LEFT);
         $product->code = 'ART-'.$idPad;
         $product->save();
     }

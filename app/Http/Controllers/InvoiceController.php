@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -17,11 +18,11 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $sortField = $request->sortField ? $request->sortField : 'reference';
+        $sortField = $request->sortField ? $request->sortField : 'date';
         $sortOrder = $request->sortOrder ? $request->sortOrder : 'desc';
 
-        $req = Invoice::orderBy($sortField, $sortOrder);
-        $invoices = $req->paginate(20);
+        $req = Invoice::with('customer', 'user')->orderBy($sortField, $sortOrder);
+        $invoices = $req->paginate(50);
 
         return Inertia::render('Factures/Index', [
             'invoices' => InvoiceResource::collection($invoices),
@@ -38,7 +39,10 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Factures/Form', [
+            'invoice' => new Invoice(),
+            'gerant'     => Auth::user()->can('gerant')
+        ])->withViewData(['pageTitle' => 'Ajouter facture']);
     }
 
     /**
@@ -47,9 +51,30 @@ class InvoiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InvoiceRequest $request)
     {
-        //
+        $user = $request->user();
+        $invoice = Invoice::create([
+            'statut'       => $request->statut,
+            'customer_id'  => $request->customer_id,
+            'date'         => substr($request->date, 0, 10),
+            'description'  => $request->description,
+            'user_id'      => $user ? $user->id : null,
+        ]);
+
+        foreach ($request->products as $_produit) {
+            if ($_produit['produit_id']) {
+                $invoice->products()->attach(
+                    $_produit['produit_id'],
+                    [
+                        'prix'     => $_produit['prix'],
+                        'quantite' => $_produit['quantite'],
+                    ]
+                );
+            }
+        }
+
+        return redirect()->route('factures.edit', ['invoice' => $invoice]);
     }
 
     /**
@@ -60,7 +85,10 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        return Inertia::render('Factures/Show', [
+            'invoice' => new InvoiceResource($invoice),
+            'canEdit' => true
+        ])->withViewData(['pageTitle' => 'Facture']);
     }
 
     /**
@@ -71,7 +99,10 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        return Inertia::render('Factures/Form', [
+            'invoice' => new InvoiceResource($invoice),
+            'gerant'     => Auth::user()->can('gerant')
+        ])->withViewData(['pageTitle' => 'Ajouter facture']);
     }
 
     /**
@@ -81,9 +112,28 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(InvoiceRequest $request, Invoice $invoice)
     {
-        //
+        $invoice->update([
+            'statut'       => $request->statut,
+            'customer_id'  => $request->customer_id,
+            'date'         => substr($request->date, 0, 10),
+            'description'  => $request->description
+        ]);
+
+        foreach ($request->products as $_product) {
+            if ($_product['produit_id']) {
+                $invoice->products()->syncWithoutDetaching([$_product['produit_id'] =>
+                    [
+                        'prix'     => $_product['prix'],
+                        'quantite' => $_product['quantite']
+                    ]
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('message', 'Modifiée avec succès.');
+        // return redirect()->route('factures.edit', ['invoice' => $invoice]);
     }
 
     /**
@@ -94,6 +144,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        $invoice->delete();
+        return redirect()->route('factures.index');
     }
 }
