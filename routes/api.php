@@ -40,7 +40,7 @@ Route::get('devises', function () {
 });
 
 Route::get('magazins', function () {
-    return Magazin::all();
+    return Magazin::where('actif', 1)->get();
 });
 
 Route::get('produits', function (Request $request) {

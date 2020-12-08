@@ -60,8 +60,13 @@
                             :loading="loadingMagazins"
                             striped
                             hoverable>
-                            <b-table-column field="name" label="Magazins" v-slot="props">{{ props.row.name }}</b-table-column>
-                            <b-table-column label="Stock" width='150' numeric v-slot="props">{{ props.row.stock }}</b-table-column>
+                            <b-table-column field="name" label="Magazins" v-slot="props">
+                                {{ props.row.name }} <b-tag v-if="!props.row.actif">INACTIF</b-tag>
+                            </b-table-column>
+
+                            <b-table-column label="Stock" width='150' numeric v-slot="props">
+                                {{ props.row.stock }}
+                            </b-table-column>
 
 
                             <template slot="empty">

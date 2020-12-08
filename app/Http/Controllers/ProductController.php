@@ -143,8 +143,9 @@ class ProductController extends Controller
         $stocks = [];
         $magazins = Magazin::orderBy('name')->get();
         foreach ( $magazins as $magazin) {
-            $stock['name']  = $magazin->name;
-            $stock['stock'] = $product->stockByMagazin($magazin->id);
+            $stock['name']   = $magazin->name;
+            $stock['actif']  = $magazin->actif;
+            $stock['stock']  = $product->stockByMagazin($magazin->id);
 
             $stocks[] = $stock;
         }

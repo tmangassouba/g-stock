@@ -4228,6 +4228,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -52520,13 +52525,22 @@ var render = function() {
                                   {
                                     key: "default",
                                     fn: function(props) {
-                                      return [_vm._v(_vm._s(props.row.name))]
+                                      return [
+                                        _vm._v(
+                                          "\n                            " +
+                                            _vm._s(props.row.name) +
+                                            " "
+                                        ),
+                                        !props.row.actif
+                                          ? _c("b-tag", [_vm._v("INACTIF")])
+                                          : _vm._e()
+                                      ]
                                     }
                                   }
                                 ],
                                 null,
                                 false,
-                                741795258
+                                2474370971
                               )
                             }),
                             _vm._v(" "),
@@ -52541,13 +52555,19 @@ var render = function() {
                                   {
                                     key: "default",
                                     fn: function(props) {
-                                      return [_vm._v(_vm._s(props.row.stock))]
+                                      return [
+                                        _vm._v(
+                                          "\n                            " +
+                                            _vm._s(props.row.stock) +
+                                            "\n                        "
+                                        )
+                                      ]
                                     }
                                   }
                                 ],
                                 null,
                                 false,
-                                565232317
+                                2947120925
                               )
                             }),
                             _vm._v(" "),
