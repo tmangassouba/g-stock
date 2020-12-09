@@ -60,6 +60,7 @@ class InvoiceController extends Controller
             'date'         => substr($request->date, 0, 10),
             'description'  => $request->description,
             'user_id'      => $user ? $user->id : null,
+            'acompte'      => $request->acompte
         ]);
 
         foreach ($request->products as $_produit) {
@@ -118,7 +119,8 @@ class InvoiceController extends Controller
             'statut'       => $request->statut,
             'customer_id'  => $request->customer_id,
             'date'         => substr($request->date, 0, 10),
-            'description'  => $request->description
+            'description'  => $request->description,
+            'acompte'      => $request->acompte
         ]);
 
         foreach ($request->products as $_product) {

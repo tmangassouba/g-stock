@@ -26,7 +26,8 @@ class InvoiceRequest extends FormRequest
         return [
             'statut'       => 'required',
             'customer_id'  => 'required',
-            'date'         => 'nullable|date'
+            'date'         => 'nullable|date',
+            'acompte'      => 'nullable|integer|min:0'
         ];
     }
 
@@ -34,7 +35,9 @@ class InvoiceRequest extends FormRequest
     {
         return [
             'required' => 'Veuillez renseigner ce champ.',
-            'datetime' => 'Date incorrecte'
+            'datetime' => 'Date incorrecte',
+            'integer'  => 'Valeur incorrecte',
+            'min'      => 'Valeur incorrecte'
         ];
     }
 }
