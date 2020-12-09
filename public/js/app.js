@@ -2810,8 +2810,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    isAsideVisible: 'menu/isAsideVisible' // hasRole: 'user/hasRole'
-
+    isAsideVisible: 'menu/isAsideVisible',
+    hasRole: 'user/hasRole'
   })),
   methods: {
     menuClick: function menuClick(item) {//
@@ -2934,6 +2934,26 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -50528,7 +50548,43 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "menu-label" }, [_vm._v("Stock")]),
+        _vm.hasRole("ADMIN") || _vm.hasRole("GERANT")
+          ? _c("p", { staticClass: "menu-label" }, [_vm._v("Stock")])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.hasRole("ADMIN") || _vm.hasRole("GERANT")
+          ? _c("ul", { staticClass: "menu-list" }, [
+              _c(
+                "li",
+                { class: { "is-active": _vm.isDropdownActive } },
+                [
+                  _c(
+                    "inertia-link",
+                    {
+                      staticClass: "has-icon",
+                      attrs: {
+                        href: "/operations",
+                        "exact-active-class": "is-active"
+                      }
+                    },
+                    [
+                      _c("b-icon", {
+                        attrs: { icon: "credit-card", "custom-size": "default" }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "menu-item-label" }, [
+                        _vm._v("Opérations")
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("p", { staticClass: "menu-label" }, [_vm._v("Facturation")]),
         _vm._v(" "),
         _c("ul", { staticClass: "menu-list" }, [
           _c(
@@ -50539,30 +50595,26 @@ var render = function() {
                 "inertia-link",
                 {
                   staticClass: "has-icon",
-                  attrs: {
-                    href: "/operations",
-                    "exact-active-class": "is-active"
-                  }
+                  attrs: { href: "/clients", "exact-active-class": "is-active" }
                 },
                 [
                   _c("b-icon", {
-                    attrs: { icon: "credit-card", "custom-size": "default" }
+                    attrs: {
+                      icon: "account-circle-outline",
+                      "custom-size": "default"
+                    }
                   }),
                   _vm._v(" "),
                   _c("span", { staticClass: "menu-item-label" }, [
-                    _vm._v("Opérations")
+                    _vm._v("Clients")
                   ])
                 ],
                 1
               )
             ],
             1
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "menu-label" }, [_vm._v("Facturation")]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "menu-list" }, [
+          ),
+          _vm._v(" "),
           _c(
             "li",
             { class: { "is-active": _vm.isDropdownActive } },
@@ -50586,34 +50638,6 @@ var render = function() {
                   _vm._v(" "),
                   _c("span", { staticClass: "menu-item-label" }, [
                     _vm._v("Factures")
-                  ])
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { class: { "is-active": _vm.isDropdownActive } },
-            [
-              _c(
-                "inertia-link",
-                {
-                  staticClass: "has-icon",
-                  attrs: { href: "/clients", "exact-active-class": "is-active" }
-                },
-                [
-                  _c("b-icon", {
-                    attrs: {
-                      icon: "account-circle-outline",
-                      "custom-size": "default"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "menu-item-label" }, [
-                    _vm._v("Clients")
                   ])
                 ],
                 1
@@ -50791,6 +50815,74 @@ var render = function() {
             }
           },
           [_c("b-icon", { attrs: { icon: _vm.menuToggleMobileIcon } })],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "navbar-item has-control no-left-space-touch" },
+          [
+            _c(
+              "b-dropdown",
+              { attrs: { "aria-role": "list" } },
+              [
+                _c("b-button", {
+                  attrs: {
+                    slot: "trigger",
+                    type: "is-dark",
+                    size: "is-small",
+                    "icon-left": "plus-circle",
+                    rounded: ""
+                  },
+                  slot: "trigger"
+                }),
+                _vm._v(" "),
+                _vm.hasRole("ADMIN") || _vm.hasRole("GERANT")
+                  ? _c(
+                      "b-dropdown-item",
+                      { attrs: { "aria-role": "listitem" } },
+                      [
+                        _c(
+                          "inertia-link",
+                          { attrs: { href: "/operations/ajouter" } },
+                          [_vm._v("Opération")]
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "b-dropdown-item",
+                  { attrs: { "aria-role": "listitem" } },
+                  [
+                    _c(
+                      "inertia-link",
+                      { attrs: { href: "/factures/ajouter" } },
+                      [_vm._v("Facture")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm.hasRole("ADMIN") || _vm.hasRole("GERANT")
+                  ? _c(
+                      "b-dropdown-item",
+                      { attrs: { "aria-role": "listitem" } },
+                      [
+                        _c(
+                          "inertia-link",
+                          { attrs: { href: "/clients/ajouter" } },
+                          [_vm._v("Client")]
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ],
+              1
+            )
+          ],
           1
         ),
         _vm._v(" "),

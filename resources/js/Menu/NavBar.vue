@@ -7,6 +7,26 @@
             >
                 <b-icon :icon="menuToggleMobileIcon" />
             </a>
+
+            <div class="navbar-item has-control no-left-space-touch">
+                <b-dropdown aria-role="list">
+                    <b-button type="is-dark" size="is-small" icon-left="plus-circle" rounded slot="trigger"></b-button>
+
+                    <!-- <b-dropdown-item aria-role="listitem">
+                        <inertia-link href="/articles" >Articles</inertia-link>
+                    </b-dropdown-item> -->
+                    <b-dropdown-item aria-role="listitem" v-if="hasRole('ADMIN') || hasRole('GERANT')">
+                        <inertia-link href="/operations/ajouter">Opération</inertia-link>
+                    </b-dropdown-item>
+                    <b-dropdown-item aria-role="listitem">
+                        <inertia-link href="/factures/ajouter">Facture</inertia-link>
+                    </b-dropdown-item>
+                    <b-dropdown-item aria-role="listitem" v-if="hasRole('ADMIN') || hasRole('GERANT')">
+                        <inertia-link href="/clients/ajouter">Client</inertia-link>
+                    </b-dropdown-item>
+                </b-dropdown>
+            </div>
+            
             <div class="navbar-item has-control no-left-space-touch">
                 <div class="control">
                     <!-- <b-field class="recherche">
