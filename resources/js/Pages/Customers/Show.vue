@@ -47,11 +47,17 @@
                 </div>
 
                 <div class="column" style="border-left: 1px solid #eee;">
-                    <div>
-                        Facture impayées
+                    <div class="colums">
+                        <div class="column is-6" style="border-right: 1px solid #ddd !important;">
+                            <h6 class="title is-6">Facture impayées</h6>
+                            <div class="title is-5 has-text-danger">
+                                {{ _customer.factureImpayee | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
+                            </div>
+                        </div>
+                        <div class="column"></div>
                     </div>
 
-                    <hr>
+                    <!-- <hr> -->
 
                     <b-tabs :animated="false">
                         <b-tab-item label="Factures">

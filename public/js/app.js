@@ -5030,6 +5030,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -54267,13 +54273,38 @@ var render = function() {
               staticStyle: { "border-left": "1px solid #eee" }
             },
             [
-              _c("div", [
-                _vm._v(
-                  "\n                    Facture impayées\n                "
-                )
+              _c("div", { staticClass: "colums" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "column is-6",
+                    staticStyle: { "border-right": "1px solid #ddd !important" }
+                  },
+                  [
+                    _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v("Facture impayées")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "title is-5 has-text-danger" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(
+                            _vm._f("number")(
+                              _vm._customer.factureImpayee,
+                              "0,0",
+                              { thousandsSeparator: " " }
+                            )
+                          ) +
+                          " " +
+                          _vm._s(_vm.monaie) +
+                          "\n                        "
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "column" })
               ]),
-              _vm._v(" "),
-              _c("hr"),
               _vm._v(" "),
               _c(
                 "b-tabs",
