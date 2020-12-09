@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\Operation;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -41,5 +43,38 @@ class DashboardController extends Controller
             'stock'      => $stock,
             'couts'      => $couts,
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        // $data['cible'] = $request->cible;
+        $search = $request->search;
+        $_data = null;
+        if ($request->cible == 'Articles') {
+            $_data = Product::with('unite')
+                        ->where('designation', 'LIKE', '%'.$search.'%')
+                        ->orWhere('code', 'LIKE', '%'.$search.'%')
+                        ->orderBy('designation')
+                        ->paginate(20);
+        }
+        if ($request->cible == 'Clients') {
+            $_data = Customer::where('name', 'LIKE', '%'.$search.'%')
+                        ->orWhere('code', 'LIKE', '%'.$search.'%')
+                        ->orderBy('name')
+                        ->paginate(20);
+        }
+        if ($request->cible == 'Operations') {
+            $_data = Operation::where('reference', 'LIKE', '%'.$search.'%')
+                        ->orderBy('reference')
+                        ->paginate(20);
+        }
+        if ($request->cible == 'Factures') {
+            $_data = Invoice::where('reference', 'LIKE', '%'.$search.'%')
+                        ->orderBy('reference')
+                        ->paginate(20);
+        }
+
+        // $data['data']  = $_data->getCollection();
+        return $_data ? $_data->getCollection() : [];
     }
 }

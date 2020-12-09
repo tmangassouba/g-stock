@@ -3084,6 +3084,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3145,10 +3148,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       this.isFetching = true;
-      axios.get('/articles/search?search=' + search).then(function (_ref) {
+      axios.get('/search?search=' + search + '&cible=' + this.cible).then(function (_ref) {
         var data = _ref.data;
-        _this.data = data.data; // console.log(data)
-        // data.results.forEach((item) => this.data.push(item))
+        _this.data = data; // console.log(data)
       })["catch"](function (error) {
         _this.data = [];
         throw error;
@@ -3157,7 +3159,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }, 500),
     selectRow: function selectRow(option) {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].visit('/articles/' + option.code);
+      if (this.cible == 'Articles') {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].visit('/articles/' + option.code);
+      }
+
+      if (this.cible == 'Clients') {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].visit('/clients/' + option.code);
+      }
+
+      if (this.cible == 'Operations') {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].visit('/operations/' + option.reference);
+      }
+
+      if (this.cible == 'Factures') {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__["Inertia"].visit('/factures/' + option.reference);
+      }
     }
   }
 });
@@ -50891,64 +50907,141 @@ var render = function() {
           { staticClass: "navbar-item has-control no-left-space-touch" },
           [
             _c(
-              "div",
-              { staticClass: "control" },
+              "b-field",
+              { staticClass: "recherche", attrs: { label: "" } },
               [
                 _c(
-                  "b-field",
-                  { staticClass: "recherche", attrs: { label: "" } },
+                  "p",
+                  { staticClass: "control" },
                   [
                     _c(
-                      "b-autocomplete",
+                      "b-dropdown",
                       {
-                        attrs: {
-                          rounded: "",
-                          expanded: "",
-                          size: "is-small",
-                          data: _vm.data,
-                          placeholder: "Recherche ...",
-                          icon: "magnify",
-                          clearable: "",
-                          loading: _vm.isFetching
-                        },
-                        on: { typing: _vm.getAsyncData, select: _vm.selectRow },
-                        scopedSlots: _vm._u([
-                          {
-                            key: "default",
-                            fn: function(props) {
-                              return [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(props.option.designation) +
-                                    "\n                        "
-                                )
-                              ]
-                            }
-                          }
-                        ]),
                         model: {
-                          value: _vm.search,
+                          value: _vm.cible,
                           callback: function($$v) {
-                            _vm.search = $$v
+                            _vm.cible = $$v
                           },
-                          expression: "search"
+                          expression: "cible"
                         }
                       },
                       [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-small",
+                            attrs: { slot: "trigger" },
+                            slot: "trigger"
+                          },
+                          [_c("span", [_vm._v("Cible")])]
+                        ),
                         _vm._v(" "),
-                        _c("template", { slot: "empty" }, [
-                          _vm._v("Aucun résultat.")
-                        ])
+                        _c(
+                          "b-dropdown-item",
+                          { attrs: { value: "Articles" } },
+                          [_vm._v("Articles")]
+                        ),
+                        _vm._v(" "),
+                        _c("b-dropdown-item", { attrs: { value: "Clients" } }, [
+                          _vm._v("Clients")
+                        ]),
+                        _vm._v(" "),
+                        _vm.hasRole("ADMIN") || _vm.hasRole("GERANT")
+                          ? _c(
+                              "b-dropdown-item",
+                              { attrs: { value: "Operations" } },
+                              [_vm._v("Opérations")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "b-dropdown-item",
+                          { attrs: { value: "Factures" } },
+                          [_vm._v("Factures")]
+                        )
                       ],
-                      2
+                      1
                     )
                   ],
                   1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-autocomplete",
+                  {
+                    attrs: {
+                      rounded: "",
+                      expanded: "",
+                      size: "is-small",
+                      data: _vm.data,
+                      placeholder: "Recherche ...",
+                      icon: "magnify",
+                      "max-height": "300px",
+                      clearable: "",
+                      loading: _vm.isFetching
+                    },
+                    on: { typing: _vm.getAsyncData, select: _vm.selectRow },
+                    scopedSlots: _vm._u([
+                      {
+                        key: "default",
+                        fn: function(props) {
+                          return [
+                            _vm.cible == "Articles"
+                              ? _c("div", [
+                                  _vm._v(_vm._s(props.option.designation))
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.cible == "Clients"
+                              ? _c("div", [
+                                  _c("div", [
+                                    _vm._v(_vm._s(props.option.name))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "has-text-grey-light" },
+                                    [_vm._v(_vm._s(props.option.company))]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.cible == "Operations"
+                              ? _c("div", [
+                                  _vm._v(_vm._s(props.option.reference))
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm.cible == "Factures"
+                              ? _c("div", [
+                                  _vm._v(_vm._s(props.option.reference))
+                                ])
+                              : _vm._e()
+                          ]
+                        }
+                      }
+                    ]),
+                    model: {
+                      value: _vm.search,
+                      callback: function($$v) {
+                        _vm.search = $$v
+                      },
+                      expression: "search"
+                    }
+                  },
+                  [
+                    _vm._v(" "),
+                    _c("template", { slot: "empty" }, [
+                      _vm._v("Aucun résultat.")
+                    ])
+                  ],
+                  2
                 )
               ],
               1
             )
-          ]
+          ],
+          1
         )
       ]),
       _vm._v(" "),
