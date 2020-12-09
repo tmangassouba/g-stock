@@ -47,11 +47,11 @@
                 </div>
 
                 <div class="column" style="border-left: 1px solid #eee;">
-                    <div>
+                    <!-- <div>
                         Facture impayées
                     </div>
 
-                    <hr>
+                    <hr> -->
 
                     <b-tabs :animated="false">
                         <b-tab-item label="Factures">

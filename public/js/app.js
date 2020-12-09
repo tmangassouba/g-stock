@@ -54051,14 +54051,6 @@ var render = function() {
               staticStyle: { "border-left": "1px solid #eee" }
             },
             [
-              _c("div", [
-                _vm._v(
-                  "\n                    Facture impayées\n                "
-                )
-              ]),
-              _vm._v(" "),
-              _c("hr"),
-              _vm._v(" "),
               _c(
                 "b-tabs",
                 { attrs: { animated: false } },
