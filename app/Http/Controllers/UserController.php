@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.

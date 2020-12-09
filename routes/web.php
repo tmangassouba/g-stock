@@ -10,7 +10,7 @@ use App\Http\Controllers\ParametreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UniteController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
@@ -60,10 +60,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     //Utilisateurs
     Route::name('users.')->prefix('users')->group(function () {
-        Route::get('/', [UsersController::class, 'index'])->name('index')->middleware('can:admin');
-        Route::post('/', [UsersController::class, 'store'])->name('store')->middleware('can:admin');
-        Route::put('/{user}', [UsersController::class, 'update'])->name('update')->middleware('can:admin');
-        Route::post('/delete-users', [UsersController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
+        Route::get('/', [UserController::class, 'index'])->name('index')->middleware('can:admin');
+        Route::post('/', [UserController::class, 'store'])->name('store')->middleware('can:admin');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update')->middleware('can:admin');
+        Route::post('/delete-users', [UserController::class, 'deleteProducts'])->name('delete.products')->middleware('can:admin');
     });
 
     // Magazins
