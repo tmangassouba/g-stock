@@ -76,6 +76,15 @@
                             </div>
                         </b-field>
 
+                        <b-field 
+                            horizontal 
+                            label="Acompte" 
+                            class="field-label is-small"
+                            :type="$page.errors.acompte ? 'is-danger' : ''"
+                            :message="$page.errors.acompte ? $page.errors.acompte[0] : ''">
+                            <b-input name="acompte" v-model="form.acompte" type="number" min="0" size="is-small" required expanded></b-input>
+                        </b-field>
+
                         <b-field
                             horizontal 
                             label="Description"
@@ -207,6 +216,7 @@
                     customer_name: null,
                     date: new Date(),
                     description: null,
+                    acompte: 0,
                     products: [
                         {
                             produit_id: null,
@@ -373,13 +383,15 @@
         created() {
             this.getEntreprise()
             if (this._invoice) {
-                this.form.id            = this._invoice.id,
-                this.form.reference     = this._invoice.reference,
-                this.form.statut        = this._invoice.statut,
-                this.form.customer_id   = this._invoice.customer_id,
-                this.form.customer_name = this._invoice.customer ? this._invoice.customer.name : null,
-                this.form.date          = new Date(this._invoice.date),
+                this.form.id            = this._invoice.id
+                this.form.reference     = this._invoice.reference
+                this.form.statut        = this._invoice.statut
+                this.form.customer_id   = this._invoice.customer_id
+                this.form.customer_name = this._invoice.customer ? this._invoice.customer.name : null
+                this.form.date          = new Date(this._invoice.date)
                 this.form.description   = this._invoice.description
+                this.form.acompte       = this._invoice.acompte
+
                 let index = 0
 
                 this._invoice.products.forEach(element => {

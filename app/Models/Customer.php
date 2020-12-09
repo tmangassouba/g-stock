@@ -34,4 +34,15 @@ class Customer extends Model
     {
         return $this->hasMany('App\Models\Invoice');
     }
+
+    public function factureImpayee()
+    {
+        $total = 0;
+        foreach ($this->invoices as $invoice) {
+            if ($invoice->statut != Invoice::STATUT_PAYEE) {
+                $total += $invoice->total() - $invoice->acompte;
+            }
+        }
+        return $total;
+    }
 }

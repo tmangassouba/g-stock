@@ -35,6 +35,12 @@
                     label="Statut">
                     <b-tag :type="tagType(_invoice.statut) + ' is-light'">{{ _invoice.statut }}</b-tag>
                 </b-field>
+                
+                <b-field
+                    horizontal 
+                    label="Acompte">
+                    {{ _invoice.acompte | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
+                </b-field>
 
                 <b-field
                     horizontal 

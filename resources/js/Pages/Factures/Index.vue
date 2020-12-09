@@ -56,6 +56,10 @@
                     {{ props.row.total | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
                 </b-table-column>
 
+                <b-table-column field="acompte" label="Acompte" numeric v-slot="props">
+                    {{ props.row.acompte | number('0,0', { thousandsSeparator: ' ' }) }} {{ monaie }}
+                </b-table-column>
+
                 <template slot="empty">
                     <section class="section">
                         <div class="content has-text-grey has-text-centered">

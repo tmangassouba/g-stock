@@ -22,7 +22,8 @@ class Invoice extends Model
         'customer_id',
         'date',
         'description',
-        'user_id'
+        'user_id',
+        'acompte'
     ];
 
     public function getRouteKeyName()

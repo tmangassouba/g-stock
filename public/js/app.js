@@ -5026,6 +5026,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5638,6 +5648,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5668,6 +5687,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         customer_name: null,
         date: new Date(),
         description: null,
+        acompte: 0,
         products: [{
           produit_id: null,
           produit_name: null,
@@ -5846,7 +5866,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getEntreprise();
 
     if (this._invoice) {
-      this.form.id = this._invoice.id, this.form.reference = this._invoice.reference, this.form.statut = this._invoice.statut, this.form.customer_id = this._invoice.customer_id, this.form.customer_name = this._invoice.customer ? this._invoice.customer.name : null, this.form.date = new Date(this._invoice.date), this.form.description = this._invoice.description;
+      this.form.id = this._invoice.id;
+      this.form.reference = this._invoice.reference;
+      this.form.statut = this._invoice.statut;
+      this.form.customer_id = this._invoice.customer_id;
+      this.form.customer_name = this._invoice.customer ? this._invoice.customer.name : null;
+      this.form.date = new Date(this._invoice.date);
+      this.form.description = this._invoice.description;
+      this.form.acompte = this._invoice.acompte;
       var index = 0;
 
       this._invoice.products.forEach(function (element) {
@@ -5885,6 +5912,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -6060,6 +6091,12 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -54236,6 +54273,39 @@ var render = function() {
               staticStyle: { "border-left": "1px solid #eee" }
             },
             [
+              _c("div", { staticClass: "colums" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "column is-6",
+                    staticStyle: { "border-right": "1px solid #ddd !important" }
+                  },
+                  [
+                    _c("h6", { staticClass: "title is-6" }, [
+                      _vm._v("Facture impayées")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "title is-5 has-text-danger" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(
+                            _vm._f("number")(
+                              _vm._customer.factureImpayee,
+                              "0,0",
+                              { thousandsSeparator: " " }
+                            )
+                          ) +
+                          " " +
+                          _vm._s(_vm.monaie) +
+                          "\n                        "
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "column" })
+              ]),
+              _vm._v(" "),
               _c(
                 "b-tabs",
                 { attrs: { animated: false } },
@@ -54342,6 +54412,36 @@ var render = function() {
                                         _vm._s(
                                           _vm._f("number")(
                                             props.row.total,
+                                            "0,0",
+                                            { thousandsSeparator: " " }
+                                          )
+                                        ) +
+                                        " " +
+                                        _vm._s(_vm.monaie) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                }
+                              }
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("b-table-column", {
+                            attrs: {
+                              field: "acompte",
+                              label: "Acompte",
+                              numeric: ""
+                            },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "default",
+                                fn: function(props) {
+                                  return [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          _vm._f("number")(
+                                            props.row.acompte,
                                             "0,0",
                                             { thousandsSeparator: " " }
                                           )
@@ -55182,6 +55282,41 @@ var render = function() {
                             staticClass: "field-label is-small",
                             attrs: {
                               horizontal: "",
+                              label: "Acompte",
+                              type: _vm.$page.errors.acompte ? "is-danger" : "",
+                              message: _vm.$page.errors.acompte
+                                ? _vm.$page.errors.acompte[0]
+                                : ""
+                            }
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                name: "acompte",
+                                type: "number",
+                                min: "0",
+                                size: "is-small",
+                                required: "",
+                                expanded: ""
+                              },
+                              model: {
+                                value: _vm.form.acompte,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "acompte", $$v)
+                                },
+                                expression: "form.acompte"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            staticClass: "field-label is-small",
+                            attrs: {
+                              horizontal: "",
                               label: "Description",
                               type: _vm.$page.errors.description
                                 ? "is-danger"
@@ -55792,6 +55927,30 @@ var render = function() {
                 ])
               }),
               _vm._v(" "),
+              _c("b-table-column", {
+                attrs: { field: "acompte", label: "Acompte", numeric: "" },
+                scopedSlots: _vm._u([
+                  {
+                    key: "default",
+                    fn: function(props) {
+                      return [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(
+                              _vm._f("number")(props.row.acompte, "0,0", {
+                                thousandsSeparator: " "
+                              })
+                            ) +
+                            " " +
+                            _vm._s(_vm.monaie) +
+                            "\n            "
+                        )
+                      ]
+                    }
+                  }
+                ])
+              }),
+              _vm._v(" "),
               _c("template", { slot: "empty" }, [
                 _c("section", { staticClass: "section" }, [
                   _c(
@@ -55950,6 +56109,20 @@ var render = function() {
                 ],
                 1
               ),
+              _vm._v(" "),
+              _c("b-field", { attrs: { horizontal: "", label: "Acompte" } }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(
+                      _vm._f("number")(_vm._invoice.acompte, "0,0", {
+                        thousandsSeparator: " "
+                      })
+                    ) +
+                    " " +
+                    _vm._s(_vm.monaie) +
+                    "\n            "
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "b-field",
