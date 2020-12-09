@@ -17,7 +17,7 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->string('reference', 255)->nullable();
             $table->string('statut', 20);
-            $table->date('created_at');
+            $table->date('date');
             $table->text('description')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
