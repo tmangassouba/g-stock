@@ -28,45 +28,48 @@
             </div>
             
             <div class="navbar-item has-control no-left-space-touch">
-                <div class="control">
-                    <!-- <b-field class="recherche">
-                        <p class="control">
-                            <b-dropdown v-model="cible">
-                                <button class="button is-small" slot="trigger">
-                                    <span>?</span>
-                                    <b-icon icon="cog"></b-icon>
-                                </button>
+                <!-- <div class="control"> -->
+                <b-field label="" class="recherche">
+                    <p class="control">
+                        <b-dropdown v-model="cible">
+                            <button class="button is-small" slot="trigger">
+                                <span>Cible</span>
+                                <!-- <b-icon icon="cog"></b-icon> -->
+                            </button>
 
-                                <b-dropdown-item value="Articles">Articles</b-dropdown-item>
-                                <b-dropdown-item value="Clients">Clients</b-dropdown-item>
-                                <b-dropdown-item value="Opérations">Opérations</b-dropdown-item>
-                                <b-dropdown-item value="Factures">Factures</b-dropdown-item>
-                            </b-dropdown>
-                        </p>
-                        <b-input size="is-small" icon="magnify" type="search" placeholder="Search..."></b-input>
-                    </b-field> -->
+                            <b-dropdown-item value="Articles">Articles</b-dropdown-item>
+                            <b-dropdown-item value="Clients">Clients</b-dropdown-item>
+                            <b-dropdown-item value="Operations" v-if="hasRole('ADMIN') || hasRole('GERANT')">Opérations</b-dropdown-item>
+                            <b-dropdown-item value="Factures">Factures</b-dropdown-item>
+                        </b-dropdown>
+                    </p>
+                    <b-autocomplete
+                        rounded
+                        expanded
+                        size="is-small"
+                        v-model="search"
+                        :data="data"
+                        placeholder="Recherche ..."
+                        icon="magnify"
+                        max-height="300px"
+                        clearable
+                        :loading="isFetching"
+                        @typing="getAsyncData"
+                        @select="selectRow">
+                        <template slot-scope="props">
+                                <div v-if="cible == 'Articles'">{{ props.option.designation }}</div>
+                                <div v-if="cible == 'Clients'">
+                                    <div>{{ props.option.name }}</div>
+                                    <div class="has-text-grey-light">{{ props.option.company }}</div>
+                                </div>
+                                <div v-if="cible == 'Operations'">{{ props.option.reference }}</div>
+                                <div v-if="cible == 'Factures'">{{ props.option.reference }}</div>
+                        </template>
 
-                    <b-field label="" class="recherche">
-                        <b-autocomplete
-                            rounded
-                            expanded
-                            size="is-small"
-                            v-model="search"
-                            :data="data"
-                            placeholder="Recherche ..."
-                            icon="magnify"
-                            clearable
-                            :loading="isFetching"
-                            @typing="getAsyncData"
-                            @select="selectRow">
-                            <template slot-scope="props">
-                                    {{ props.option.designation }}
-                            </template>
-
-                            <template slot="empty">Aucun résultat.</template>
-                        </b-autocomplete>
-                    </b-field>
-                </div>
+                        <template slot="empty">Aucun résultat.</template>
+                    </b-autocomplete>
+                </b-field>
+                <!-- </div> -->
             </div>
         </div>
         <div class="navbar-brand is-right">
@@ -213,11 +216,10 @@
                     return
                 }
                 this.isFetching = true
-                axios.get('/articles/search?search=' + search)
+                axios.get('/search?search=' + search + '&cible=' + this.cible)
                     .then(({ data }) => {
-                        this.data = data.data
+                        this.data = data
                         // console.log(data)
-                        // data.results.forEach((item) => this.data.push(item))
                     })
                     .catch((error) => {
                         this.data = []
@@ -228,7 +230,18 @@
                     })
             }, 500),
             selectRow(option) {
-                Inertia.visit('/articles/' + option.code)
+                if (this.cible == 'Articles') {
+                    Inertia.visit('/articles/' + option.code)
+                }
+                if (this.cible == 'Clients') {
+                    Inertia.visit('/clients/' + option.code)
+                }
+                if (this.cible == 'Operations') {
+                    Inertia.visit('/operations/' + option.reference)
+                }
+                if (this.cible == 'Factures') {
+                    Inertia.visit('/factures/' + option.reference)
+                }
             }
         }
     }

@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
     
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/search', [DashboardController::class, 'search'])->name('search');
 
     // Articles
     Route::name('articles.')->prefix('articles')->group(function () {
